@@ -10,27 +10,29 @@ import InnerLayout from "../../../components/guests/InnerLayout";
 
 const EventPage = () => {
   const { setRsvpUrls, setRsvpEid } = useAppStates();
-  const { query, isReady, asPath } = useRouter();
+  const router = useRouter();
   let eid;
   useEffect(() => {
-    console.log(query);
+    console.log(router.query);
 
-    if (!isReady) return;
-    eid = query.eid;
-    console.log(eid);
-    ///
-    const urls = {
-      home: `/w/${eid}`,
-      rsvp: `/w/${eid}/rsvp`,
-      registry: `/w/${eid}/registry`,
-      date: `/w/${eid}/date-location`,
-      logistics: `/w/${eid}/flights-hotels`,
-      story: `/w/${eid}/our-story`,
-    };
+    if (router.isReady) {
+      let { eid } = router.query;
+      console.log(eid);
+      if (!eid) return null;
+      ///
+      const urls = {
+        home: `/w/${eid}`,
+        rsvp: `/w/${eid}/rsvp`,
+        registry: `/w/${eid}/registry`,
+        date: `/w/${eid}/date-location`,
+        logistics: `/w/${eid}/flights-hotels`,
+        story: `/w/${eid}/our-story`,
+      };
 
-    setRsvpUrls(urls);
-    setRsvpEid(eid);
-  }, []);
+      setRsvpUrls(urls);
+      setRsvpEid(eid);
+    }
+  }, [router.isReady]);
 
   return <InnerLayout>{<EventPageBody />}</InnerLayout>;
 };

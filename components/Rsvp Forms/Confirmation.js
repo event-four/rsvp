@@ -37,7 +37,7 @@ export default function Confirmation({ event, formStep }) {
           </div>
 
           <div className=" flex flex-col md:w-7/12 items-center mx-auto justify-end">
-            <p className="text-[0.6rem] font-bold mb uppercase">
+            <p className="text-[0.6rem] font-bold mb-4 md:mb uppercase">
               Check out our
             </p>
             <div className="md:flex-row">

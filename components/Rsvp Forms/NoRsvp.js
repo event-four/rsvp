@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function NoRsvp({ event, formStep }) {
   const { rsvpUrls } = useAppStates();
   // const { data } = useFormData();
-  //
+  ////
   return (
     <>
       <div className={"block h-full"}>
@@ -15,7 +15,7 @@ export default function NoRsvp({ event, formStep }) {
           autoComplete="off"
         >
           <div className="space-y-6 flex flex-col flex-grow">
-            {/* <h1 className="text-lg font-bold">Thank you, {data.name}!</h1> */}
+            <h1 className="text-lg font-bold">Thank you!</h1>
             <p className="text-sm">
               We have received your confirmation and we understand that you
               won't be able to share & celebrate this special day with us!
