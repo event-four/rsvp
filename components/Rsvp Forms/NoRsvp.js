@@ -14,7 +14,7 @@ export default function NoRsvp({ event, formStep }) {
           className=" text-center flex flex-col justify-between h-full  md:w-4/12 md:mx-auto "
           autoComplete="off"
         >
-          <div className="space-y-6 flex flex-col flex-grow text-primary-dark">
+          <div className="space-y-6 flex flex-col flex-grow text-primary-dark mb-10">
             <h1 className="text-lg font-bold">Thank you!</h1>
             <p className="text-sm">
               We have received your confirmation and we understand that you
@@ -43,7 +43,7 @@ export default function NoRsvp({ event, formStep }) {
                     className=" mr-2 h-4 w-4 text-white"
                     aria-hidden="true"
                   />
-                  Wish List
+                  Gift Registry
                 </a>
               </Link>
             </div>
