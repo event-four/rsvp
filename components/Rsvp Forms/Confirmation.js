@@ -31,7 +31,7 @@ export default function Confirmation({ event, formStep }) {
             </p>
             <div className="flex flex-col">
               <span className="text-sm">See you very soon,</span>
-              <span className="text-xl md:text-3xl font-rochester mt-2">
+              <span className="text-lg md:text-3xl font-rochester mt-2">
                 {event.title}
               </span>
             </div>
