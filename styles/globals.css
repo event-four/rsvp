@@ -1,16 +1,150 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@layer components {
+    body {
+        @apply font-poppins
+    }
 
-* {
-  box-sizing: border-box;
+    .card {
+        background-color: theme('colors.white');
+        border-radius: theme('borderRadius.lg');
+        padding: theme('spacing.6');
+        box-shadow: theme('boxShadow.xl');
+    }
+
+    .bg {
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
+        background: url("/bg.jpeg") bottom fixed no-repeat;
+        background-size: auto;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+    }
+
+    .bg-filter {
+        @apply bg-black w-full h-full fixed opacity-80
+    }
+
+    .f1 {
+        background: url("/4.png") center fixed no-repeat;
+        background-size: auto;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+    }
+
+    .f2 {
+        background: url("/1.png");
+        background-size: 250px;
+        background-repeat: no-repeat;
+        background-position: 160px -100px;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+
+    }
+
+    .f3 {
+        background: url("/2.png") no-repeat;
+        background-size: 130px;
+        background-position: -40px 110%;
+        margin-bottom: -30px;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+    }
+
+    .bg1 {
+        /* The image used */
+        background-image: url("/1.png");
+        /* Full height */
+        height: 100vh;
+        filter: blur(3px);
+        -webkit-filter: blur(3px);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: 0.3;
+    }
+
+    .homeBtn {
+        @apply px-6 py-3 border border-current rounded-md m-2 w-7/12 text-center uppercase text-sm text-primary-dark
+    }
+
+    .homeBtn:hover {
+        @apply bg-primary-dark text-primary-light border-primary-dark
+    }
+
+    .page-title {
+        font-family: 'Pacifico', cursive;
+        text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .centered input {
+        @apply border-t-0 border-l-0 border-r-0 border-b border-b-pink-200 text-center bg-transparent block w-full appearance-none ring-0 text-sm
+    }
+
+    .centered .input-group {
+        @apply relative
+    }
+
+    .centered input:focus-within {
+        @apply outline-none border-b border-pink-600 ring-0
+    }
+
+    .centered label {
+        @apply text-center w-full absolute top-0 -z-[1] duration-300 border-0 text-primary-dark text-sm
+    }
+
+    .centered input:focus-within~label,
+    .centered input:not(:placeholder-shown)~label {
+        @apply transform scale-75 -translate-y-4 left-0 right-0 inline-block text-center;
+    }
+
+    .centered input:focus-within~label {
+        @apply text-pink-600 border-0;
+    }
+
+    /* label {
+        @apply peer-focus: font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+    } */
+
+    .bool-switch label {
+        @apply block p-1 cursor-pointer w-10 text-center text-sm text-primary-dark
+    }
+
+    .bool-switch input:checked~label {
+        @apply border-primary-dark text-primary-light bg-primary-dark
+    }
+
+    textarea {
+        @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300
+    }
+
+    textarea:focus {
+        @apply border-primary-dark outline-none ring-0
+    }
+
+    textarea+label {
+        @apply text-sm
+    }
+
+    @screen md {
+        .homeBtn {
+            @apply w-6/12 min-w-max block
+        }
+
+        .f2 {
+            background-position: 70% -100px;
+        }
+
+        .f3 {
+            background-position: 30% 115%;
+        }
+    }
+
 }
