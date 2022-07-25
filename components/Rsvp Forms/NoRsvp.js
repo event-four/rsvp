@@ -38,11 +38,11 @@ export default function NoRsvp({ event, formStep }) {
             </p>
             <div className="md:flex-row">
               <Link href={`${rsvpUrls.registry}`}>
-                <a className="homeBtn my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full inline-flex">
+                <a className="my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm  inline-flex text-center">
                   <GiftIcon
-                    className="-ml-0.5 mr-2 h-4 w-4 text-white"
+                    className=" mr-2 h-4 w-4 text-white"
                     aria-hidden="true"
-                  />{" "}
+                  />
                   Wish List
                 </a>
               </Link>

@@ -19,7 +19,7 @@ export default function Confirmation({ event, formStep }) {
           className=" text-center flex flex-col justify-between h-full  md:w-4/12 md:mx-auto "
           autoComplete="off"
         >
-          <div className="space-y-6 flex flex-col flex-grow text-primary-dark">
+          <div className="space-y-6 flex flex-col flex-grow text-primary-dark mb-4">
             <h1 className="text-lg font-bold">Thank you, {data.name}!</h1>
             <p className="text-sm">
               We have received your confirmation and can't wait to share &
@@ -43,11 +43,11 @@ export default function Confirmation({ event, formStep }) {
             </p>
             <div className="md:flex-row">
               <Link href={`${rsvpUrls.registry}`}>
-                <a className="homeBtn my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full inline-flex">
+                <a className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full inline-flex">
                   <GiftIcon
-                    className="-ml-0.5 mr-2 h-4 w-4 text-white"
+                    className="mr-2 h-4 w-4 text-white"
                     aria-hidden="true"
-                  />{" "}
+                  />
                   Wish List
                 </a>
               </Link>
