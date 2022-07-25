@@ -69,10 +69,10 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
         <Form
           ref={formRef}
           onSubmit={handleSubmit}
-          className=" centered flex flex-col justify-between h-full md:w-4/12 md:mx-auto"
+          className=" centered flex flex-col justify-between h-full md:w-5/12 md:mx-auto"
           autoComplete="off"
         >
-          <div className="flex flex-col space-y-8 md:space-y-6">
+          <div className="flex flex-col space-y-8 md:space-y-6 my-auto">
             <div className="relative">
               <TextInput
                 label="Full Name"
