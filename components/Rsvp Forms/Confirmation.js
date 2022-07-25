@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { Form } from "@unform/web";
 import { useAppStates } from "../../context/AppContext";
 import Link from "next/link";
+import { GiftIcon } from "@heroicons/react/solid";
 
 const schema = yup.object().shape({}, []);
 
@@ -18,7 +19,7 @@ export default function Confirmation({ event, formStep }) {
           className=" text-center flex flex-col justify-between h-full  md:w-4/12 md:mx-auto "
           autoComplete="off"
         >
-          <div className="space-y-6 flex flex-col flex-grow">
+          <div className="space-y-6 flex flex-col flex-grow text-primary-dark">
             <h1 className="text-lg font-bold">Thank you, {data.name}!</h1>
             <p className="text-sm">
               We have received your confirmation and can't wait to share &
@@ -37,12 +38,18 @@ export default function Confirmation({ event, formStep }) {
           </div>
 
           <div className=" flex flex-col md:w-7/12 items-center mx-auto justify-end">
-            <p className="text-[0.6rem] font-bold mb-4 md:mb uppercase">
+            <p className="text-[0.6rem] font-bold mb-1 md:mb uppercase">
               Check out our
             </p>
             <div className="md:flex-row">
               <Link href={`${rsvpUrls.registry}`}>
-                <a className="homeBtn">Wish List</a>
+                <a className="homeBtn my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full inline-flex">
+                  <GiftIcon
+                    className="-ml-0.5 mr-2 h-4 w-4 text-white"
+                    aria-hidden="true"
+                  />{" "}
+                  Wish List
+                </a>
               </Link>
             </div>
           </div>
