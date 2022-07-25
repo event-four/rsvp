@@ -76,8 +76,10 @@ export default function OtherInfo({ event, formStep, step, questions }) {
           {/* <p>Fantastic!</p> */}
 
           <div className="space-y-6">
-            <h1 className="text-lg ">Fantastic!</h1>
-            <p className="text-sm">
+            <h1 className="text-lg text-primary-dark font-semibold ">
+              Fantastic!
+            </h1>
+            <p className="text-sm text-primary-dark">
               We can't wait to have you with us, we just need a few more details
               from you.
             </p>

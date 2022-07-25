@@ -10,7 +10,8 @@ $focus-color: #ff0;
 .toggle-switch {
   position: relative;
   margin-right: 10px;
-  width: 75px;
+  max-width: 100px;
+  width:75px;
   display: inline-block;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -51,7 +52,7 @@ $focus-color: #ff0;
       height: 34px;
       padding: 0;
       line-height: 34px;
-      font-size: 14px;
+      font-size: 13px;
       color: white;
       font-weight: bold;
       box-sizing: border-box;
