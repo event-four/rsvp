@@ -1,8 +1,8 @@
 import useSWR from "swr";
-import endpoints from "../consts/urls";
+import { urls } from "/helpers";
 
 const useGetEventBySlug = (slug) => {
-  const endpoint = endpoints.eventBySlug + "/" + slug;
+  const endpoint = urls.eventBySlug + "/" + slug;
   console.log(endpoint);
   // Fetch data from external API
   const fetcher = (endpoint) => fetch(endpoint).then((res) => res.json());
@@ -17,7 +17,7 @@ const useGetEventBySlug = (slug) => {
 };
 
 const useGetRsvpGeneralQuestions = (slug) => {
-  const endpoint = endpoints.getRsvpQuestions + "?slug=" + slug;
+  const endpoint = urls.getRsvpQuestions + "?slug=" + slug;
   const fetcher = (endpoint) => fetch(endpoint).then((res) => res.json());
 
   const { data, error } = useSWR(endpoint, fetcher);

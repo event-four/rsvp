@@ -1,3 +1,4 @@
 import rsvp from "./useRsvpRequests";
+import * as wz from "./useWZRequests";
 
-export default { rsvp };
+export { rsvp, wz };

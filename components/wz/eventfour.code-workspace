@@ -1,0 +1,15 @@
+{
+  "folders": [
+	{
+		"name": "eventfour",
+		"path": "../.."
+	},
+	{
+		"path": "../../../tw"
+	},
+	{
+		"path": "../../../../../../../Downloads/next-auth-example-main"
+	}
+],
+  "settings": {}
+}

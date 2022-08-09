@@ -6,6 +6,7 @@ import { FirebaseAdapter } from "@next-auth/firebase-adapter";
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
+import { userService } from "/services";
 
 import {
   getAuth,
@@ -23,11 +24,11 @@ const firebaseConfig = {
   measurementId: "G-3HCEFX3NQG",
 };
 
-const app = !getApps.length ? initializeApp(firebaseConfig) : getApp();
+export const app = !getApps.length ? initializeApp(firebaseConfig) : getApp();
 // const analytics = getAnalytics(app);
 const provider = new GoogleAuthProvider();
 provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
-const auth = getAuth();
+export const auth = getAuth();
 
 const providers = [
   CredentialsProvider({
@@ -59,21 +60,25 @@ const providers = [
       )
         .then(async (userCredential) => {
           const fbUser = userCredential.user;
-          const idToken = await fbUser.getIdToken();
-          const result = await getTokenFromYourAPIServer(idToken);
+          const result = await userService.login(fbUser.accessToken);
 
           if (!result) {
             console.log("Error signing in to server!");
             return null;
           }
+
           const user = {
             ...result.data.user,
             profile: result.data.user_profile,
             jwt: result.data.jwt,
+            event: result.data.event,
           };
+          userService.setUser(user);
 
           if (user) {
+            // console.log(user);
             // Any object returned will be saved in `user` property of the JWT
+
             return user;
           } else {
             // If you return null then an error will be displayed advising the user to check their details.
@@ -104,43 +109,29 @@ const providers = [
 const adapters = [];
 const callbacks = {};
 
-callbacks.jwt = async function jwt(token, user) {
-  console.log("here");
+callbacks.jwt = async function jwt({ token, user }) {
+  // console.log("here", user);
   if (user) {
-    token = { accessToken: user.jwt };
+    token.jwt = user.jwt;
+    token.user = user;
   }
 
   return token;
 };
 
-callbacks.session = async function session(session, token) {
-  console.log("here 2");
-
-  session.accessToken = token.accessToken;
-  session.user = user;
+callbacks.session = async function session({ session, token, user }) {
+  // console.log("here 2 token", token);
+  // console.log("here 2", user);
+  session.jwt = token.jwt;
+  session.user = token.user;
   return session;
 };
 
-const options = {
+export const authOptions = {
   secret: "NkJb8xuYRwCZ46vc3SEw1Ojmwq2W0BHqkeBZ33Pe9n0=",
   providers,
   adapters,
-  //   callbacks,
+  callbacks,
 };
 
-async function getTokenFromYourAPIServer(idToken) {
-  console.log(idToken);
-  const res = await fetch("http://localhost:1337/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ token: idToken }),
-  });
-
-  const result = await res.json();
-
-  return result;
-}
-
-export default (req, res) => NextAuth(req, res, options);
+export default (req, res) => NextAuth(req, res, authOptions);

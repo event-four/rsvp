@@ -8,7 +8,7 @@ import {
   Wish,
 } from "../../../components/Rsvp Forms";
 import FormCard from "../../../components/FormCard";
-import FormProvider from "../../../context/rsvp";
+import FormProvider from "/components/providers/FormProvider";
 import InnerLayout from "../../../components/guests/InnerLayout";
 import { useGetRsvpGeneralQuestions } from "../../../swr/useRsvpRequests";
 

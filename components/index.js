@@ -1,3 +1,4 @@
 import InnerLayout from "./guests/InnerLayout";
-
-export default { InnerLayout };
+import FormCard from "./FormCard";
+export { Snackbar as Snackbar } from "./SnackBar/SnackbarProvider";
+export { InnerLayout, FormCard };

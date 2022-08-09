@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import { useRouter } from "next/router";
 import { TextInput } from "../form";
-import { useFormData } from "../../context/rsvp";
+import { useFormData } from "/components/providers/FormProvider";
 import * as yup from "yup";
 import { Form } from "@unform/web";
-import { useAppStates } from "../../context/AppContext";
+import { useAppStates } from "/components/providers/AppContext";
 
 const schema = yup.object().shape(
   {
@@ -41,7 +41,10 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
       await schema.validate(data, {
         abortEarly: false,
       });
+      data.rsvp = attending;
+      data.answers = [];
       // Validation passed - do something with data
+      console.log(data);
       setFormValues(data);
 
       if (!attending) {
@@ -69,7 +72,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
         <Form
           ref={formRef}
           onSubmit={handleSubmit}
-          className=" centered flex flex-col justify-between h-full md:w-5/12 md:mx-auto"
+          className=" centered flex flex-col justify-betweenx h-full md:w-5/12 md:mx-auto"
           autoComplete="off"
         >
           <div className="flex flex-col space-y-8 md:space-y-6 my-auto">
@@ -80,6 +83,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                 name="name"
                 placeholder=" "
                 defaultValue={data.name}
+                isInset={true}
               />
             </div>
             <div className="relative">
@@ -90,6 +94,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                 placeholder=" "
                 autoComplete="on"
                 defaultValue={data.email}
+                isInset={true}
               />
             </div>
             <div className="relative">
@@ -100,20 +105,21 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                 placeholder=" "
                 autoComplete="on"
                 defaultValue={data.phone}
+                isInset={true}
               />
             </div>
           </div>
 
           {/* <div className="h-3"></div> */}
-          <div className=" justify-between items-center">
-            <p className="text-sm text-center  text-pink-600 font-bold  pb-4">
+          <div className=" justify-between items-centerx mt-4">
+            <p className="text-sm text-center text-pink-600 font-bold pb-4">
               Ready to party with us?
             </p>
 
-            <div className="flex  flex-col-reverse md:flex-row md:space-x-4 justify-between ">
+            <div className="flex flex-col-reverse md:flex-row md:space-x-4 justify-between ">
               <button
                 type="submit"
-                className=" my-2  transition duration-150 ease-in-out focus:outline-none rounded text-pink-600 border border-pink-600 px-6 py-3 text-sm w-full"
+                className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded text-pink-600 border border-pink-600 px-6 py-3 text-sm w-full"
                 onClick={() => {
                   attending = false;
                 }}
@@ -121,7 +127,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                 No, and I'll regret it
               </button>
               <button
-                className=" my-2  transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
+                className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
                 onClick={() => {
                   attending = true;
                 }}

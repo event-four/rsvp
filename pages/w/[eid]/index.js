@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useGetEventBySlug } from "../../../swr/useRsvpRequests";
 import utils from "../../../consts/utils";
 import { useEffect } from "react";
-import { useAppStates } from "../../../context/AppContext";
+import { useAppStates } from "/components/providers/AppContext";
 import Link from "next/link";
 import InnerLayout from "../../../components/guests/InnerLayout";
 
@@ -13,11 +13,11 @@ const EventPage = () => {
   const router = useRouter();
   let eid;
   useEffect(() => {
-    console.log(router.query);
+    // console.log(router.query);
 
     if (router.isReady) {
       let { eid } = router.query;
-      console.log(eid);
+      // console.log(eid);
       if (!eid) return null;
       ///
       const urls = {
@@ -40,7 +40,7 @@ const EventPage = () => {
 const EventPageBody = () => {
   const { rsvpEid, rsvpUrls } = useAppStates();
 
-  console.log(rsvpEid);
+  // console.log(rsvpEid);
 
   const { event, isLoading, isError } = useGetEventBySlug(rsvpEid);
   ///
@@ -106,12 +106,34 @@ const EventPageBody = () => {
           <a className="homeBtn">Flights & Hotels</a>
         </Link>
       </div>
-      <div className="hidden md:block mx-auto my-9">
-        <img
-          className="h-80 w-80 flex rounded-full ring-2 ring-white"
+      <div className="hiddenx md:block mx-auto my-9">
+        {ev.coverMedia && ev.coverMedia.resource_type === "image" && (
+          <img
+            className={`${
+              ev.coverMedia.public_id.length === 0
+                ? "hidden"
+                : "block h-full w-auto mx-auto"
+            }`}
+            src={`${ev.coverMedia.secure_url}`}
+          ></img>
+        )}
+
+        {ev.coverMedia && ev.coverMedia.resource_type === "video" && (
+          <video
+            className={`${
+              ev.coverMedia.public_id.length === 0 ? "hidden" : "block"
+            } h-full w-auto mx-auto`}
+            autoPlay
+            controls
+            muted
+            src={`${ev.coverMedia.secure_url}`}
+          ></video>
+        )}
+        {/* <img
+          className="h-auto max-h-10 w-full flex rounded-fullx ring-2 ring-white"
           src="/bg.jpeg"
           alt=""
-        />
+        /> */}
       </div>
 
       <div className="container md:hidden flex flex-col md:flex-row md:w-7/12 items-center mb-5 mx-auto justify-center">

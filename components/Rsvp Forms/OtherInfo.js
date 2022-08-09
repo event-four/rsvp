@@ -1,21 +1,25 @@
 import { useRef, useState, useEffect } from "react";
 import { ToggleSwitch } from "../form";
-import { useFormData } from "../../context/rsvp";
+import { useFormData } from "/components/providers/FormProvider";
 import * as yup from "yup";
 import { Form } from "@unform/web";
 
 const schema = yup.object().shape({});
 
-export default function OtherInfo({ event, formStep, step, questions }) {
+export default function OtherInfo({ event, formStep, step, rsvp }) {
   const { setFormValues, data } = useFormData();
   const formRef = useRef();
   const [values, setValues] = useState([]);
+
+  const questions = rsvp.questions;
 
   useEffect(() => {
     async function buildValues(data) {
       const answers = data.answers || [];
       console.log(answers);
+      // return;
       let v = [];
+
       questions.map((q) => {
         const ans = answers.find((a) => a.id == q.id);
         const qan = ans ? ans.value : true;
@@ -29,17 +33,16 @@ export default function OtherInfo({ event, formStep, step, questions }) {
 
   if (!values || values.length == 0) return <div />;
 
-  async function handleSubmit(data) {
+  async function handleSubmit(fdata) {
     try {
       formRef.current.setErrors({});
 
-      await schema.validate(data, {
+      await schema.validate(fdata, {
         abortEarly: false,
       });
 
-      // Validation passed - do something with data
-      setFormValues({ answers: values });
-      // nextFormStep();
+      setFormValues({ answers: values, questionId: rsvp.id });
+
       step();
     } catch (err) {
       const errors = {};

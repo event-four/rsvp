@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import { TextArea } from "../form";
-import { useFormData } from "../../context/rsvp";
+import { useFormData } from "/components/providers/FormProvider";
 import * as yup from "yup";
 import { Form } from "@unform/web";
+import { postRsvpResponse } from "/services";
 
 const schema = yup.object().shape({});
 
@@ -10,16 +11,30 @@ export default function Confirmation({ event, formStep, step }) {
   const { setFormValues, data } = useFormData();
   const formRef = useRef();
 
-  async function handleSubmit(data) {
+  async function handleSubmit(fmdata) {
     try {
       formRef.current.setErrors({});
 
-      await schema.validate(data, {
+      await schema.validate(fmdata, {
         abortEarly: false,
       });
       // Validation passed - do something with data
 
-      setFormValues(data);
+      setFormValues(fmdata);
+
+      const payload = {
+        ...data,
+        eventId: event.id,
+      };
+
+      postRsvpResponse(payload)
+        .then((response) => {
+          // console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       step();
     } catch (err) {
       const errors = {};

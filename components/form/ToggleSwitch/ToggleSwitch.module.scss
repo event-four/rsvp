@@ -4,6 +4,7 @@
 $label-colour: #bbb;
 $disabled-colour: #ddd;
 $toggle-colour: #{$primary-dark};
+$toggle-colour-inverse: #c0868617;
 $white: #fff;
 $focus-color: #ff0;
 
@@ -77,8 +78,8 @@ $focus-color: #ff0;
     content: attr(data-no);
     text-transform: uppercase;
     padding-right: 10px;
-    background-color: $label-colour;
-    color: $white;
+    background-color: $toggle-colour-inverse;
+    color: $toggle-colour;
     text-align: right;
   }
   &-switch {

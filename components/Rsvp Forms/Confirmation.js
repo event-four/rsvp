@@ -1,8 +1,8 @@
-import { useRef, useContext } from "react";
-import { useFormData } from "../../context/rsvp";
+import { useRef, useContext, useEffect } from "react";
+import { useFormData } from "/components/providers/FormProvider";
 import * as yup from "yup";
 import { Form } from "@unform/web";
-import { useAppStates } from "../../context/AppContext";
+import { useAppStates } from "/components/providers/AppContext";
 import Link from "next/link";
 import { GiftIcon } from "@heroicons/react/solid";
 
@@ -11,6 +11,22 @@ const schema = yup.object().shape({}, []);
 export default function Confirmation({ event, formStep }) {
   const { rsvpUrls } = useAppStates();
   const { data } = useFormData();
+  console.log(rsvpUrls);
+
+  useEffect(() => {
+    // if (Object.keys(data).length === 0) return;
+    // const payload = {
+    //   ...data,
+    //   eventId: event.id,
+    // };
+    // postRsvpResponse(payload)
+    //   .then((response) => {
+    //     // console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  });
   //
   return (
     <>
