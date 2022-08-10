@@ -192,6 +192,10 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
           errors["lg_password"] = msg;
           new yup.ValidationError({ path: "lg_password", errors: errors });
           loginFormRef.current.setErrors(errors);
+          snackbar.error(msg);
+        } else {
+          // alert(err);
+          snackbar.error(error || "Oops! An error occurred.");
         }
         // throw error;
       });
