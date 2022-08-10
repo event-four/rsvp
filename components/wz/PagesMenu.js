@@ -38,9 +38,9 @@ export default function PagesMenu({
               href="#"
               className={classNames(
                 page === currentPage
-                  ? `border-default text-default bg-default bg-opacity-[0.05]`
+                  ? `border-default text-default bg-default bg-opacity-[0.05] hover:text-default`
                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300x",
-                " whitespace-nowrap px-6 py-3 md:border-r-2              font-medium text-sm w-full hover:bg-default hover:bg-opacity-[0.05] hover:border-t-0"
+                "font-bold whitespace-nowrap px-6 py-3 md:border-r-2  sm:font-medium text-sm w-full hover:bg-default hover:bg-opacity-[0.05] hover:border-t-0"
               )}
               aria-current={page.current ? "page" : undefined}
               // as="a"

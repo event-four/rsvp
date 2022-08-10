@@ -187,16 +187,21 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
       .catch((error) => {
         console.log(error);
         const errors = {};
-        if (error.includes("auth/wrong-password")) {
-          const msg = "Your email or password is not correct.";
-          errors["lg_password"] = msg;
-          new yup.ValidationError({ path: "lg_password", errors: errors });
-          loginFormRef.current.setErrors(errors);
-          snackbar.error(msg);
+        if (error && error.message) {
+          snackbar.error(error.message);
         } else {
-          // alert(err);
-          snackbar.error(error || "Oops! An error occurred.");
+          if (error.includes("auth/wrong-password")) {
+            const msg = "Your email or password is not correct.";
+            errors["lg_password"] = msg;
+            new yup.ValidationError({ path: "lg_password", errors: errors });
+            loginFormRef.current.setErrors(errors);
+            snackbar.error(msg);
+          } else {
+            // alert(err);
+            snackbar.error(error || "Oops! An error occurred.");
+          }
         }
+
         // throw error;
       });
 

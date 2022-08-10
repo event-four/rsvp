@@ -22,6 +22,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { useSnackbar } from "/components/SnackBar";
 import WZGuestsPage from "./WZGuests";
+import dayjs from "dayjs";
+
 const randomQuestions = [
   { question: "Will you attend the Ceremony?", description: "" },
   { question: "Will you attend the Traditional Wedding?", description: "" },
@@ -108,13 +110,14 @@ export default function WZRsvpPage({ event, pageTitle }) {
             <span className=" items-center text-xs text-gray-500 space-x-2 mt-1 ">
               <EventIcon sx={{ fontSize: 16 }} />
               {"  "}
-              {event.date ?? " Date to be decided"}
+              {dayjs(event.startDate).format("MMMM DD, YYYY") ??
+                " Date to be decided"}
             </span>
-            <span className="inline-flex text-xs text-gray-500 mt-1">
+            {/* <span className="inline-flex text-xs text-gray-500 mt-1">
               <ScheduleIcon sx={{ fontSize: 16 }} />
               {"  "}
               {event.date ?? " Time to be decided"}
-            </span>
+            </span> */}
             <div className="flex flex-row mt-3 space-x-4">
               <Button
                 variant="outlined"
@@ -243,7 +246,7 @@ export default function WZRsvpPage({ event, pageTitle }) {
           initialFocus={cancelButtonRef}
           onClose={setOpen}
         >
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div className="w-full flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -272,7 +275,7 @@ export default function WZRsvpPage({ event, pageTitle }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+              <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-full sm:max-w-lg sm:w-full sm:p-6">
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title
@@ -291,7 +294,7 @@ export default function WZRsvpPage({ event, pageTitle }) {
                     </div>
                   </div>
                 </div>
-                <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                <div className="mt-5 w-full flex flex-row  justify-center space-x-4">
                   <Button
                     variant="outlined"
                     onClick={() => setOpen(false)}

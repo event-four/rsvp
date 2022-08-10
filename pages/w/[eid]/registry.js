@@ -34,8 +34,28 @@ const Registry = () => {
 const RegistryPageBody = ({ event }) => {
   return (
     <>
-      <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <p className="align-middle w-full"> Coming soon...</p>
+      <div className=" text-center flex flex-col items-center w-full h-full my-auto mx-auto content-center justify-center">
+        <div className="text-center text-primary-dark pt-4 mb-10">
+          <p className="text-center page-title font-pacifico text-2xl md:text-5xl mb-4 text-shadow-md">
+            Gift Registry
+          </p>
+          <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
+            {title}
+          </p>
+        </div>
+        <p className="align-middle text-center w-full md:max-w-lg mx-auto">
+          {" "}
+          Your love, laughter and company on our wedding day is the greatest
+          gift of all. However, should you wish to help us celebrate with a
+          gift, a registry is coming soon!
+        </p>
+
+        <div className="flex flex-col mt-7">
+          <span className="">Love,</span>
+          <span className="text-lg md:text-3xl font-rochester mt-2">
+            {event.title}
+          </span>
+        </div>
       </div>
     </>
   );

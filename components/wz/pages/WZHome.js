@@ -94,8 +94,8 @@ export default function WZHome({ event, pageTitle }) {
                   sx={{ fontSize: { xs: 60, sm: 80 } }}
                   className="text-gray-400"
                 />
-                <span className="mt-2 block text-xs font-medium text-gray-500">
-                  Add your cover video (1 min) or photo.
+                <span className="mt-2 mx-6 block text-xs font-medium text-gray-500">
+                  Add your cover video (50mb max) or photo(10mb max).
                 </span>
               </div>
             </button>

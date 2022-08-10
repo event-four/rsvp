@@ -38,7 +38,8 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
   });
 
   async function handleSubmit(data) {
-    console.log(startDate);
+    console.log(updateLater);
+
     try {
       formRef.current.setErrors({});
 
@@ -78,7 +79,6 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
     eventService
       .updateEventData({ startDate, city, eventId })
       .then((res) => {
-        setSubmitData(false);
         //update cookies .
         event.city = city;
         event.startDate = startDate;
