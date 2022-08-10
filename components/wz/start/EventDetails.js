@@ -75,7 +75,8 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
     // const startDate = startDate;
     const city = formValues.city;
 
-    Api.updateEventData({ startDate, city, eventId })
+    eventService
+      .updateEventData({ startDate, city, eventId })
       .then((res) => {
         setSubmitData(false);
         //update cookies .
