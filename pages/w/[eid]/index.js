@@ -72,10 +72,10 @@ const EventPageBody = () => {
 
   utils.setToStorage("event", JSON.stringify(ev));
 
-  date = ev.date
-    ? dayjs(ev.date).format("MMMM DD, YYYY")
+  date = ev.startDate
+    ? dayjs(ev.startDate).format("MMMM DD, YYYY")
     : "Date To Be Announced";
-  const daysDiff = dayjs(ev.date).diff(dayjs(), "day");
+  const daysDiff = dayjs(ev.startDate).diff(dayjs(), "day");
   countdown = daysDiff
     ? ` ${daysDiff} ${daysDiff > 1 ? "days" : "day"} to go!`
     : "";
