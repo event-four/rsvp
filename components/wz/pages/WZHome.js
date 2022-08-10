@@ -104,7 +104,7 @@ export default function WZHome({ event, pageTitle }) {
           {coverMedia && (
             <div className="relative h-full w-full">
               {coverMedia.resource_type === "image" && (
-                <div className="absolute inset-0 z-0 max-h-80 overflow-clip">
+                <div className="absolute inset-0 z-0 max-h-80 overflow-clip rounded-lg">
                   <img
                     className={`${
                       coverMedia.public_id.length === 0

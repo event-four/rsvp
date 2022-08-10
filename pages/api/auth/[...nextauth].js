@@ -84,7 +84,8 @@ const providers = [
             jwt: result.data.jwt,
             event: result.data.event,
           };
-          userService.setUser(user);
+
+          await userService.setUser(user);
 
           if (user) {
             // console.log(user);

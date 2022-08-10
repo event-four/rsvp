@@ -27,8 +27,10 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [fbToken, setFbToken] = useState();
   const [fbUser, setFbUser] = useState();
+  const [isLogin, setIsLogin] = useState(false);
 
   const formRef = useRef();
+  const loginFormRef = useRef();
   const snackbar = useSnackbar();
 
   const handleAgreement = (e) => {
@@ -84,7 +86,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
       });
 
       eventService.setLocalStorageEvent(event);
-      console.log(event);
+
       setFormValues({ url: event.slug });
 
       //sign in user
@@ -141,86 +143,184 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
 
     setIsLoading(false);
   }
+
+  const doLogin = async () => {
+    const { lg_email, lg_password } = loginFormRef.current.getData();
+
+    //sign in user
+    await signIn("credentials", {
+      redirect: false,
+      email: lg_email,
+      password: lg_password,
+    })
+      .then(async (response) => {
+        console.log("response", response);
+        if (response.ok) {
+          const user = session.user;
+          await userService.setUser(user);
+          console.log("user", user);
+          // if (user) {
+          const event = await setupEventOnServer({
+            jwt: user.jwt,
+            eventMeta: {
+              owner: user.profile.id,
+              typeId: formValues.eventType.id,
+              firstName: formValues.firstName,
+              lastName: formValues.lastName,
+              partnerFirstName: formValues.partnerFirstName,
+              partnerLastName: formValues.partnerLastName,
+            },
+          });
+
+          eventService.setLocalStorageEvent(event);
+
+          setFormValues({ url: event.slug });
+
+          goToStep();
+          // }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  };
+
   return (
-    <Form
-      ref={formRef}
-      onSubmit={handleSubmit}
-      className={`${
-        isVisible ? "block" : "hidden"
-      }  flex flex-col justify-between h-full md:mx-auto md:max-w-xs `}
-      autoComplete="off"
-    >
-      <div className="flex flex-col space-y-6 md:space-y-6 my-auto">
-        <h1 className="font-bold text-default"> Create your Account</h1>
-        <div className="grid relative -space-x-px">
-          <TextInput
-            label="Email Address"
-            type="email"
-            name="email"
-            classes=""
-            defaultValue={formValues.email}
-            placeholder=" "
-            autoComplete="yes"
-          />
-        </div>
-        <div className="grid relative -space-x-px ">
-          <TextInput
-            label="Password"
-            type="password"
-            name="password"
-            classes=""
-            placeholder=" "
-            defaultValue={formValues.password}
-          />
-        </div>
-        {/* <p className="text-sm md:text-xs">
-          Already registered?{" "}
-          <Link href="">
-            <a>Log in</a>
-          </Link>
-        </p> */}
+    <>
+      <Form
+        ref={loginFormRef}
+        onSubmit={doLogin}
+        className={`${
+          isLogin ? "block" : "hidden"
+        }  flex flex-col justify-between h-full md:mx-auto md:max-w-xs `}
+        autoComplete="off"
+      >
+        <div className="flex flex-col space-y-6 md:space-y-6 my-auto">
+          <h1 className="font-bold text-default"> Log In</h1>
+          <div className="grid relative -space-x-px">
+            <TextInput
+              label="Email Address"
+              type="email"
+              name="lg_email"
+              classes=""
+              defaultValue={formValues.email}
+              placeholder=" "
+              autoComplete="yes"
+            />
+          </div>
+          <div className="grid relative -space-x-px ">
+            <TextInput
+              label="Password"
+              type="password"
+              name="lg_password"
+              classes=""
+              placeholder=" "
+              defaultValue={formValues.password}
+            />
+          </div>
 
-        <div className="flex items-start pt-8">
-          <input
-            id="agree"
-            name="agree"
-            type="checkbox"
-            value={agreedToTerms}
-            onClick={handleAgreement}
-            className="focus:ring-default h-4 w-4 text-default border-gray-300 rounded mr-2"
-          />
-          <p className="text-xs inline-block ">
-            Creating an account means you're okay with our
-            <Link href="">
-              <a className=""> Terms of Service</a>
-            </Link>
-            {", "}
-            <Link href="">
-              <a className=""> Privacy Policy</a>
-            </Link>{" "}
-            and our default <Link href="">Notification Settings</Link>.
-          </p>
-        </div>
+          <Button type="submit" label="Log In">
+            Log In
+          </Button>
 
-        <Button
-          type={isLoading ? `submit` : ""}
-          label="Create Account"
-          disabled={!agreedToTerms}
-          isLoading={isLoading}
-        >
-          Create Account
-        </Button>
-        <div className="h-2 border-b border-gray-200 text-xs text-gray-400 text-center">
-          <span className="bg-white px-5">OR</span>
+          <div className="h-2 border-b border-gray-200 text-xs text-gray-400 text-center">
+            <span className="bg-white px-5">OR</span>
+          </div>
+
+          <OutlineButton
+            type="button"
+            label="Create Account"
+            onClick={() => setIsLogin(false)}
+          >
+            Create Account
+          </OutlineButton>
         </div>
+      </Form>
+
+      {/* REGISTER================================================================ */}
+
+      <Form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className={`${
+          !isLogin ? "block" : "hidden"
+        }  flex flex-col justify-between h-full md:mx-auto md:max-w-xs `}
+        autoComplete="off"
+      >
+        <div className="flex flex-col space-y-6 md:space-y-6 my-auto">
+          <h1 className="font-bold text-default"> Create your Account</h1>
+          <div className="grid relative -space-x-px">
+            <TextInput
+              label="Email Address"
+              type="email"
+              name="email"
+              classes=""
+              defaultValue={formValues.email}
+              placeholder=" "
+              autoComplete="yes"
+            />
+          </div>
+          <div className="grid relative -space-x-px ">
+            <TextInput
+              label="Password"
+              type="password"
+              name="password"
+              classes=""
+              placeholder=" "
+              defaultValue={formValues.password}
+            />
+          </div>
+          {/* <p className="text-sm md:text-xs">
+        Already registered?{" "}
         <Link href="">
-          <a>
-            <OutlineButton type="submit" label="Log In">
-              Log In
-            </OutlineButton>
-          </a>
+          <a>Log in</a>
         </Link>
-      </div>
-    </Form>
+      </p> */}
+
+          <div className="flex items-start pt-8">
+            <input
+              id="agree"
+              name="agree"
+              type="checkbox"
+              value={agreedToTerms}
+              onClick={handleAgreement}
+              className="focus:ring-default h-4 w-4 text-default border-gray-300 rounded mr-2"
+            />
+            <p className="text-xs inline-block ">
+              Creating an account means you're okay with our
+              <Link href="">
+                <a className=""> Terms of Service</a>
+              </Link>
+              {", "}
+              <Link href="">
+                <a className=""> Privacy Policy</a>
+              </Link>{" "}
+              and our default <Link href="">Notification Settings</Link>.
+            </p>
+          </div>
+
+          <Button
+            type={isLoading ? `submit` : ""}
+            label="Create Account"
+            disabled={!agreedToTerms}
+            isLoading={isLoading}
+          >
+            Create Account
+          </Button>
+          <div className="h-2 border-b border-gray-200 text-xs text-gray-400 text-center">
+            <span className="bg-white px-5">OR</span>
+          </div>
+
+          <OutlineButton
+            type="button"
+            onClick={() => setIsLogin(true)}
+            label="Log In"
+          >
+            Log In
+          </OutlineButton>
+        </div>
+      </Form>
+    </>
   );
 }
