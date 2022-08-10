@@ -156,7 +156,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
       password: lg_password,
     })
       .then(async (response) => {
-        console.log("response", response);
+        // console.log("response", response);
         if (response.ok) {
           const user = session.user;
           await userService.setUser(user);
@@ -180,12 +180,23 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
 
           goToStep();
           // }
+        } else {
+          throw response.error;
         }
       })
       .catch((error) => {
         console.log(error);
-        throw error;
+        const errors = {};
+        if (error.includes("auth/wrong-password")) {
+          const msg = "Your email or password is not correct.";
+          errors["lg_password"] = msg;
+          new yup.ValidationError({ path: "lg_password", errors: errors });
+          loginFormRef.current.setErrors(errors);
+        }
+        // throw error;
       });
+
+    setIsLoadingLogin(false);
   };
 
   return (
