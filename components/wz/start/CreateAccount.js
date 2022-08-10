@@ -24,6 +24,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
   const { data: session } = useSession();
   const { setFormValues, formValues } = useFormData();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [fbToken, setFbToken] = useState();
   const [fbUser, setFbUser] = useState();
@@ -145,6 +146,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
   }
 
   const doLogin = async () => {
+    setIsLoadingLogin(true);
     const { lg_email, lg_password } = loginFormRef.current.getData();
 
     //sign in user
@@ -220,9 +222,16 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
             />
           </div>
 
-          <Button type="submit" label="Log In">
-            Log In
-          </Button>
+          <div className="h-16">
+            <Button
+              classes="h-12"
+              type="submit"
+              label="Log In"
+              isLoading={isLoadingLogin}
+            >
+              Log In
+            </Button>
+          </div>
 
           <div className="h-2 border-b border-gray-200 text-xs text-gray-400 text-center">
             <span className="bg-white px-5">OR</span>
