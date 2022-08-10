@@ -16,16 +16,28 @@ import { userService } from "/services";
 import { AppProps } from "next/app";
 
 // import { Typography } from "@material-ui/core";
+console.log(process.env.NODE_ENV);
+const firebaseConfig =
+  process.env.NODE_ENV == "development"
+    ? {
+        apiKey: "AIzaSyCQDP7RmKv7QVN926tXevm3J2LPCkxBAh0",
+        authDomain: "eventfour-1ea7e.firebaseapp.com",
+        projectId: "eventfour-1ea7e",
+        storageBucket: "eventfour-1ea7e.appspot.com",
+        messagingSenderId: "6881914388",
+        appId: "1:6881914388:web:50a1cd43d1d8adfc9fc101",
+        measurementId: "G-3HCEFX3NQG",
+      }
+    : {
+        apiKey: "AIzaSyCxLWVA1DxY23IOG4ljhAJ6VMqYWH3OIPs",
+        authDomain: "eventfour-prod.firebaseapp.com",
+        projectId: "eventfour-prod",
+        storageBucket: "eventfour-prod.appspot.com",
+        messagingSenderId: "961417591581",
+        appId: "1:961417591581:web:3d97e3b1f0ce0cb2e17ff4",
+        measurementId: "G-H7X66BSRXW",
+      };
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCQDP7RmKv7QVN926tXevm3J2LPCkxBAh0",
-  authDomain: "eventfour-1ea7e.firebaseapp.com",
-  projectId: "eventfour-1ea7e",
-  storageBucket: "eventfour-1ea7e.appspot.com",
-  messagingSenderId: "6881914388",
-  appId: "1:6881914388:web:50a1cd43d1d8adfc9fc101",
-  measurementId: "G-3HCEFX3NQG",
-};
 const firebaseApp = initializeApp(firebaseConfig);
 const theme = createTheme({
   typography: {
