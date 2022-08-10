@@ -73,7 +73,8 @@ export default function ChooseUrl({ goToStep, isVisible }) {
   const updateUrl = async (slug) => {
     setSubmitData(true);
     const eventId = event.id;
-    Api.updateEventSlug({ slug, eventId })
+    eventService
+      .updateEventSlug({ slug, eventId })
       .then((res) => {
         setUrl(url);
         setSubmitData(false);
@@ -97,7 +98,8 @@ export default function ChooseUrl({ goToStep, isVisible }) {
 
     setUrlConfirmationState(LOADER_STATE.LOADING);
 
-    Api.verifyEventSlug({ slug, eventId })
+    eventService
+      .verifyEventSlug({ slug, eventId })
       .then((res) => {
         console.log(res);
         setUrlConfirmationState(LOADER_STATE.SUCCESS);
