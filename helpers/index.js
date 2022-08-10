@@ -1,7 +1,8 @@
 import { Urls } from "../consts/urls";
 
 // export { Constants as Constants } from "./Constants";
-export * as Api from "../api";
+export * as Api from "../api/api_events";
+
 import { debounce } from "../api";
 
 export { Urls, debounce };
