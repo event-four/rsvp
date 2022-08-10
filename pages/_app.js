@@ -16,9 +16,8 @@ import { userService } from "/services";
 import { AppProps } from "next/app";
 
 // import { Typography } from "@material-ui/core";
-console.log(process.env.NODE_ENV);
 const firebaseConfig =
-  process.env.NODE_ENV == "development"
+  process.env.NODE_ENV === "development"
     ? {
         apiKey: "AIzaSyCQDP7RmKv7QVN926tXevm3J2LPCkxBAh0",
         authDomain: "eventfour-1ea7e.firebaseapp.com",
