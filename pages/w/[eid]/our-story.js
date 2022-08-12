@@ -51,8 +51,8 @@ const OurStoryPageBody = ({ event }) => {
     );
   if (!story)
     return (
-      <div className="absolutex text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <div className="flex flex-col">
+      <div className="absolutex text-center flex items-center w-full h-full my-auto mx-auto content-center justify-center">
+        <div className="flex flex-col justify center">
           <p className="align-middle w-full">
             Our story is a beautiful one and we are going to update this page
             soon!
