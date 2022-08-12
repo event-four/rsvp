@@ -59,7 +59,6 @@ async function put(url, body, { authorize = true, swr = false }) {
     body: JSON.stringify({ data: body }),
   };
 
-  console.log(requestOptions);
   const response = await fetch(url, requestOptions);
   return handleResponse(response);
 }

@@ -24,7 +24,6 @@ export default function WZGuestsPage({ event }) {
   const [guestsRsvp, setGuestsRsvp] = useState(0);
   const { data, loading, error } = useFetchGuests(event);
   const snackbar = useSnackbar();
-  console.log(data);
 
   useEffect(() => {
     if (data) {

@@ -31,6 +31,7 @@ const randomQuestions = [
 ];
 
 export default function WZRsvpPage({ event, pageTitle }) {
+  const [suggestedQuestions, setSuggestedQuestions] = useState(randomQuestions);
   const [questions, setQuestions] = useState([]);
   const [inputQ, setInputQ] = useState(null);
   const [questionIndex, setQuestionIndex] = useState(null);
@@ -48,14 +49,15 @@ export default function WZRsvpPage({ event, pageTitle }) {
   });
 
   const insertNewQuestion = (index) => {
-    const qs = randomQuestions[index];
+    const qs = suggestedQuestions[index];
     questions.push(qs);
+    suggestedQuestions.splice(index, 1);
 
+    setSuggestedQuestions([...suggestedQuestions]);
     modifyQuestion(questions);
   };
 
   const showQuestionDialog = (q) => {
-    console.log(q);
     if (q) {
       setQuestionIndex(questions.indexOf(q));
       setInputQ(q.question);
@@ -99,6 +101,20 @@ export default function WZRsvpPage({ event, pageTitle }) {
       });
   };
 
+  const getSuggestedQ = () => {
+    const unAdded = [];
+    suggestedQuestions.map((qs) => {
+      const exists = questions.find((mq) => mq.question === qs.question);
+
+      if (!exists) {
+        unAdded.push(qs);
+      }
+    });
+
+    return unAdded;
+    setSuggestedQuestions([...unAdded]);
+  };
+
   return (
     <>
       <h1 className="text-lg font-semibold">{pageTitle}</h1>
@@ -128,7 +144,6 @@ export default function WZRsvpPage({ event, pageTitle }) {
                 Follow-up
               </Button>
               <Button
-                variant="outlined"
                 size="small"
                 sx={{ px: 1, py: 0.5, fontSize: 11 }}
                 onClick={() => setShowGuests(true)}
@@ -201,9 +216,9 @@ export default function WZRsvpPage({ event, pageTitle }) {
           <div className="pt-6 pb-2x text-gray-700">
             We've suggested some follow-up questions for you.
           </div>
-          {randomQuestions && (
+          {suggestedQuestions && (
             <ul className="flex flex-col space-y-2 w-full">
-              {randomQuestions.map((q, index) => (
+              {getSuggestedQ().map((q, index) => (
                 <li
                   key={`${q.question}-${index}`}
                   className="border rounded md:px-4 py-2 text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default"

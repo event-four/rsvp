@@ -62,6 +62,9 @@ const OurStoryPageBody = ({ event }) => {
         <p className="text-center page-title font-pacifico text-2xl md:text-5xl mb-4 text-shadow-md">
           Our Story
         </p>
+        <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
+          {event.title}
+        </p>
         <div className="hiddenx md:block mx-auto my-9">
           {story.photo && story.photo.resource_type === "image" && (
             <img
