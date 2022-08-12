@@ -15,6 +15,8 @@ const urls = {
   suggestEventSlug: api + "/events/suggest-slug",
   verifyEventSlug: api + "/events/verify-slug",
   updateEventData: api + "/events/update-event",
+  eventStory: api + "/event-stories",
+  eventStoryBySlug: api + "/event-stories/by-slug",
 };
 
 export { urls };

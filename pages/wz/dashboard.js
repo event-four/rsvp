@@ -23,6 +23,7 @@ import BoxWrap from "/components/wz/BoxWrap";
 import WZHome from "/components/wz/pages/WZHome";
 import WZRsvpPage from "/components/wz/pages/WZRsvpPage";
 import WZRegistry from "/components/wz/pages/WZRegistry";
+import WZOurStory from "/components/wz/pages/WZOurStory";
 import MainToolbar from "../../components/wz/MainToolbar";
 import PagesMenu from "../../components/wz/PagesMenu";
 import Section from "../../components/wz/Section";
@@ -58,7 +59,7 @@ export default function DZDashboard({ events, baseUrl }) {
   const [currentPage, setCurrentPage] = useState(pageList[0]);
 
   const event = events[0];
-  console.log(router);
+
   useEffect(() => {
     if (router.isReady) {
       let { page } = router.query ?? "home";
@@ -80,7 +81,7 @@ export default function DZDashboard({ events, baseUrl }) {
     });
     setCurrentPage(tab);
   };
-  console.log(currentPage);
+
   return (
     <>
       <Layout>
@@ -108,7 +109,7 @@ export default function DZDashboard({ events, baseUrl }) {
                   // <WZRegistry event={event} pageTitle="Gift Registry" />
                 )}
                 {currentPage.href === "our-story" && (
-                  <p className="text-center">Coming soon</p>
+                  <WZOurStory event={event} pageTitle="Our Story" />
                 )}
                 {currentPage.href === "flights-hotels" && (
                   <p className="text-center">Coming soon</p>

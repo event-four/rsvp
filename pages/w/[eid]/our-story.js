@@ -10,7 +10,7 @@ import {
 import FormCard from "../../../components/FormCard";
 import FormProvider from "/components/providers/FormProvider";
 import InnerLayout from "../../../components/guests/InnerLayout";
-import { useGetRsvpGeneralQuestions } from "../../../swr/useRsvpRequests";
+import { useFetchEventStory } from "/services";
 
 const OurStory = () => {
   const [ev, setEv] = useState(null);
@@ -32,80 +32,57 @@ const OurStory = () => {
 };
 
 const OurStoryPageBody = ({ event }) => {
-  return (
-    <>
-      <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <p className="align-middle w-full"> Coming soon...</p>
-      </div>
-    </>
-  );
   const router = useRouter();
   const { asPath } = useRouter();
-  const { data, isLoading, isError } = useGetRsvpGeneralQuestions(event.slug);
+  const { data: story, loading, error } = useFetchEventStory(event.slug);
+  console.log(error);
 
-  if (isLoading)
+  if (loading)
     return (
       <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
         <p className="align-middle w-full"> Loading...</p>
       </div>
     );
-  if (isError)
+  if (error)
     return (
       <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
         <p className="align-middle w-full"> Something went wrong!</p>
       </div>
     );
-  if (!data)
+  if (!story)
     return (
       <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <p className="align-middle w-full"> Rsvp Not Found</p>
+        <p className="align-middle w-full"> Story Not Found</p>
       </div>
     );
-
-  const formStep = router.query.step ?? 1;
-
-  const goToStep = (step) => {
-    const path = `${asPath}`.split("?")[0];
-    router.push(path + `/?step=${step}`);
-  };
-
-  const rsvp = data.data;
-
-  const title = event.title;
-  let attending = true;
 
   return (
     <div className="flex flex-col flex-grow">
       <div className="text-center text-primary-dark pt-4 mb-10">
         <p className="text-center page-title font-pacifico text-2xl md:text-5xl mb-4 text-shadow-md">
-          RSVP
+          Our Story
         </p>
+        <div className="hiddenx md:block mx-auto my-9">
+          {story.photo && story.photo.resource_type === "image" && (
+            <img
+              className={`${
+                story.photo.public_id.length === 0
+                  ? "hidden"
+                  : "block h-full w-auto mx-auto"
+              }`}
+              src={`${story.photo.secure_url}`}
+            ></img>
+          )}
+        </div>
         <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
-          {title}
+          {story.title}
         </p>
+        <div dangerouslySetInnerHTML={{ __html: story.story ?? "" }}></div>
+
+        <div className="text-lg md:text-3xl font-rochester mt-6">
+          {event.title}
+        </div>
       </div>
-      <FormProvider className="">
-        <FormCard currentStep={formStep}>
-          {formStep >= 1 && (
-            <PersonalInfo
-              event={event}
-              formStep={formStep}
-              step={() => goToStep(2)}
-            />
-          )}
-          {formStep >= 2 && (
-            <OtherInfo
-              questions={rsvp.questions}
-              formStep={formStep}
-              step={() => goToStep(3)}
-            />
-          )}
-          {formStep >= 3 && (
-            <Wish event={event} formStep={formStep} step={() => goToStep(4)} />
-          )}
-          {formStep > 3 && <Confirmation event={event} />}
-        </FormCard>
-      </FormProvider>
     </div>
   );
 };

@@ -8,6 +8,7 @@ export const eventService = {
   verifyEventSlug,
   updateEventSlug,
   updateEventData,
+  updateEventStory,
   getEventInfo,
   getLocalStorageEvent,
   setLocalStorageEvent,
@@ -20,6 +21,7 @@ export {
   postRsvpQuestions,
   postRsvpResponse,
   useFetchGuests,
+  useFetchEventStory,
 };
 
 function setLocalStorageEvent(event) {
@@ -33,14 +35,14 @@ function getLocalStorageEvent() {
 
 async function verifyEventSlug({ slug, eventId }) {
   const endpoint = urls.verifyEventSlug;
-  const payload = { slug: slug, eventId: eventId };
+  const payload = { slug: slug.trim(), eventId: eventId };
   //call api
   return _post(endpoint, payload);
 }
 
 async function updateEventSlug({ slug, eventId }) {
   const endpoint = urls.updateEventData;
-  const payload = { slug: slug, eventId: eventId };
+  const payload = { slug: slug.trim(), eventId: eventId };
   //call api
   return _post(endpoint, payload);
 }
@@ -51,6 +53,14 @@ async function updateEventData(data) {
   console.log(data);
   //call api
   return _post(endpoint, payload);
+}
+
+async function updateEventStory(data) {
+  const endpoint = urls.eventStory;
+  const payload = data;
+
+  //call api
+  return fetchWrapper.post(endpoint, payload, { swr: false, authorize: true });
 }
 
 async function getEventInfo(eventId) {
@@ -77,6 +87,13 @@ const useFetchEventInfo = (id) => {
 const useFetchRsvpQuestions = (event) => {
   const url = urls.getRsvpQuestions + "?slug=" + event.slug;
   const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+
+  return swrResponse(useSWR(url, fetcher));
+};
+
+const useFetchEventStory = (slug) => {
+  const url = urls.eventStoryBySlug + "/" + slug;
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: false });
 
   return swrResponse(useSWR(url, fetcher));
 };

@@ -16,7 +16,10 @@ export { authHeader };
 function get(url, { authorize = true, swr = false }) {
   const requestOptions = {
     method: "GET",
-    headers: authHeader(url, { authorize }),
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader(url, { authorize }),
+    },
   };
 
   return swr

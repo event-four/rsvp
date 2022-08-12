@@ -10,7 +10,10 @@ import { useSnackbar } from "../../SnackBar";
 import { userService, eventService } from "/services";
 
 const schema = yup.object().shape({
-  url: yup.string().required("Url is required"),
+  url: yup
+    .string()
+    .required("Url is required")
+    .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
 });
 
 export default function ChooseUrl({ goToStep, isVisible }) {
@@ -90,9 +93,12 @@ export default function ChooseUrl({ goToStep, isVisible }) {
       });
   };
 
-  const onChange = (e) => {
+  const onChange = async (e) => {
     // Update the keyword of the input element
-    const slug = e.target.value;
+    let slug = e.target.value;
+    slug = slug.replace(/\s/g, "");
+    e.target.value = slug;
+
     // console.log(user);
     const eventId = event.id;
 

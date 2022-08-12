@@ -92,9 +92,9 @@ const EventPageBody = () => {
         <p>{countdown}</p>
       </div>
       <div className="container hidden md:flex flex-col md:flex-row md:w-7/12 items-center  my-5 mx-auto justify-center">
-        {/* <Link href={`${rsvpUrls.story}`}>
+        <Link href={`${rsvpUrls.story}`}>
           <a className="homeBtn">Our Story</a>
-        </Link> */}
+        </Link>
         <Link href={`${rsvpUrls.rsvp}`}>
           <a className="homeBtn">RSVP</a>
         </Link>
@@ -147,9 +147,9 @@ const EventPageBody = () => {
         <Link href={`${rsvpUrls.registry}`}>
           <a className="homeBtn">Gift Registry</a>
         </Link>
-        <Link href={`${rsvpUrls.logistics}`}>
+        {/* <Link href={`${rsvpUrls.logistics}`}>
           <a className="homeBtn">Flights & Hotels</a>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

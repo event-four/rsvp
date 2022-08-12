@@ -17,6 +17,8 @@
         @apply text-pink-500
     }
 
+
+
     a:hover {
         @apply text-pink-700
     }
@@ -24,6 +26,7 @@
     body {
         @apply font-poppins
     }
+
 
     .card {
         background-color: theme('colors.white');
@@ -169,4 +172,18 @@
         }
     }
 
+}
+
+.ql-editor.ql-blank::before {
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-family: 'Poppins';
+}
+
+.ql-editor {
+    min-height: 100px
+}
+
+.ql-editor p {
+    font-size: 14px !important;
 }

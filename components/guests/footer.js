@@ -9,7 +9,7 @@ export default function Footer({
 }) {
   return (
     <>
-      <div className=" bottom-0 mt-10">
+      <div className=" bottom-0 mt-10 ">
         <div className="">{children}</div>
         {showMenu ? (
           <div className="sm:hidden container flex flex-col sm:flex-row items-center mb-5 mx-auto justify-center">
@@ -33,7 +33,7 @@ export default function Footer({
           <div></div>
         )}
 
-        <div className="text-primary-dark">
+        <div className="text-primary-dark mb-6">
           <p className="text-center text-xs">
             Created with <span className="text-red-600 text-sm">&hearts;</span>{" "}
             on EventFour
