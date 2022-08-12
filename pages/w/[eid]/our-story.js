@@ -43,7 +43,7 @@ const OurStoryPageBody = ({ event }) => {
         <p className="align-middle w-full"> Loading...</p>
       </div>
     );
-  if (error)
+  if (error && error.status !== 404)
     return (
       <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
         <p className="align-middle w-full"> Something went wrong!</p>
@@ -51,8 +51,19 @@ const OurStoryPageBody = ({ event }) => {
     );
   if (!story)
     return (
-      <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <p className="align-middle w-full"> Story Not Found</p>
+      <div className="absolutex text-center flex items-center w-full h-full my-auto mx-auto content-center">
+        <div className="flex flex-col">
+          <p className="align-middle w-full">
+            Our story is a beautiful one and we are going to update this page
+            soon!
+          </p>
+          <div className="flex flex-col mt-7">
+            <span className="">Love,</span>
+            <span className="text-lg md:text-3xl font-rochester mt-2">
+              {event.title}
+            </span>
+          </div>
+        </div>
       </div>
     );
 
@@ -65,22 +76,27 @@ const OurStoryPageBody = ({ event }) => {
         <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
           {event.title}
         </p>
-        <div className="hiddenx md:block mx-auto my-9">
-          {story.photo && story.photo.resource_type === "image" && (
-            <img
-              className={`${
-                story.photo.public_id.length === 0
-                  ? "hidden"
-                  : "block h-full w-auto mx-auto"
-              }`}
-              src={`${story.photo.secure_url}`}
-            ></img>
-          )}
-        </div>
-        <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
-          {story.title}
-        </p>
-        <div dangerouslySetInnerHTML={{ __html: story.story ?? "" }}></div>
+
+        {story && (
+          <div>
+            <div className="hiddenx md:block mx-auto my-9">
+              {story.photo && story.photo.resource_type === "image" && (
+                <img
+                  className={`${
+                    story.photo.public_id.length === 0
+                      ? "hidden"
+                      : "block h-full w-auto mx-auto"
+                  }`}
+                  src={`${story.photo.secure_url}`}
+                ></img>
+              )}
+            </div>
+            <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
+              {story.title}
+            </p>
+            <div dangerouslySetInnerHTML={{ __html: story.story ?? "" }}></div>
+          </div>
+        )}
 
         <div className="text-lg md:text-3xl font-rochester mt-6">
           {event.title}
