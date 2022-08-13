@@ -73,11 +73,13 @@ export default function WZOurStory({ event, pageTitle }) {
         setShowSpinner(false);
         return;
       }
-      eventService.updateEventStory({
+      await eventService.updateEventStory({
         eventId: event.id,
         story: story,
         title: title,
       });
+
+      snackbar.show("Story updated successfully");
       // Validation passed - do something with data
     } catch (err) {
       const errors = {};
@@ -232,7 +234,7 @@ export default function WZOurStory({ event, pageTitle }) {
 
           <div className="mt-4 flex justify-center">
             <LoadingButton loading={showSpinner} type="submit">
-              Save my Story
+              Save Story
             </LoadingButton>
             {/* <Button loading={showSpinner} type="submit">
               Save my Story

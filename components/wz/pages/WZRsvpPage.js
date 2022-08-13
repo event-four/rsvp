@@ -112,7 +112,6 @@ export default function WZRsvpPage({ event, pageTitle }) {
     });
 
     return unAdded;
-    setSuggestedQuestions([...unAdded]);
   };
 
   return (
