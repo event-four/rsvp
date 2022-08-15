@@ -19,7 +19,7 @@ import { QuillNoSSRWrapper } from "@/components/form/RichText";
 
 export default function WZOurStory({ event, pageTitle }) {
   const [showSpinner, setShowSpinner] = useState(false);
-  const [coverMedia, setCoverMedia] = useState(event.coverMedia);
+  const [coverMedia, setCoverMedia] = useState();
   const [story, setStory] = useState("");
   const uploaderRef = createRef();
   const formRef = useRef();
@@ -34,6 +34,7 @@ export default function WZOurStory({ event, pageTitle }) {
   });
 
   const startUpload = () => {
+    uploaderRef.current.value = null;
     uploaderRef.current.click();
   };
 

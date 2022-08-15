@@ -50,7 +50,6 @@ async function updateEventSlug({ slug, eventId }) {
 async function updateEventData(data) {
   const endpoint = urls.updateEventData;
   const payload = data;
-  console.log(data);
   //call api
   return _post(endpoint, payload);
 }

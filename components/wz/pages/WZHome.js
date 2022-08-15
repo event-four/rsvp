@@ -16,6 +16,7 @@ export default function WZHome({ event, pageTitle }) {
   const uploaderRef = createRef();
 
   const startUpload = () => {
+    uploaderRef.current.value = null;
     uploaderRef.current.click();
   };
 
@@ -50,9 +51,9 @@ export default function WZHome({ event, pageTitle }) {
       <h1 className="text-lg font-semibold">{pageTitle}</h1>
       <Section title="Cover Media">
         <div
-          className={`relative block w-full border-1 border-gray-100 rounded-lg text-center hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 items-center h-80 overflow-clip ${
+          className={`relative block w-full border-1 border-gray-100 rounded-lg text-center hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 items-center overflow-clip ${
             coverMedia ? "sm:pt-4x" : "py-16x"
-          } ${coverMedia ? "border" : "border border-dashed"}`}
+          } ${coverMedia ? "border h-80x" : "border border-dashed h-auto"}`}
         >
           <Upload
             id={uploaderRef}
@@ -61,7 +62,7 @@ export default function WZHome({ event, pageTitle }) {
             saveAs={event.slug}
           />
           {showSpinner && (
-            <div className="flex mx-auto justify-center items-center absolute left-0 right-0 top-0 bottom-0 border border-transparent font-medium rounded-md transition ease-in-out duration-150 cursor-not-allowed flex-col h-full bg-white bg-opacity-80">
+            <div className="flex mx-auto justify-center items-center py-16 left-0 right-0 top-0 bottom-0 border border-transparent font-medium rounded-md transition ease-in-out duration-150 cursor-not-allowed flex-col h-full bg-white bg-opacity-80">
               <svg
                 className="animate-spin h-8 w-8  text-gray-700"
                 viewBox="0 0 24 24"
@@ -87,7 +88,7 @@ export default function WZHome({ event, pageTitle }) {
             <button
               onClick={startUpload}
               type="button"
-              className="h-full w-full"
+              className="h-full w-full py-16"
             >
               <div>
                 <PermMediaIcon
@@ -101,15 +102,15 @@ export default function WZHome({ event, pageTitle }) {
             </button>
           )}
 
-          {coverMedia && (
-            <div className="relative h-full w-full">
+          {coverMedia && !showSpinner && (
+            <div className="relativex flex h-full w-full items-center justify-center">
               {coverMedia.resource_type === "image" && (
-                <div className="absolute inset-0 z-0 max-h-80 overflow-clip rounded-lg">
+                <div className="absolutex inset-0x z-0 max-h-80x overflow-clipx rounded-lg">
                   <img
                     className={`${
                       coverMedia.public_id.length === 0
                         ? "hidden"
-                        : "block h-auto w-full mx-auto"
+                        : " h-full w-auto"
                     }`}
                     src={`${coverMedia.secure_url}`}
                   ></img>
@@ -137,11 +138,11 @@ export default function WZHome({ event, pageTitle }) {
                   <span className="font-normal text-sm">Edit</span>
                 </div>
                 <div className="flex flex-col space-y-2">
-                  <div
-                    className="border border-5 rounded-full p-2 opacity-90 hover:opacity-100 cursor-pointer"
-                    onClick={onDeleteCoverMedia}
-                  >
-                    <ClearIcon sx={{ fontSize: 40 }} />
+                  <div className="border border-5 rounded-full p-2 opacity-90 hover:opacity-100 cursor-pointer">
+                    <ClearIcon
+                      onClick={onDeleteCoverMedia}
+                      sx={{ fontSize: 40 }}
+                    />
                   </div>
                   <span className="font-normal text-sm">Delete</span>
                 </div>

@@ -33,12 +33,15 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
   const user = userService.getUser();
   const event = eventService.getLocalStorageEvent();
 
-  useEffect(() => {
-    if (!formValues) return null;
-  });
+  // useEffect(() => {
+  //   if (!formValues) return null;
+  //   // console.log(formValues);
+  //   setCity(formValues.city);
+  //   setStartDate(formValues.startDate ?? new Date());
+  // }, [city, startDate]);
 
   async function handleSubmit(data) {
-    console.log(updateLater);
+    data.startDate = startDate;
 
     try {
       formRef.current.setErrors({});
@@ -83,6 +86,7 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
         event.city = city;
         event.startDate = startDate;
         eventService.setLocalStorageEvent(event);
+        // return;
         submitForm(formValues);
       })
       .catch((error) => {
@@ -92,13 +96,18 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
       });
   };
 
-  if (!formValues) {
-    return <div></div>;
-  }
+  // if (!formValues) {
+  //   return <div></div>;
+  // }
 
   const handleChange = (newValue) => {
     setStartDate(new Date(newValue));
     // console.log(new Date(newValue));
+  };
+
+  const handleCityOnChange = (value) => {
+    setCity(value);
+    console.log(value);
   };
 
   return (
@@ -131,8 +140,9 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
             type="text"
             name="city"
             classes=""
-            value={formValues.city || city}
+            value={city}
             placeholder=" "
+            onChange={handleCityOnChange}
           />
         </div>
 

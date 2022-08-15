@@ -19,12 +19,8 @@ const PlacesAutocomplete = ({ ...props }) => {
     debounce: 300,
   });
 
-  // useEffect(() => {
-  //   if (props.defaultValue) {
-  //     setValue(props.defaultValue, false);
-  //   }
-  // }, [value]);
-  const [place, setPlace] = useState(props.defaultValue);
+  console.log("pp", props.value);
+  const [place, setPlace] = useState(props.value);
 
   const ref = useOnclickOutside(() => {
     // When user clicks outside of the component, we can dismiss
@@ -36,6 +32,7 @@ const PlacesAutocomplete = ({ ...props }) => {
     // Update the keyword of the input element
     setPlace(e.target.value);
     setValue(e.target.value);
+    props.onChange(e.target.value);
   };
 
   const handleSelect =
@@ -46,6 +43,7 @@ const PlacesAutocomplete = ({ ...props }) => {
       console.log(description);
       setPlace(description);
       setValue(description, false);
+      props.onChange(description);
 
       clearSuggestions();
 
@@ -77,14 +75,22 @@ const PlacesAutocomplete = ({ ...props }) => {
 
   return (
     <div ref={ref} className="relative">
-      <TextInput
+      <input
         name={props.name}
         label={props.label}
-        value={place}
+        value={props.value}
         onChange={handleInput}
         disabled={!ready}
         placeholder={props.placeholder}
       />
+      {/* <TextInput
+        name={props.name}
+        label={props.label}
+        value={city}
+        onChange={handleInput}
+        disabled={!ready}
+        placeholder={props.placeholder}
+      /> */}
 
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (

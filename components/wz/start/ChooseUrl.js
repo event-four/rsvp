@@ -10,10 +10,8 @@ import { useSnackbar } from "../../SnackBar";
 import { userService, eventService } from "/services";
 
 const schema = yup.object().shape({
-  url: yup
-    .string()
-    .required("Url is required")
-    .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
+  url: yup.string().required("Url is required"),
+  // .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
 });
 
 export default function ChooseUrl({ goToStep, isVisible }) {

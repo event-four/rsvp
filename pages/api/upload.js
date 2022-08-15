@@ -23,10 +23,23 @@ export default async (req, res) => {
       resolve({ fields, files });
     });
   });
-  let type = data?.files?.inputFile.mimetype;
-  type = type.split("/")[0];
-  const file = data?.files?.inputFile.filepath;
-  console.log(data);
+  // console.log(data);
+  // const isImage = data?.files?.base64data;
+  // if (isImage) {
+
+  //   file = data?.files?.base64data;
+  // } else {
+  //   type = data?.files?.inputFile.mimetype;
+  //   type = type.split("/")[0];
+  //   const file = data?.files?.inputFile.filepath;
+  // }
+  // console.log(data);
+  const file = data?.fields.inputFile;
+  const type = file.split(";")[0].split(":")[1].split("/")[0];
+
+  // console.log(type);
+
+  if (!file) return;
 
   try {
     const response = await cloudinary.v2.uploader.upload(file, {

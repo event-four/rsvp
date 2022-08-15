@@ -11,6 +11,7 @@ import FormCard from "../../../components/FormCard";
 import FormProvider from "/components/providers/FormProvider";
 import InnerLayout from "../../../components/guests/InnerLayout";
 import { useFetchEventStory } from "/services";
+import Image from "next/image";
 
 const OurStory = () => {
   const [ev, setEv] = useState(null);
@@ -81,14 +82,14 @@ const OurStoryPageBody = ({ event }) => {
           <div>
             <div className="hiddenx md:block mx-auto my-9">
               {story.photo && story.photo.resource_type === "image" && (
-                <img
+                <Image
                   className={`${
                     story.photo.public_id.length === 0
                       ? "hidden"
                       : "block h-full w-auto mx-auto"
                   }`}
                   src={`${story.photo.secure_url}`}
-                ></img>
+                />
               )}
             </div>
             <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
