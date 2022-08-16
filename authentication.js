@@ -59,7 +59,7 @@ async function createUserAccountOnAPI(data) {
 
 async function setupEventOnServer({ jwt, eventMeta }) {
   const payload = eventMeta;
-  // console.log(jwt);
+  console.log(payload);
   const res = await fetch(urls.event, {
     method: "POST",
     headers: {

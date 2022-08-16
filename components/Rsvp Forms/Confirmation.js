@@ -11,7 +11,7 @@ const schema = yup.object().shape({}, []);
 export default function Confirmation({ event, formStep }) {
   const { rsvpUrls } = useAppStates();
   const { data } = useFormData();
-  console.log(rsvpUrls);
+  // console.log(rsvpUrls);
 
   useEffect(() => {
     // if (Object.keys(data).length === 0) return;

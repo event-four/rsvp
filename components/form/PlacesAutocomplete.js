@@ -19,7 +19,7 @@ const PlacesAutocomplete = ({ ...props }) => {
     debounce: 300,
   });
 
-  console.log("pp", props.value);
+  // console.log("pp", props.value);
   const [place, setPlace] = useState(props.value);
 
   const ref = useOnclickOutside(() => {
@@ -75,7 +75,15 @@ const PlacesAutocomplete = ({ ...props }) => {
 
   return (
     <div ref={ref} className="relative">
-      <input
+      {/* <input
+        name={props.name}
+        label={props.label}
+        value={props.value}
+        onChange={handleInput}
+        disabled={!ready}
+        placeholder={props.placeholder}
+      /> */}
+      <TextInput
         name={props.name}
         label={props.label}
         value={props.value}
@@ -83,14 +91,6 @@ const PlacesAutocomplete = ({ ...props }) => {
         disabled={!ready}
         placeholder={props.placeholder}
       />
-      {/* <TextInput
-        name={props.name}
-        label={props.label}
-        value={city}
-        onChange={handleInput}
-        disabled={!ready}
-        placeholder={props.placeholder}
-      /> */}
 
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (

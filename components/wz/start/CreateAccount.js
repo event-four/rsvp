@@ -73,7 +73,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
       userService.setUser(user);
 
       snackbar.info("Setting up your event...");
-
+      console.log(user);
       const event = await setupEventOnServer({
         jwt: user.jwt,
         eventMeta: {
