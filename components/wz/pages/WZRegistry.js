@@ -31,7 +31,7 @@ export default function WZRegistry({ event, pageTitle, pss }) {
   return (
     <>
       <h1 className="text-lg font-semibold">{pageTitle}</h1>
-      <Section title="Your Registry">
+      <Section title="">
         {/* <div
           className={`relative block w-full border-1 border-gray-100 rounded-lg text-center hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 items-center h-80 overflow-clip border" `}
         >
