@@ -10,6 +10,7 @@ import InnerLayout from "../../../components/guests/InnerLayout";
 
 const EventPage = () => {
   const { setRsvpUrls, setRsvpEid } = useAppStates();
+  console.log(useAppStates());
   const router = useRouter();
   let eid;
   useEffect(() => {
@@ -31,6 +32,7 @@ const EventPage = () => {
 
       setRsvpUrls(urls);
       setRsvpEid(eid);
+      // console.log("sett");
     }
   }, [router.isReady]);
 
@@ -40,7 +42,7 @@ const EventPage = () => {
 const EventPageBody = () => {
   const { rsvpEid, rsvpUrls } = useAppStates();
 
-  // console.log(rsvpEid);
+  console.log(rsvpEid);
 
   const { event, isLoading, isError } = useGetEventBySlug(rsvpEid);
   ///

@@ -2,7 +2,14 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Upload } from "../Upload";
-import { createRef, useState, useRef, Fragment, useEffect } from "react";
+import {
+  createRef,
+  useState,
+  useRef,
+  Fragment,
+  useEffect,
+  useCallback,
+} from "react";
 import {
   eventService,
   useFetchRsvpQuestions,
@@ -48,12 +55,38 @@ export default function WZRsvpPage({ event, pageTitle }) {
     }
   });
 
-  const insertNewQuestion = (index) => {
-    const qs = suggestedQuestions[index];
-    questions.push(qs);
-    suggestedQuestions.splice(index, 1);
+  // const buildSuggestedQuestions = useCallback(() => {
+  //   const unAdded = [];
+  //   suggestedQuestions.map((qs) => {
+  //     const exists = questions.find((mq) => mq.question === qs.question);
+  //     if (!exists) {
+  //       unAdded.push(qs);
+  //     }
+  //   });
 
-    setSuggestedQuestions([...suggestedQuestions]);
+  //   setSuggestedQuestions([...unAdded]);
+  // });
+
+  // useEffect(() => {
+  //   buildSuggestedQuestions();
+  // }, [suggestedQuestions]);
+
+  const insertNewQuestion = (question) => {
+    //check if we already have this question.
+    const exists = questions.find((q) => q.question === question);
+
+    if (exists) {
+      snackbar.show("You already have this question.");
+      return;
+    }
+    //remove the question from the suggestions list.
+    const remainingQuestions = suggestedQuestions.filter(
+      (q) => q.question !== question
+    );
+    //update the suggestions list.
+    setSuggestedQuestions([...remainingQuestions]);
+    //insert the question into questions list.
+    questions.push({ question: question });
     modifyQuestion(questions);
   };
 
@@ -83,9 +116,9 @@ export default function WZRsvpPage({ event, pageTitle }) {
     setOpen(false);
   };
 
-  const deleteQuestion = (index) => {
-    questions.splice(index, 1);
-    modifyQuestion(questions);
+  const deleteQuestion = (question) => {
+    const updateQuestionList = questions.filter((q) => q.question !== question);
+    modifyQuestion(updateQuestionList);
   };
 
   const modifyQuestion = (questions) => {
@@ -94,6 +127,7 @@ export default function WZRsvpPage({ event, pageTitle }) {
 
     postRsvpQuestions(payload)
       .then((response) => {
+        console.log(response);
         setQuestions([...questions]);
       })
       .catch((error) => {
@@ -193,7 +227,7 @@ export default function WZRsvpPage({ event, pageTitle }) {
                     <IconButton
                       variant="outlined"
                       sx={{ p: { xs: 0.5, sm: 1 } }}
-                      onClick={() => deleteQuestion(index)}
+                      onClick={() => deleteQuestion(q.question)}
                     >
                       <ClearIcon />
                     </IconButton>
@@ -212,44 +246,46 @@ export default function WZRsvpPage({ event, pageTitle }) {
             </ul>
           )}
 
-          <div className="pt-6 pb-2x text-gray-700">
-            We've suggested some follow-up questions for you.
-          </div>
-          {suggestedQuestions && (
-            <ul className="flex flex-col space-y-2 w-full">
-              {getSuggestedQ().map((q, index) => (
-                <li
-                  key={`${q.question}-${index}`}
-                  className="border rounded md:px-4 py-2 text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default"
-                >
-                  <div className="flex flex-grow ml-4 text-gray-500">
-                    {q.question}
-                  </div>
-                  <div className="hidden md:flex space-x-1 items-center justify-center">
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      sx={{ fontSize: 12, px: 2, py: 1 }}
-                      onClick={() => insertNewQuestion(index)}
-                      startIcon={<AddCircleOutlineIcon />}
-                    >
-                      Add Question
-                    </Button>
-                  </div>
-                  <div className="sm:hidden flex space-x-1 items-center justify-center">
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      sx={{ fontSize: 12, px: 2, py: 1 }}
-                      onClick={() => insertNewQuestion(index)}
-                      startIcon={<AddCircleOutlineIcon />}
-                    >
-                      Add
-                    </Button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+          {getSuggestedQ().length > 0 && (
+            <>
+              <div className="pt-6 pb-2x text-gray-700">
+                We've suggested some follow-up questions for you.
+              </div>
+              <ul className="flex flex-col space-y-2 w-full">
+                {getSuggestedQ().map((q, index) => (
+                  <li
+                    key={`${q.question}-${index}`}
+                    className="border rounded pl-4 pr-2 md:px-4 py-2 text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default"
+                  >
+                    <div className="flex flex-grow text-gray-500">
+                      {q.question}
+                    </div>
+                    {/* <div className="hidden md:flex space-x-1 items-center justify-center">
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        sx={{ fontSize: 12, px: 2, py: 1 }}
+                        onClick={() => insertNewQuestion(index)}
+                        startIcon={<AddCircleOutlineIcon />}
+                      >
+                        Add Question
+                      </Button>
+                    </div> */}
+                    <div className=" flex space-x-1 items-center justify-center">
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        sx={{ fontSize: 12, px: 2, py: 1 }}
+                        onClick={() => insertNewQuestion(q.question)}
+                        startIcon={<AddCircleOutlineIcon />}
+                      >
+                        Add
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </div>
       </Section>

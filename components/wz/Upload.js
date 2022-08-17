@@ -186,7 +186,7 @@ export function Upload({
     });
   };
 
-  function getCroppedImg(image, crop, fileName, quality = 0.8) {
+  function getCroppedImg(image, crop, fileName, quality = 1) {
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -238,6 +238,7 @@ export function Upload({
           type="file"
           onChange={onSelectFile}
           className="hidden"
+          accept="image/*, video/*"
         />
         {children}
       </label>

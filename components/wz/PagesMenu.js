@@ -28,7 +28,9 @@ export default function PagesMenu({
           </div> */}
         </div>
 
-        <nav className={`flex flex-row md:flex-col w-full overflow-scroll`}>
+        <nav
+          className={`flex flex-row md:flex-col w-full overflow-scroll z-[1600]`}
+        >
           {pages.map((page) => (
             <a
               key={page.name}
