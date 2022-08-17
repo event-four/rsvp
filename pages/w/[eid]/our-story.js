@@ -82,7 +82,7 @@ const OurStoryPageBody = ({ event }) => {
           <div>
             <div className="hiddenx md:block mx-auto my-9">
               {story.photo && story.photo.resource_type === "image" && (
-                <Image
+                <img
                   className={`${
                     story.photo.public_id.length === 0
                       ? "hidden"
