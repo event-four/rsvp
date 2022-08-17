@@ -41,10 +41,10 @@ export default function Confirmation({ event, formStep }) {
               We have received your confirmation and can't wait to share &
               celebrate this special day with you!
             </p>
-            <p className="text-sm">
+            {/* <p className="text-sm">
               If you ever change your mind or have any other question, please
               reach out to us or come back to this page.
-            </p>
+            </p> */}
             <div className="flex flex-col">
               <span className="text-sm">See you very soon,</span>
               <span className="text-lg md:text-3xl font-rochester mt-2">
