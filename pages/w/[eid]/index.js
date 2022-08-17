@@ -10,7 +10,7 @@ import InnerLayout from "../../../components/guests/InnerLayout";
 
 const EventPage = () => {
   const { setRsvpUrls, setRsvpEid } = useAppStates();
-  console.log(useAppStates());
+
   const router = useRouter();
   let eid;
   useEffect(() => {
@@ -41,8 +41,6 @@ const EventPage = () => {
 
 const EventPageBody = () => {
   const { rsvpEid, rsvpUrls } = useAppStates();
-
-  console.log(rsvpEid);
 
   const { event, isLoading, isError } = useGetEventBySlug(rsvpEid);
   ///
@@ -114,7 +112,7 @@ const EventPageBody = () => {
             className={`${
               ev.coverMedia.public_id.length === 0
                 ? "hidden"
-                : "block h-full w-auto mx-auto"
+                : "block h-auto w-full mx-auto"
             }`}
             src={`${ev.coverMedia.secure_url}`}
           ></img>
@@ -124,7 +122,7 @@ const EventPageBody = () => {
           <video
             className={`${
               ev.coverMedia.public_id.length === 0 ? "hidden" : "block"
-            } h-full w-auto mx-auto`}
+            } h-auto w-auto mx-auto`}
             autoPlay
             controls
             muted
