@@ -35,11 +35,11 @@ const pageList = [
   { name: "RSVP", href: "rsvp", current: false },
   { name: "Registry", href: "registry", current: false },
   { name: "Our Story", href: "our-story", current: false },
-  {
-    name: "Flights & Hotels",
-    href: "flights-hotels",
-    current: false,
-  },
+  // {
+  //   name: "Flights & Hotels",
+  //   href: "flights-hotels",
+  //   current: false,
+  // },
 ];
 
 const urls = {
