@@ -53,11 +53,11 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
 
       //start sign up
       let token;
-      if (!fbToken || fbUser.email !== formValues.email) {
+      if (!fbToken || fbUser.email !== formData.email) {
         snackbar.info("Creating your account...");
         let res = await signUp({
-          email: formValues.email,
-          password: formValues.password,
+          email: formData.email,
+          password: formData.password,
         });
         token = res.token;
         setFbToken(res.token);
@@ -66,14 +66,15 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
 
       const user = await setupAccountOnServer({
         token: fbToken ?? token,
-        firstName: formValues.firstName,
-        lastName: formValues.lastName,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
       });
 
       userService.setUser(user);
 
       snackbar.info("Setting up your event...");
-      console.log(user);
+      // console.log(user);
+
       const event = await setupEventOnServer({
         jwt: user.jwt,
         eventMeta: {
@@ -136,7 +137,6 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
       } else if (err.code === "auth/network-request-failed") {
         snackbar.error("The network request failed.");
       } else {
-        // alert(err);
         snackbar.error(err.message || "Oops! An error occurred.");
         console.log(err);
       }

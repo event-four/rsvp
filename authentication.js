@@ -9,6 +9,10 @@ import { urls } from "/helpers";
 const auth = getAuth();
 
 const signUp = async ({ email, password }) => {
+  console.log(auth);
+  console.log(email);
+  console.log(password);
+
   return createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       // Signed in

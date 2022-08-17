@@ -214,10 +214,12 @@ export const getServerSideProps = async ({ req, res }) => {
     return { props: {} };
   }
 
-  const data = await response.json();
-  // console.log(data);
+  let data = await response.json();
 
   return {
-    props: { events: data.data, baseUrl: process.env.EVENT_WEBSITE_BASE_URL },
+    props: {
+      events: data.data,
+      baseUrl: process.env.EVENT_WEBSITE_BASE_URL,
+    },
   };
 };
