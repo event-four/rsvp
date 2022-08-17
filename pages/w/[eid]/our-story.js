@@ -74,8 +74,11 @@ const OurStoryPageBody = ({ event }) => {
         <p className="text-center page-title font-pacifico text-2xl md:text-5xl mb-4 text-shadow-md">
           Our Story
         </p>
-        <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
+        {/* <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
           {event.title}
+        </p> */}
+        <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
+          {story.title}
         </p>
 
         {story && (
@@ -92,9 +95,7 @@ const OurStoryPageBody = ({ event }) => {
                 />
               )}
             </div>
-            <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
-              {story.title}
-            </p>
+
             <div dangerouslySetInnerHTML={{ __html: story.story ?? "" }}></div>
           </div>
         )}
