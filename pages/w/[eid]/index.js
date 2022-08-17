@@ -106,13 +106,13 @@ const EventPageBody = () => {
           <a className="homeBtn">Flights & Hotels</a>
         </Link> */}
       </div>
-      <div className="hiddenx md:block mx-auto my-9">
+      <div className="hiddenx flex md:block my-9 justify-center items-center">
         {ev.coverMedia && ev.coverMedia.resource_type === "image" && (
           <img
             className={`${
               ev.coverMedia.public_id.length === 0
                 ? "hidden"
-                : "block h-auto w-full mx-auto"
+                : "block h-auto w-auto max-h-96 mx-auto"
             }`}
             src={`${ev.coverMedia.secure_url}`}
           ></img>
@@ -122,7 +122,7 @@ const EventPageBody = () => {
           <video
             className={`${
               ev.coverMedia.public_id.length === 0 ? "hidden" : "block"
-            } h-auto w-auto mx-auto`}
+            } h-auto w-full`}
             autoPlay
             controls
             muted

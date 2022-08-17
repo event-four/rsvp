@@ -103,9 +103,9 @@ export default function WZHome({ event, pageTitle }) {
           )}
 
           {coverMedia && !showSpinner && (
-            <div className="relativex flex h-full w-full items-center justify-center">
+            <div className="relativex flex flex-col h-full w-full items-center justify-center">
               {coverMedia.resource_type === "image" && (
-                <div className="absolutex inset-0x z-0 max-h-80x overflow-clipx rounded-lg">
+                <div className="z-0 rounded-lg">
                   <img
                     className={`${
                       coverMedia.public_id.length === 0
@@ -118,11 +118,11 @@ export default function WZHome({ event, pageTitle }) {
               )}
 
               {coverMedia.resource_type === "video" && (
-                <div className="absolute inset-0">
+                <div className="">
                   <video
                     className={`${
                       coverMedia.public_id.length === 0 ? "hidden" : "block"
-                    } h-full w-auto mx-auto`}
+                    } h-full w-auto`}
                     autoPlay
                     controls
                     muted
@@ -130,18 +130,41 @@ export default function WZHome({ event, pageTitle }) {
                   ></video>
                 </div>
               )}
-              <div className="opacity-0 hover:opacity-100 duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold bg-black bg-opacity-60 space-x-6">
+              <div className="flex flex-row md:hidden space-x-4 my-4">
+                <Button
+                  size="small"
+                  sx={{ p: 1 }}
+                  variant="contained"
+                  onClick={startUpload}
+                >
+                  Edit
+                </Button>
+                <Button
+                  size="small"
+                  sx={{ p: 1 }}
+                  variant="outlined"
+                  onClick={onDeleteCoverMedia}
+                >
+                  Delete
+                </Button>
+              </div>
+              <div
+                className={`hidden md:opacity-0 md:flex hover:opacity-100 duration-300 md:absolute z-10 justify-center items-center text-white font-semibold md:bg-black md:bg-opacity-60 space-x-6 w-full ${
+                  coverMedia.resource_type === "video" ? "mb-20 p-6 " : ""
+                }`}
+              >
                 <div className="flex flex-col space-y-2">
                   <Fab color="primary" aria-label="add" onClick={startUpload}>
-                    <EditIcon sx={{ fontSize: 40 }} />
+                    <EditIcon sx={{ fontSize: { xs: 24, md: 40 } }} />
                   </Fab>
                   <span className="font-normal text-sm">Edit</span>
                 </div>
+
                 <div className="flex flex-col space-y-2">
                   <div className="border border-5 rounded-full p-2 opacity-90 hover:opacity-100 cursor-pointer">
                     <ClearIcon
                       onClick={onDeleteCoverMedia}
-                      sx={{ fontSize: 40 }}
+                      sx={{ fontSize: { xs: 24, md: 40 } }}
                     />
                   </div>
                   <span className="font-normal text-sm">Delete</span>
