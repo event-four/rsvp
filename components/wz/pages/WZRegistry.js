@@ -10,6 +10,7 @@ import Section from "../Section";
 import IconButton from "@mui/material/IconButton";
 import Fab from "@mui/material/Fab";
 // var paystack = require("paystack-api")
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 
 export default function WZRegistry({ event, pageTitle, pss }) {
   const [showSpinner, setShowSpinner] = useState(false);
@@ -31,10 +32,14 @@ export default function WZRegistry({ event, pageTitle, pss }) {
     <>
       <h1 className="text-lg font-semibold">{pageTitle}</h1>
       <Section title="Your Registry">
-        <div
+        {/* <div
           className={`relative block w-full border-1 border-gray-100 rounded-lg text-center hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 items-center h-80 overflow-clip border" `}
         >
           <Button onClick={activateCashRegistry}>Activate Cash Registry</Button>
+        </div> */}
+        <div className="flex flex-col space-y-2 my-12 justify-center items-center">
+          <CardGiftcardIcon color="primary" sx={{ fontSize: 80 }} />
+          <span>Coming Soon!</span>
         </div>
       </Section>
     </>

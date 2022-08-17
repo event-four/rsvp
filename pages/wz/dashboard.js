@@ -105,8 +105,8 @@ export default function DZDashboard({ events, baseUrl }) {
                   <WZRsvpPage event={event} pageTitle="Rsvp" />
                 )}
                 {currentPage.href === "registry" && (
-                  <p className="text-center">Coming soon</p>
-                  // <WZRegistry event={event} pageTitle="Gift Registry" />
+                  // <p className="text-center">Coming soon</p>
+                  <WZRegistry event={event} pageTitle="Gift Registry" />
                 )}
                 {currentPage.href === "our-story" && (
                   <WZOurStory event={event} pageTitle="Our Story" />
