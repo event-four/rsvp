@@ -102,7 +102,7 @@ export default function DZDashboard({ events, baseUrl }) {
                   <WZHome event={event} pageTitle="Home" />
                 )}
                 {currentPage.href === "rsvp" && (
-                  <WZRsvpPage event={event} pageTitle="Rsvp" />
+                  <WZRsvpPage event={event} pageTitle="RSVP" />
                 )}
                 {currentPage.href === "registry" && (
                   // <p className="text-center">Coming soon</p>
