@@ -33,8 +33,8 @@ import { XIcon } from "@heroicons/react/outline";
 const pageList = [
   { name: "Home", href: "home", current: true },
   { name: "RSVP", href: "rsvp", current: false },
-  { name: "Registry", href: "registry", current: false },
   { name: "Our Story", href: "our-story", current: false },
+  { name: "Registry", href: "registry", current: false },
   // {
   //   name: "Flights & Hotels",
   //   href: "flights-hotels",
