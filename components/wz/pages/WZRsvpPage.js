@@ -257,7 +257,7 @@ export default function WZRsvpPage({ event, pageTitle }) {
                     key={`${q.question}-${index}`}
                     className="border rounded pl-4 pr-2 md:px-4 py-2 text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default"
                   >
-                    <div className="flex flex-grow text-gray-500">
+                    <div className="flex flex-grow text-gray-500 mr-2">
                       {q.question}
                     </div>
                     {/* <div className="hidden md:flex space-x-1 items-center justify-center">
