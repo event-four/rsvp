@@ -1,5 +1,5 @@
 import FormCard from "@/components/FormCard";
-import FormProvider from "@/components/providers/WZStartFormProvider";
+import FormProvider from "@/components/providers/HostStartFormProvider";
 
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -8,17 +8,24 @@ import {
   ChooseUrl,
   CreateAccount,
   EventDetails,
-} from "@/components/wz";
-import Layout from "@/components/wz/Layout";
+} from "@/components/host";
+import Layout from "@/components/host/Layout";
+import { getCookie } from "cookies-next";
+import { eventService } from "/services";
+import { constants } from "/helpers";
 
-const DZStartPage = () => {
-  // const formStep = router.query.step ?? 1;
-
-  // const goToStep = (step) => {
-  //   const path = `${router.asPath}`.split("?")[0];
-  //   router.push(path + `/?step=${step}`);
-  // };
-
+const DZStartPage = ({ hasDashboard, hasUser }) => {
+  const router = useRouter();
+  useEffect(() => {
+    if (router.isReady) {
+      if (hasDashboard && hasUser) {
+        router.push(`/host/dashboard`);
+      }
+      if (hasDashboard && !hasUser) {
+        router.push(`/auth/login`);
+      }
+    }
+  });
   return (
     <Layout>
       <div className="container mx-auto grid md:grid-cols-4 md:gap-4 h-screen">
@@ -64,7 +71,8 @@ const StartPageForm = () => {
 
   const submitRegistration = (data) => {
     console.log(data);
-    router.push("/wz/dashboard");
+    eventService.setLaunchedDashboard(data.email);
+    // router.push("/host/dashboard");
   };
 
   return (
@@ -98,3 +106,17 @@ const StartPageForm = () => {
   );
 };
 export default DZStartPage;
+export const getServerSideProps = async ({ req, res }) => {
+  const hasDashboard = getCookie(constants.LAUNCHED_DSH, { req, res });
+  const user = getCookie(constants.UIF, { req, res });
+  console.log(user);
+  let hasUser;
+  if (user) {
+    hasUser = JSON.parse(user);
+  }
+  console.log("hasDashboard", hasDashboard);
+
+  return {
+    props: { hasDashboard, hasUser },
+  };
+};

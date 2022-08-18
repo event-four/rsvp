@@ -83,10 +83,11 @@ export function Upload({
   }
 
   function onImageLoad(e) {
-    if (aspect) {
-      const { width, height } = e.currentTarget;
-      setCrop(centerAspectCrop(width, height, aspect));
-    }
+    // if (aspect) {
+    const { width, height } = e.currentTarget;
+    setAspect(16 / 9);
+    setCrop(centerAspectCrop(width, height, 16 / 9));
+    // }
   }
 
   useDebounceEffect(
@@ -112,16 +113,27 @@ export function Upload({
   );
 
   function handleToggleAspectClick(ratio) {
+    const aspectRatio = ratio;
+
     if (imgRef.current) {
       const { width, height } = imgRef.current;
-      setAspect(ratio);
+      setAspect(aspectRatio);
+      console.log("aspect ratio clicked", aspectRatio);
+      console.log("aspect on click", aspectRatio);
+
       let crop;
-      if (!ratio) {
+
+      if (!aspectRatio) {
         crop = centerAspectCrop(width, height, 1);
       } else {
-        crop = centerAspectCrop(width, height, ratio);
+        crop = centerAspectCrop(width, height, aspectRatio);
       }
-      setCrop(crop);
+      const newCrop = crop;
+      setCrop(newCrop);
+      setCompletedCrop(newCrop);
+      console.log(crop);
+    } else {
+      console.log("No image in memory");
     }
   }
 
@@ -371,7 +383,7 @@ export function Upload({
                     </div>
                   </div>
                 </div>
-                <div className="mt-5 w-full flex flex-row  justify-center space-x-4">
+                <div className="mt-5 w-full flex flex-row justify-center space-x-4">
                   <Button
                     variant="outlined"
                     onClick={() => setOpen(false)}

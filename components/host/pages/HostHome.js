@@ -38,12 +38,22 @@ export default function WZHome({ event, pageTitle }) {
     });
   };
 
-  const onDeleteCoverMedia = () => {
-    setCoverMedia(null);
-    eventService.updateEventData({
-      eventId: event.id,
-      coverMedia: null,
+  const onDeleteCoverMedia = async () => {
+    const cm = coverMedia;
+    setShowSpinner(true);
+
+    const response = await fetch("/api/upload?id=" + cm.public_id, {
+      method: "DELETE",
     });
+    console.log(response);
+    if (response.ok) {
+      eventService.updateEventData({
+        eventId: event.id,
+        coverMedia: null,
+      });
+      setCoverMedia(null);
+    }
+    setShowSpinner(false);
   };
 
   return (
@@ -96,7 +106,7 @@ export default function WZHome({ event, pageTitle }) {
                   className="text-gray-400"
                 />
                 <span className="mt-2 mx-6 block text-xs font-medium text-gray-500">
-                  Add your cover video (50mb max) or photo(10mb max).
+                  Add your cover video <small>(50mb max)</small> or photo.
                 </span>
               </div>
             </button>
@@ -149,7 +159,7 @@ export default function WZHome({ event, pageTitle }) {
                 </Button>
               </div>
               <div
-                className={`hidden md:opacity-0 md:flex hover:opacity-100 duration-300 md:absolute z-10 justify-center items-center text-white font-semibold md:bg-black md:bg-opacity-60 space-x-6 w-full ${
+                className={`hidden md:opacity-0 md:flex hover:opacity-100 duration-300 md:absolute inset-0 z-10 justify-center items-center text-white font-semibold md:bg-black md:bg-opacity-60 space-x-6 w-full ${
                   coverMedia.resource_type === "video" ? "mb-20 p-6 " : ""
                 }`}
               >

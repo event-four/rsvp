@@ -2,6 +2,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   GoogleAuthProvider,
 } from "firebase/auth";
 import { urls } from "/helpers";
@@ -19,6 +20,19 @@ const signUp = async ({ email, password }) => {
       const user = userCredential.user;
       const token = userCredential.user.accessToken;
       return { user: user, token: token };
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+const sendPasswordReset = async ({ email }) => {
+  console.log(auth);
+  console.log(email);
+
+  return sendPasswordResetEmail(auth, email)
+    .then(() => {
+      return true;
     })
     .catch((error) => {
       throw error;
@@ -83,4 +97,4 @@ async function setupEventOnServer({ jwt, eventMeta }) {
   return result.data;
 }
 
-export { signUp, setupAccountOnServer, setupEventOnServer };
+export { signUp, setupAccountOnServer, setupEventOnServer, sendPasswordReset };

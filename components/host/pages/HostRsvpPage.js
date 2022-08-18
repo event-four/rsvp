@@ -28,7 +28,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { useSnackbar } from "/components/SnackBar";
-import WZGuestsPage from "./WZGuests";
+import WZGuestsPage from "./HostGuests";
 import dayjs from "dayjs";
 
 const randomQuestions = [

@@ -18,15 +18,15 @@ import useSWR from "swr";
 import { useTheme } from "@mui/material/styles";
 import { getCookie } from "cookies-next";
 
-import Layout from "/components/wz/Layout";
-import BoxWrap from "/components/wz/BoxWrap";
-import WZHome from "/components/wz/pages/WZHome";
-import WZRsvpPage from "/components/wz/pages/WZRsvpPage";
-import WZRegistry from "/components/wz/pages/WZRegistry";
-import WZOurStory from "/components/wz/pages/WZOurStory";
-import MainToolbar from "../../components/wz/MainToolbar";
-import PagesMenu from "../../components/wz/PagesMenu";
-import Section from "../../components/wz/Section";
+import Layout from "/components/host/Layout";
+import BoxWrap from "/components/host/BoxWrap";
+import WZHome from "/components/host/pages/HostHome";
+import WZRsvpPage from "/components/host/pages/HostRsvpPage";
+import WZRegistry from "/components/host/pages/HostRegistry";
+import WZOurStory from "/components/host/pages/HostOurStory";
+import MainToolbar from "../../components/host/MainToolbar";
+import PagesMenu from "../../components/host/PagesMenu";
+import Section from "../../components/host/Section";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 
@@ -43,11 +43,11 @@ const pageList = [
 ];
 
 const urls = {
-  home: `/wz/dashboard`,
-  rsvp: `/wz/dashboard/rsvp`,
-  registry: `/wz/dashboard/registry`,
-  logistics: `/wz/dashboard/flights-hotels`,
-  story: `/wz/dashboard/our-story`,
+  home: `/host/dashboard`,
+  rsvp: `/host/dashboard/rsvp`,
+  registry: `/host/dashboard/registry`,
+  logistics: `/host/dashboard/flights-hotels`,
+  story: `/host/dashboard/our-story`,
 };
 
 export default function DZDashboard({ events, baseUrl }) {
@@ -76,7 +76,7 @@ export default function DZDashboard({ events, baseUrl }) {
   }, [router.isReady]);
 
   const onChangePage = (tab) => {
-    router.push("/wz/dashboard", "/wz/dashboard?page=" + tab.href, {
+    router.push("/host/dashboard", "/host/dashboard?page=" + tab.href, {
       shallow: true,
     });
     setCurrentPage(tab);
@@ -91,7 +91,7 @@ export default function DZDashboard({ events, baseUrl }) {
             <div className="flex flex-col md:flex-row h-screenx">
               <div className="hiddenx md:flex py-6 md:w-60 h-full sticky top-16 bg-white">
                 <PagesMenu
-                  baseUrl="/wz/dashboard"
+                  baseUrl="/host/dashboard"
                   currentPage={currentPage}
                   pages={pages}
                   onChangePage={onChangePage}

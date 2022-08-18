@@ -6,7 +6,7 @@ export default function CTA({ children, type }) {
     cta = (
       <>
         Planning an event? &nbsp;
-        <Link href="/wz/start" className="underline text-pink-600">
+        <Link href="/host/start" className="underline text-pink-600">
           Create your own event website for free!
         </Link>
       </>

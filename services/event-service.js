@@ -3,7 +3,13 @@ import { _post, _get } from "./index";
 import useSWR from "swr";
 import { swrResponse, userService } from "/services";
 import { setToStorage, getFromStorage, constants } from "/helpers";
-
+import {
+  getCookie,
+  getCookies,
+  setCookie,
+  hasCookie,
+  deleteCookie,
+} from "cookies-next";
 export const eventService = {
   verifyEventSlug,
   updateEventSlug,
@@ -12,6 +18,7 @@ export const eventService = {
   getEventInfo,
   getLocalStorageEvent,
   setLocalStorageEvent,
+  setLaunchedDashboard,
 };
 
 export {
@@ -33,6 +40,14 @@ function getLocalStorageEvent() {
   return data ? JSON.parse(data) : null;
 }
 
+function setLaunchedDashboard(email) {
+  const key = constants.LAUNCHED_DSH;
+  setCookie(key, email, {
+    path: "/",
+    sameSite: true,
+    // httpOnly: true,
+  });
+}
 async function verifyEventSlug({ slug, eventId }) {
   const endpoint = urls.verifyEventSlug;
   const payload = { slug: slug.trim(), eventId: eventId };
