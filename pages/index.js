@@ -12,10 +12,10 @@ export default function Home() {
   const EVI = ({ icon, text, caption }) => {
     return (
       <div className="flex flex-col justify-center items-center text-center space-y-3 py-12">
-        <div className="bg-pink-600 rounded-full w-24 h-24">
+        <div className="bg-default rounded-full w-24 h-24">
           <img src={icon} width="130" />
         </div>
-        <p className="text-pink-600 font-bold text-2xl ">{caption}</p>
+        <p className="text-default font-bold text-2xl ">{caption}</p>
         <p className="px-0 md:px-24x">{text}</p>
       </div>
     );
@@ -30,7 +30,7 @@ export default function Home() {
   const Country = ({ flag, name }) => {
     return (
       <div className="flex flex-col justify-center text-center items-center">
-        <img width="40" height="40" src={flag} />
+        {/* <img width="40" height="40" src={flag} /> */}
         <p className="font-bold mt-1">{name}</p>
       </div>
     );
@@ -93,13 +93,15 @@ export default function Home() {
           </div>
 
           <div className="flex items-center flex-col mt-12">
-            <p className="uppercase mb-4 text-xs">Coming Soon in</p>
-            <div className="flex flex-row space-x-4">
+            <p className="uppercase mb-1x text-xs">
+              Join EventFour in Nigeria and Dubai today.
+            </p>
+            {/* <div className="flex flex-row space-x-4">
               <Country flag="/nig.png" name="Nigeria" />
               <Country flag="/uae.png" name="UAE" />
-            </div>
+            </div> */}
           </div>
-          <div className="mt-8 flex justify-center items-center">
+          <div className="mt-8x flex justify-center items-center">
             <a
               href="https://join.eventfour.com"
               className="mt-8 w-full md:w-64 align-center bg-pink-600 hover:bg-pink-700 px-16 py-4 rounded-lg text-center text-white hover:text-pink-100"

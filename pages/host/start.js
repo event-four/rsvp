@@ -117,6 +117,6 @@ export const getServerSideProps = async ({ req, res }) => {
   console.log("hasDashboard", hasDashboard);
 
   return {
-    props: { hasDashboard, hasUser },
+    props: { hasDashboard: hasDashboard ?? false, hasUser: hasUser ?? false },
   };
 };
