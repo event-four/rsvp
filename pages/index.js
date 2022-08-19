@@ -62,7 +62,7 @@ export default function Home() {
             Embrace a simpler way to plan and attend events with EventFour
             (4-in-1) connective platform.
           </p>
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-4 justify-start space-y-12x mt-12 md:mx-20 items-start">
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-4 justify-start space-y-12x mt-12 md:mx-20 items-start">
             <EVI
               caption="Hosts"
               text="Connect your planner, guests and
