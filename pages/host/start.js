@@ -72,7 +72,7 @@ const StartPageForm = () => {
   const submitRegistration = (data) => {
     console.log(data);
     eventService.setLaunchedDashboard(data.email);
-    // router.push("/host/dashboard");
+    router.push("/host/dashboard");
   };
 
   return (

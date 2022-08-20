@@ -94,7 +94,7 @@ export default function Home() {
 
           <div className="flex items-center flex-col mt-12">
             <p className="uppercase mb-1x text-xs">
-              Join EventFour in Nigeria and Dubai today.
+              Join EventFour in <b>Nigeria</b> and <b>Dubai</b> today.
             </p>
             {/* <div className="flex flex-row space-x-4">
               <Country flag="/nig.png" name="Nigeria" />

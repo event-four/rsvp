@@ -183,22 +183,10 @@ export default function DZDashboard({ events, baseUrl }) {
 }
 
 export const getServerSideProps = async ({ req, res }) => {
-  // const fetcher = async (url, headers) => await fetch(url, {'method': 'GET', headers}).then(res => res.json())
-
-  // const product_url = 'http://127.0.0.1:8000/api/product/'
-  // const headers = {
-  //         'Content-type': 'application/json',
-  //         'Authorization': `Token 9824eda0dd38b631b4aedf192899651cba91be53`
-  //       }
-  // const { data, error } = useSWR([product_url, headers], fetcher)
-  // console.log(data.results[1].name)
-  // const c = getCookie('E4_UIF', { req, res });
   let user = getCookie("E4_UIF", { req, res });
 
-  // console.log("user", user);
   user = JSON.parse(user);
-  // console.log("user", user.profile);
-  // return;
+
   const url =
     Urls.event + "?owner=" + user.profile.id + "&publicationState=preview";
 
@@ -209,7 +197,6 @@ export const getServerSideProps = async ({ req, res }) => {
   };
 
   const response = await fetch(url, headers);
-  // console.log(response.ok);
   if (!response.ok) {
     return { props: {} };
   }
