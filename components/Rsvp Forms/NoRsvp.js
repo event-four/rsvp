@@ -36,13 +36,10 @@ export default function NoRsvp({ event, formStep }) {
           <div className="space-y-6 flex flex-col flex-grow text-primary-dark mb-10">
             <h1 className="text-lg font-bold">Thank you!</h1>
             <p className="text-sm">
-              We have received your confirmation and we understand that you
-              won't be able to share & celebrate this special day with us!
+              We hoped you could share this special day with us, and know it is
+              the same for you. Thanks for the wishes and see you soon.
             </p>
-            <p className="text-sm">
-              If you ever change your mind or have any other question, please
-              reach out to us or come back to this page.
-            </p>
+
             <div className="flex flex-col">
               <span className="text-sm">Thank you,</span>
               <span className="text-lg md:text-3xl font-rochester mt-2">

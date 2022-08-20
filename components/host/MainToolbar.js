@@ -70,7 +70,7 @@ export default function MainToolbar({ event, baseUrl }) {
                     {url}
                   </a>
                 </div>
-                <KeyboardArrowDownIcon />
+                {/* <KeyboardArrowDownIcon /> */}
               </div>
             </div>
 
@@ -142,7 +142,7 @@ export default function MainToolbar({ event, baseUrl }) {
               </Button>
             </div> */}
           </div>
-          <div className="hidden md:flex items-center px-4 flex-row space-x-4 w-auto">
+          {/* <div className="hidden md:flex items-center px-4 flex-row space-x-4 w-auto">
             <IconButton color="primary">
               <PersonalVideoIcon />
             </IconButton>
@@ -155,7 +155,7 @@ export default function MainToolbar({ event, baseUrl }) {
             <IconButton>
               <StayCurrentLandscapeIcon />
             </IconButton>
-          </div>
+          </div> */}
           <div className="hidden md:flex flex-row space-x-4 items-center px-6 w-1/4">
             <Button
               variant="contained"

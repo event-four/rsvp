@@ -100,11 +100,13 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
                       {q.description}
                     </span>
                   </span>
-                  <ToggleSwitch
-                    id={`${q.id}`}
-                    checked={values[questions.indexOf(q)].value}
-                    onChange={handleInputChange}
-                  />
+                  <div className="w-1">
+                    <ToggleSwitch
+                      id={`${q.id}`}
+                      checked={values[questions.indexOf(q)].value}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
               );
             })}
