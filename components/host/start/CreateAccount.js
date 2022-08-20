@@ -21,7 +21,7 @@ const schema = yup.object().shape({
 });
 
 export default function CreateAccount({ goToStep, isVisible, submitForm }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { setFormValues, formValues } = useFormData();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
@@ -97,13 +97,19 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
         email: formValues.email,
         password: formValues.password,
       })
-        .then((response) => {})
+        .then(async (response) => {
+          // console.log("signed in", response);
+          // console.log(session.user);
+          // console.log(status);
+          if (response.ok) {
+            await userService.setUser(session.user);
+          }
+        })
         .catch((error) => {
           throw error;
         });
 
       goToStep();
-      // submitForm(data);
     } catch (err) {
       setIsLoading(false);
       const errors = {};

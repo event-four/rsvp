@@ -53,6 +53,11 @@ const urls = {
 export default function DZDashboard({ events, baseUrl }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  if (status === "unauthenticated") {
+    router.push("/auth/login");
+  }
+
   const [open, setOpen] = useState(false);
 
   const [pages, setTabs] = useState(pageList);
