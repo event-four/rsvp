@@ -49,7 +49,10 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
       });
 
       // Validation passed - do something with formData
-      setFormValues(formData);
+      const fd = formData;
+      setFormValues(fd);
+      // console.log("formData", formData);
+      // console.log("formValues", formValues);
 
       //start sign up
       let token;
@@ -64,10 +67,12 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
         setFbUser(res.user);
       }
 
+      // console.log(fbToken);
+
       const user = await setupAccountOnServer({
         token: fbToken ?? token,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
       });
 
       userService.setUser(user);
@@ -90,18 +95,18 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
       eventService.setLocalStorageEvent(event);
 
       setFormValues({ url: event.slug });
-
+      // console.log(formData.email);
       //sign in user
       await signIn("credentials", {
         redirect: false,
-        email: formValues.email,
-        password: formValues.password,
+        email: formData.email,
+        password: formData.password,
       })
         .then(async (response) => {
           // console.log("signed in", response);
-          // console.log(session.user);
-          // console.log(status);
-          if (response.ok) {
+
+          if (response.ok && session) {
+            // console.log(session.user);
             await userService.setUser(session.user);
           }
         })

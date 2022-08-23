@@ -246,11 +246,13 @@ export default function WZRsvpPage({ event, pageTitle }) {
             </ul>
           )}
 
-          {getSuggestedQ().length > 0 && (
+          {suggestedQuestions.length > 0 && (
             <>
-              <div className="pt-6 pb-2x text-gray-700">
-                We've suggested some follow-up questions for you.
-              </div>
+              {getSuggestedQ().length > 0 && (
+                <div className="pt-6 pb-2x text-gray-700">
+                  We've suggested some follow-up questions for you.
+                </div>
+              )}
               <ul className="flex flex-col space-y-2 w-full">
                 {getSuggestedQ().map((q, index) => (
                   <li

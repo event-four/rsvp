@@ -10,9 +10,9 @@ import { urls } from "/helpers";
 const auth = getAuth();
 
 const signUp = async ({ email, password }) => {
-  console.log(auth);
-  console.log(email);
-  console.log(password);
+  // console.log(auth);
+  // console.log(email);
+  // console.log(password);
 
   return createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
@@ -27,8 +27,8 @@ const signUp = async ({ email, password }) => {
 };
 
 const sendPasswordReset = async ({ email }) => {
-  console.log(auth);
-  console.log(email);
+  // console.log(auth);
+  // console.log(email);
 
   return sendPasswordResetEmail(auth, email)
     .then(() => {
@@ -56,7 +56,7 @@ async function setupAccountOnServer(data) {
 
 async function createUserAccountOnAPI(data) {
   const payload = data;
-  console.log(payload);
+  // console.log(payload);
   const res = await fetch(urls.login, {
     method: "POST",
     headers: {
@@ -77,7 +77,7 @@ async function createUserAccountOnAPI(data) {
 
 async function setupEventOnServer({ jwt, eventMeta }) {
   const payload = eventMeta;
-  console.log(payload);
+  // console.log(payload);
   const res = await fetch(urls.event, {
     method: "POST",
     headers: {
