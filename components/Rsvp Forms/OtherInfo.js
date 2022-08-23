@@ -90,7 +90,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
               return (
                 <div
                   key={`${q.id}-wrapper`}
-                  className="flex items-center justify-between space-x-4"
+                  className="flex items-center justify-between space-x-2"
                 >
                   <span className="flex-grow flex flex-col">
                     <span className="text-sm font-medium text-gray-900">
@@ -100,7 +100,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
                       {q.description}
                     </span>
                   </span>
-                  <div className="w-1">
+                  <div className="min-w-[70px] flex justify-start items-end">
                     <ToggleSwitch
                       id={`${q.id}`}
                       checked={values[questions.indexOf(q)].value}

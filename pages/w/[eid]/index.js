@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useAppStates } from "/components/providers/AppContext";
 import Link from "next/link";
 import InnerLayout from "../../../components/guests/InnerLayout";
-
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 const EventPage = () => {
   const { setRsvpUrls, setRsvpEid } = useAppStates();
 
@@ -86,9 +86,11 @@ const EventPageBody = () => {
         <p className="text-center font-rochester text-4xl md:text-5xl mb-4">
           {ev.title}
         </p>
+        <p className="mb-1">{date}</p>
         <p className="mb-1">
-          {date} • {ev.city}
+          <LocationOnIcon /> {ev.city}
         </p>
+
         <p>{countdown}</p>
       </div>
       <div className="container hidden md:flex flex-col md:flex-row md:w-7/12 items-center  my-5 mx-auto justify-center">
