@@ -111,11 +111,11 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
                       </span>
                     </span>
                     <div className="min-w-[100px] flex justify-end items-start">
-                      <ToggleSwitch
+                      {/* <ToggleSwitch
                         id={`${q.id}`}
                         checked={values[questions.indexOf(q)].value}
                         onChange={handleInputChange}
-                      />
+                      /> */}
                     </div>
                   </div>
                 );
