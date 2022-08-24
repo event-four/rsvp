@@ -94,7 +94,8 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
                 </p>
               </div>
             )}
-            {questions.length > 0 &&
+            {values &&
+              questions.length > 0 &&
               questions.map((q) => {
                 return (
                   <div
