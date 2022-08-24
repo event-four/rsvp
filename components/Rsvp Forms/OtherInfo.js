@@ -16,23 +16,21 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
   useEffect(() => {
     async function buildValues(data) {
       const answers = data.answers || [];
-      // console.log(answers);
-      // return;
       let v = [];
 
       questions.map((q) => {
         const ans = answers.find((a) => a.id == q.id);
         const qan = ans ? ans.value : true;
-        console.log(qan);
         v.push({ id: q.id, value: qan });
       });
 
       setValues([...v]);
     }
+
     buildValues(data);
   }, []);
 
-  if (!values || values.length == 0) return <div />;
+  // if (!values || values.length == 0) return <div />;
 
   async function handleSubmit(fdata) {
     try {
@@ -95,6 +93,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
               </div>
             )}
             {values &&
+              values.length > 0 &&
               questions.length > 0 &&
               questions.map((q) => {
                 return (
