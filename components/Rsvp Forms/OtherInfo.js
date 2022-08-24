@@ -100,7 +100,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
                       {q.description}
                     </span>
                   </span>
-                  <div className="min-w-[70px] flex justify-start items-end">
+                  <div className="min-w-[100px] flex justify-end items-start">
                     <ToggleSwitch
                       id={`${q.id}`}
                       checked={values[questions.indexOf(q)].value}
@@ -112,7 +112,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
             })}
           </div>
 
-          <div className="flex flex-col justify-between items-center">
+          <div className="flex flex-col justify-between items-center mt-2">
             <button
               className=" my-2  transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
               type="submit"
