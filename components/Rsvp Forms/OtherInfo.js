@@ -32,7 +32,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
     buildValues(data);
   }, []);
 
-  // if (!values || values.length == 0) return <div />;
+  if (!values || values.length == 0) return <div />;
 
   async function handleSubmit(fdata) {
     try {
@@ -111,11 +111,11 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
                       </span>
                     </span>
                     <div className="min-w-[100px] flex justify-end items-start">
-                      {/* <ToggleSwitch
+                      <ToggleSwitch
                         id={`${q.id}`}
                         checked={values[questions.indexOf(q)].value}
                         onChange={handleInputChange}
-                      /> */}
+                      />
                     </div>
                   </div>
                 );
