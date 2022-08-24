@@ -114,7 +114,7 @@ const EventPageBody = () => {
             className={`${
               ev.coverMedia.public_id.length === 0
                 ? "hidden"
-                : "block h-auto w-auto max-h-96 mx-auto"
+                : "block h-auto w-auto max-h-96 mx-auto rounded-xl"
             }`}
             src={`${ev.coverMedia.secure_url}`}
           ></img>
