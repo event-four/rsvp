@@ -58,7 +58,7 @@ export default function Confirmation({ event, formStep }) {
               Check out our
             </p>
             <div className="md:flex-row">
-              <Link href={`${rsvpUrls.registry}`}>
+              <Link href={`/w/${event.slug}/registry`}>
                 <a className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full inline-flex">
                   <GiftIcon
                     className="mr-2 h-4 w-4 text-white"
