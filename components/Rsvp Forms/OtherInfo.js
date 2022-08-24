@@ -16,7 +16,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
   useEffect(() => {
     async function buildValues(data) {
       const answers = data.answers || [];
-      console.log(answers);
+      // console.log(answers);
       // return;
       let v = [];
 
@@ -26,12 +26,13 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
         console.log(qan);
         v.push({ id: q.id, value: qan });
       });
+
       setValues([...v]);
     }
     buildValues(data);
   }, []);
 
-  if (!values || values.length == 0) return <div />;
+  // if (!values || values.length == 0) return <div />;
 
   async function handleSubmit(fdata) {
     try {
@@ -86,32 +87,39 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
               We can't wait to have you with us, we just need a few more details
               from you.
             </p>
-            {questions.map((q) => {
-              return (
-                <div
-                  key={`${q.id}-wrapper`}
-                  className="flex items-center justify-between space-x-2"
-                >
-                  <span className="flex-grow flex flex-col">
-                    <span className="text-sm font-medium text-gray-900">
-                      {q.question}
+            {questions.length < 1 && (
+              <div className="mt-4">
+                <p className="text-sm text-primary-dark">
+                  We'll update this page soon!
+                </p>
+              </div>
+            )}
+            {questions.length > 0 &&
+              questions.map((q) => {
+                return (
+                  <div
+                    key={`${q.id}-wrapper`}
+                    className="flex items-center justify-between space-x-2"
+                  >
+                    <span className="flex-grow flex flex-col">
+                      <span className="text-sm font-medium text-gray-900">
+                        {q.question}
+                      </span>
+                      <span className="text-xs text-primary-dark pt-1">
+                        {q.description}
+                      </span>
                     </span>
-                    <span className="text-xs text-primary-dark pt-1">
-                      {q.description}
-                    </span>
-                  </span>
-                  <div className="min-w-[100px] flex justify-end items-start">
-                    <ToggleSwitch
-                      id={`${q.id}`}
-                      checked={values[questions.indexOf(q)].value}
-                      onChange={handleInputChange}
-                    />
+                    <div className="min-w-[100px] flex justify-end items-start">
+                      <ToggleSwitch
+                        id={`${q.id}`}
+                        checked={values[questions.indexOf(q)].value}
+                        onChange={handleInputChange}
+                      />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
-
           <div className="flex flex-col justify-between items-center mt-2">
             <button
               className=" my-2  transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
