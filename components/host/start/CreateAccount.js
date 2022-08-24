@@ -105,7 +105,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
         .then(async (response) => {
           // console.log("signed in", response);
 
-          if (response.ok && session) {
+          if (response.ok && session && session.user) {
             // console.log(session.user);
             await userService.setUser(session.user);
           }
