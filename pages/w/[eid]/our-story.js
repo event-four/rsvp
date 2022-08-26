@@ -96,7 +96,10 @@ const OurStoryPageBody = ({ event }) => {
               )}
             </div>
 
-            <div dangerouslySetInnerHTML={{ __html: story.story ?? "" }}></div>
+            <div
+              className="w-full sm:w-6/12 sm:mx-auto text-start"
+              dangerouslySetInnerHTML={{ __html: story.story ?? "" }}
+            ></div>
           </div>
         )}
 
