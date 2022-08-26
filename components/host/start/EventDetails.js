@@ -42,6 +42,7 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
 
   async function handleSubmit(data) {
     data.startDate = startDate;
+    data.city = city;
 
     try {
       formRef.current.setErrors({});
@@ -101,7 +102,7 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
   // }
 
   const handleChange = (newValue) => {
-    setStartDate(new Date(newValue));
+    setStartDate(new Date(newValue).setHours(0, 0, 0, 0));
     // console.log(new Date(newValue));
   };
 
