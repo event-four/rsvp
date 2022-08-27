@@ -88,7 +88,8 @@ const RsvpPageBody = ({ event }) => {
     <div className="flex flex-col flex-grow">
       <div className="text-center text-primary-dark pt-4 mb-10">
         <p className="text-center page-title font-pacifico text-2xl md:text-5xl mb-4 text-shadow-md">
-          RSVP
+          {!isToday(event.startDate) && <span>RSVP</span>}
+          {isToday(event.startDate) && <span>Drop a Wish</span>}
         </p>
         <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
           {title}
