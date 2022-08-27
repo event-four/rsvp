@@ -16,26 +16,40 @@ import { userService } from "/services";
 import { AppProps } from "next/app";
 
 // import { Typography } from "@material-ui/core";
-const firebaseConfig =
-  process.env.NODE_ENV === "development"
-    ? {
-        apiKey: "AIzaSyCQDP7RmKv7QVN926tXevm3J2LPCkxBAh0",
-        authDomain: "eventfour-1ea7e.firebaseapp.com",
-        projectId: "eventfour-1ea7e",
-        storageBucket: "eventfour-1ea7e.appspot.com",
-        messagingSenderId: "6881914388",
-        appId: "1:6881914388:web:50a1cd43d1d8adfc9fc101",
-        measurementId: "G-3HCEFX3NQG",
-      }
-    : {
-        apiKey: "AIzaSyCxLWVA1DxY23IOG4ljhAJ6VMqYWH3OIPs",
-        authDomain: "eventfour-prod.firebaseapp.com",
-        projectId: "eventfour-prod",
-        storageBucket: "eventfour-prod.appspot.com",
-        messagingSenderId: "961417591581",
-        appId: "1:961417591581:web:3d97e3b1f0ce0cb2e17ff4",
-        measurementId: "G-H7X66BSRXW",
-      };
+let firebaseConfig;
+if (process.env.NODE_ENV === "development") {
+  firebaseConfig = {
+    apiKey: "AIzaSyCxLWVA1DxY23IOG4ljhAJ6VMqYWH3OIPs",
+    authDomain: "eventfour-prod.firebaseapp.com",
+    projectId: "eventfour-prod",
+    storageBucket: "eventfour-prod.appspot.com",
+    messagingSenderId: "961417591581",
+    appId: "1:961417591581:web:3d97e3b1f0ce0cb2e17ff4",
+    measurementId: "G-H7X66BSRXW",
+  };
+} else if (process.env.NODE_ENV === "staging") {
+  firebaseConfig = {
+    apiKey: "AIzaSyA5Q_2CrZOKqdyxSU2ZH9ch5Pw8jgW4EEE",
+    authDomain: "eventfour-stg.firebaseapp.com",
+    projectId: "eventfour-stg",
+    storageBucket: "eventfour-stg.appspot.com",
+    messagingSenderId: "540929213655",
+    appId: "1:540929213655:web:4ef19496c9eacdedf05c92",
+    measurementId: "G-HVKWG07Q48",
+  };
+} else {
+  firebaseConfig = {
+    apiKey: "AIzaSyCQDP7RmKv7QVN926tXevm3J2LPCkxBAh0",
+    authDomain: "eventfour-1ea7e.firebaseapp.com",
+    projectId: "eventfour-1ea7e",
+    storageBucket: "eventfour-1ea7e.appspot.com",
+    messagingSenderId: "6881914388",
+    appId: "1:6881914388:web:50a1cd43d1d8adfc9fc101",
+    measurementId: "G-3HCEFX3NQG",
+  };
+}
+
+console.log(process.env.PAYSTACK_KEY);
 
 const firebaseApp = initializeApp(firebaseConfig);
 const theme = createTheme({
