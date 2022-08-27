@@ -69,7 +69,7 @@ const EventPageBody = () => {
   //  All is loaded!
   const ev = event.data;
   let date, countdown;
-
+  //
   utils.setToStorage("event", JSON.stringify(ev));
 
   date = ev.startDate
