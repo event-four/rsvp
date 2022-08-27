@@ -83,13 +83,13 @@ const OurStoryPageBody = ({ event }) => {
 
         {story && (
           <div>
-            <div className="hiddenx md:block mx-auto my-9">
+            <div className="hiddenx md:block mx-auto my-9 ">
               {story.photo && story.photo.resource_type === "image" && (
                 <img
                   className={`${
                     story.photo.public_id.length === 0
                       ? "hidden"
-                      : "block h-full w-auto mx-auto rounded-xl"
+                      : "block h-full max-h-60 md:max-h-80 w-auto mx-auto rounded-xl"
                   }`}
                   src={`${story.photo.secure_url}`}
                 />
@@ -97,7 +97,7 @@ const OurStoryPageBody = ({ event }) => {
             </div>
 
             <div
-              className="w-full sm:w-6/12 sm:mx-auto text-start"
+              className="w-full sm:w-6/12 sm:mx-auto text-center"
               dangerouslySetInnerHTML={{ __html: story.story ?? "" }}
             ></div>
           </div>

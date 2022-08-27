@@ -7,6 +7,7 @@ import Link from "next/link";
 import { GiftIcon } from "@heroicons/react/solid";
 
 const schema = yup.object().shape({}, []);
+const dayjs = require("dayjs");
 
 export default function Confirmation({ event, formStep }) {
   const { rsvpUrls } = useAppStates();
@@ -27,30 +28,44 @@ export default function Confirmation({ event, formStep }) {
     //     console.log(error);
     //   });
   });
-  //
+
+  const isToday = (someDate) => {
+    if (!someDate) return false;
+    return dayjs().isSame(someDate, "day");
+  };
+
   return (
     <>
       <div className={formStep == 4 ? "block h-full" : "block h-full "}>
         <div
-          className=" text-center flex flex-col justify-between h-full  md:w-4/12 md:mx-auto "
+          className=" text-center flex flex-col justify-between h-full  md:w-4/12 md:mx-auto items-center"
           autoComplete="off"
         >
-          <div className="space-y-6 flex flex-col flex-grow text-primary-dark mb-4">
+          <div className="space-y-6 flex flex-col flex-growx text-primary-dark mb-4">
             <h1 className="text-lg font-bold">Thank you, {data.name}!</h1>
-            <p className="text-sm">
-              We have received your confirmation and can't wait to share &
-              celebrate this special day with you!
+
+            {!isToday(event.startDate) && (
+              <div className="space-y-6">
+                <p className="text-sm">
+                  We have received your confirmation and can't wait to share &
+                  celebrate this special day with you!
+                </p>
+                <div className="flex flex-col">
+                  <span className="text-sm">See you very soon,</span>
+                </div>
+              </div>
+            )}
+
+            {isToday(event.startDate) && (
+              <div className="space-y-6">
+                <p className="text-sm">
+                  Thanks for the wishes! You will always be celebrated 💗💗
+                </p>
+              </div>
+            )}
+            <p className="text-primary-dark text-lg md:text-3xl font-rochester mt-2 mb-4">
+              {event.title}
             </p>
-            {/* <p className="text-sm">
-              If you ever change your mind or have any other question, please
-              reach out to us or come back to this page.
-            </p> */}
-            <div className="flex flex-col">
-              <span className="text-sm">See you very soon,</span>
-              <span className="text-lg md:text-3xl font-rochester mt-2">
-                {event.title}
-              </span>
-            </div>
           </div>
 
           <div className=" flex flex-col md:w-7/12 items-center mx-auto justify-end">

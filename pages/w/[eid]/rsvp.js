@@ -16,6 +16,7 @@ import useSWR from "swr";
 import InnerLayout from "../../../components/guests/InnerLayout";
 import { useGetRsvpGeneralQuestions } from "../../../swr/useRsvpRequests";
 import NoRsvp from "../../../components/Rsvp Forms/NoRsvp";
+const dayjs = require("dayjs");
 
 const Rsvp = () => {
   const [ev, setEv] = useState(null);
@@ -74,6 +75,11 @@ const RsvpPageBody = ({ event }) => {
     goToStep(4);
   };
 
+  const isToday = (someDate) => {
+    if (!someDate) return false;
+    return dayjs().isSame(someDate, "day");
+  };
+
   const rsvp = data.data;
 
   const title = event.title;
@@ -97,9 +103,10 @@ const RsvpPageBody = ({ event }) => {
                 event={event}
                 formStep={formStep}
                 noRsvp={noRsvp}
-                step={() => goToStep(2)}
+                step={() => goToStep(!isToday(event.startDate) ? 2 : 3)}
               />
             )}
+
             {formStep >= 2 && (
               <OtherInfo
                 rsvp={rsvp}
