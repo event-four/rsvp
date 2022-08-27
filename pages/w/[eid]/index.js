@@ -8,6 +8,8 @@ import { useAppStates } from "/components/providers/AppContext";
 import Link from "next/link";
 import InnerLayout from "../../../components/guests/InnerLayout";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+// const dayjs = require("dayjs");
+
 const EventPage = () => {
   const { setRsvpUrls, setRsvpEid } = useAppStates();
 
@@ -80,6 +82,11 @@ const EventPageBody = () => {
     ? ` ${daysDiff} ${daysDiff > 1 ? "days" : "day"} to go!`
     : "";
 
+  const isToday = (someDate) => {
+    if (!someDate) return false;
+    return dayjs().isSame(someDate, "day");
+  };
+
   return (
     <div className=" w-full flex flex-col flex-grow justify-between p-6x">
       <div className="text-center text-primary-dark pt-20 md:pt-0">
@@ -97,9 +104,16 @@ const EventPageBody = () => {
         <Link href={`${rsvpUrls.story}`}>
           <a className="homeBtn">Our Story</a>
         </Link>
-        <Link href={`${rsvpUrls.rsvp}`}>
-          <a className="homeBtn">RSVP</a>
-        </Link>
+        {!isToday(ev.startDate) && (
+          <Link href={`${rsvpUrls.rsvp}`}>
+            <a className="homeBtn">RSVP</a>
+          </Link>
+        )}
+        {isToday(ev.startDate) && (
+          <Link href={`${rsvpUrls.rsvp}`}>
+            <a className="homeBtn">Drop a Wish</a>
+          </Link>
+        )}
 
         <Link href={`${rsvpUrls.registry}`}>
           <a className="homeBtn">Gift Registry</a>
@@ -142,10 +156,17 @@ const EventPageBody = () => {
         <Link href={`${rsvpUrls.story}`}>
           <a className="homeBtn">Our Story</a>
         </Link>
-        <Link href={`${rsvpUrls.rsvp}`}>
-          <a className="homeBtn">RSVP</a>
-        </Link>
 
+        {!isToday(ev.startDate) && (
+          <Link href={`${rsvpUrls.rsvp}`}>
+            <a className="homeBtn">RSVP</a>
+          </Link>
+        )}
+        {isToday(ev.startDate) && (
+          <Link href={`${rsvpUrls.rsvp}`}>
+            <a className="homeBtn">Drop a Wish</a>
+          </Link>
+        )}
         <Link href={`${rsvpUrls.registry}`}>
           <a className="homeBtn">Gift Registry</a>
         </Link>
