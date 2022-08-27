@@ -17,7 +17,7 @@ import { AppProps } from "next/app";
 
 // import { Typography } from "@material-ui/core";
 let firebaseConfig;
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "production") {
   firebaseConfig = {
     apiKey: "AIzaSyCxLWVA1DxY23IOG4ljhAJ6VMqYWH3OIPs",
     authDomain: "eventfour-prod.firebaseapp.com",
@@ -48,8 +48,6 @@ if (process.env.NODE_ENV === "development") {
     measurementId: "G-3HCEFX3NQG",
   };
 }
-
-console.log(process.env.PAYSTACK_KEY);
 
 const firebaseApp = initializeApp(firebaseConfig);
 const theme = createTheme({
