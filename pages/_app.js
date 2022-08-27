@@ -17,6 +17,7 @@ import { AppProps } from "next/app";
 
 // import { Typography } from "@material-ui/core";
 let firebaseConfig;
+console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
   firebaseConfig = {
     apiKey: "AIzaSyCxLWVA1DxY23IOG4ljhAJ6VMqYWH3OIPs",
