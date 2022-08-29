@@ -71,7 +71,7 @@ const DZForgotPasswordPage = ({ hasDashboard, hasUser }) => {
     <Layout>
       <div className="container mx-autox grid md:grid-cols-3x md:gap-4x h-screen">
         <div className="p-6 align-middle h-full md:mx-autox md:col-span-4x">
-          {!done && (
+          {done && (
             <div className="flex flex-col justify-center h-full md:mx-auto md:max-w-xs text-center">
               <p className="mb-10">
                 A password reset link has been sent to your email address.
@@ -81,7 +81,7 @@ const DZForgotPasswordPage = ({ hasDashboard, hasUser }) => {
               </Link>
             </div>
           )}
-          {done && (
+          {!done && (
             <Form
               ref={formRef}
               onSubmit={handleSubmit}
