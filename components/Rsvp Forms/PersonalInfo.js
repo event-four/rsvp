@@ -82,8 +82,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
         >
           <div className="flex flex-col space-y-8 md:space-y-6 my-auto">
             <p className="text-center mb-6 text-default">
-              {event.title}
-              <br></br> would love to know who's dropping this wish!
+              We would love to know whose wish it is!
             </p>
             <div className="relative">
               <TextInput
