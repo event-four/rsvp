@@ -11,7 +11,7 @@ export default function OtherInfo({ event, formStep, step, rsvp }) {
   const formRef = useRef();
   const [values, setValues] = useState([]);
 
-  const questions = rsvp.questions;
+  const questions = rsvp.questions ?? [];
 
   useEffect(() => {
     async function buildValues(data) {

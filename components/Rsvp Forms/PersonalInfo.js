@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { TextInput } from "../form";
 import { useFormData } from "/components/providers/FormProvider";
@@ -29,10 +29,10 @@ const schema = yup.object().shape(
 export default function PersonalInfo({ event, formStep, noRsvp, step }) {
   const { setFormValues, data } = useFormData();
   const { rsvpUrls } = useAppStates();
+  const [attending, setAttending] = useState(true);
 
   const router = useRouter();
   const formRef = useRef();
-  let attending = true;
 
   async function handleSubmit(data) {
     try {
@@ -41,6 +41,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
       await schema.validate(data, {
         abortEarly: false,
       });
+
       data.rsvp = attending;
       data.answers = [];
       // Validation passed - do something with data
@@ -48,9 +49,10 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
       setFormValues(data);
 
       if (!attending) {
-        return noRsvp();
+        return noRsvp(data);
+      } else {
+        step();
       }
-      step();
     } catch (err) {
       const errors = {};
       // Validation failed - do show error
@@ -65,6 +67,11 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
       console.log(err);
     }
   }
+
+  const isToday = (someDate) => {
+    if (!someDate) return false;
+    return dayjs().isSame(someDate, "day");
+  };
 
   return (
     <>
@@ -111,32 +118,35 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
           </div>
 
           {/* <div className="h-3"></div> */}
-          <div className=" justify-between items-centerx mt-4">
-            <p className="text-sm text-center text-pink-600 font-bold pb-4">
-              Ready to party with us?
-            </p>
+          {!isToday(event.startDate) && (
+            <div className=" justify-between items-centerx mt-4">
+              <p className="text-sm text-center text-pink-600 font-bold pb-4">
+                Ready to party with us?
+              </p>
 
-            <div className="flex flex-col-reverse md:flex-row md:space-x-4 justify-between ">
-              <button
-                type="submit"
-                className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded text-pink-600 border border-pink-600 px-6 py-3 text-sm w-full"
-                onClick={() => {
-                  attending = false;
-                }}
-              >
-                No, and I'll regret it
-              </button>
-              <button
-                className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
-                onClick={() => {
-                  attending = true;
-                }}
-                type="submit"
-              >
-                Yes, let's get you married
-              </button>
+              <div className="flex flex-col-reverse md:flex-row md:space-x-4 justify-between ">
+                <button
+                  type="submit"
+                  className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded text-pink-600 border border-pink-600 px-6 py-3 text-sm w-full"
+                  onClick={() => {
+                    setAttending(false);
+                    // noRsvp(false);
+                  }}
+                >
+                  No, and I'll regret it
+                </button>
+                <button
+                  className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
+                  onClick={() => {
+                    setAttending(true);
+                  }}
+                  type="submit"
+                >
+                  Yes, let's get you married
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </Form>
       </div>
     </>

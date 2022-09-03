@@ -73,6 +73,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
         token: fbToken ?? token,
         firstName: formValues.firstName,
         lastName: formValues.lastName,
+        source: "RSVP",
       });
 
       userService.setUser(user);
@@ -171,7 +172,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
         if (response.ok) {
           const user = session.user;
           await userService.setUser(user);
-          console.log("user", user);
+          // console.log("user", user);
           // if (user) {
           const event = await setupEventOnServer({
             jwt: user.jwt,

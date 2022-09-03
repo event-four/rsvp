@@ -9,6 +9,7 @@ import { TextInput, Button, OutlineButton } from "@/components/form";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
+
 const schema = yup.object().shape({
   email: yup.string().email().required("Email is required"),
   password: yup.string().required("Password is required"),
@@ -19,6 +20,7 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
   const snackbar = useSnackbar();
   const router = useRouter();
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
+  const { data: session, status } = useSession();
 
   async function handleSubmit(formData) {
     setIsLoadingLogin(true);
@@ -36,8 +38,11 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
         email: formData.email,
         password: formData.password,
       })
-        .then((response) => {
+        .then(async (response) => {
           if (response.ok) {
+            console.log(session);
+
+            await userService.setUser(session.user);
             router.push("/host/dashboard");
           } else {
             throw response.error;
@@ -51,6 +56,7 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
     } catch (err) {
       setIsLoadingLogin(false);
       const errors = {};
+      console.log(err);
       // Validation failed - do show error
       if (err instanceof yup.ValidationError) {
         console.log(err.inner);

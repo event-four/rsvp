@@ -24,6 +24,7 @@ import WZHome from "/components/host/pages/HostHome";
 import WZRsvpPage from "/components/host/pages/HostRsvpPage";
 import WZRegistry from "/components/host/pages/HostRegistry";
 import WZOurStory from "/components/host/pages/HostOurStory";
+import WZWishes from "/components/host/pages/HostWishes";
 import MainToolbar from "../../components/host/MainToolbar";
 import PagesMenu from "../../components/host/PagesMenu";
 import Section from "../../components/host/Section";
@@ -35,6 +36,7 @@ const pageList = [
   { name: "RSVP", href: "rsvp", current: false },
   { name: "Our Story", href: "our-story", current: false },
   { name: "Registry", href: "registry", current: false },
+  { name: "Wishes", href: "wishes", current: false },
   // {
   //   name: "Flights & Hotels",
   //   href: "flights-hotels",
@@ -53,19 +55,28 @@ const urls = {
 export default function DZDashboard({ events, baseUrl }) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  console.log(session);
-  if (status === "unauthenticated") {
-    router.push("/auth/login");
-  }
+  // console.log(session);
 
   const [open, setOpen] = useState(false);
 
   const [pages, setTabs] = useState(pageList);
   const [currentPage, setCurrentPage] = useState(pageList[0]);
 
-  const event = events[0];
+  const event = events ? events[0] : null;
 
   useEffect(() => {
+    if (status === "unauthenticated") {
+      if (router.isReady) {
+        router.push("/auth/login");
+      }
+    }
+
+    if (!events || events.length === 0) {
+      if (router.isReady) {
+        console.log(router);
+        router.push("/host");
+      }
+    }
     if (router.isReady) {
       let { page } = router.query ?? "home";
       // if (!query) return;
@@ -118,6 +129,9 @@ export default function DZDashboard({ events, baseUrl }) {
                 )}
                 {currentPage.href === "flights-hotels" && (
                   <p className="text-center">Coming soon</p>
+                )}
+                {currentPage.href === "wishes" && (
+                  <WZWishes event={event} pageTitle="Wishes" />
                 )}
               </div>
               <div className="hidden md:flex w-1/4 p-6 h-full sticky top-16 bg-white"></div>
@@ -190,6 +204,10 @@ export default function DZDashboard({ events, baseUrl }) {
 export const getServerSideProps = async ({ req, res }) => {
   let user = getCookie("E4_UIF", { req, res });
 
+  if (!user) {
+    console.log("E4_UIF not found");
+    return { props: {} };
+  }
   user = JSON.parse(user);
 
   const url =

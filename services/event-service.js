@@ -29,6 +29,8 @@ export {
   postRsvpResponse,
   useFetchGuests,
   useFetchEventStory,
+  useFetchEventWishes,
+  useFetchRsvpResponses,
 };
 
 function setLocalStorageEvent(event) {
@@ -112,6 +114,24 @@ const useFetchEventStory = (slug) => {
   return swrResponse(useSWR(url, fetcher));
 };
 
+const useFetchEventWishes = (slug, page) => {
+  const url =
+    urls.eventWishesBySlug +
+    "/" +
+    slug +
+    `?pagination[page]=${page}&pagination[pageSize]=1`;
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+
+  return swrResponse(useSWR(url, fetcher));
+};
+
+const useFetchRsvpResponses = (eid) => {
+  const url = urls.getRsvpResponses + "/" + eid;
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+
+  return swrResponse(useSWR(url, fetcher));
+};
+
 const postRsvpQuestions = (payload) => {
   const url = urls.rsvpQuestions + "/" + payload.id;
   console.log(url);
@@ -122,7 +142,7 @@ const postRsvpQuestions = (payload) => {
 };
 
 const postRsvpResponse = (payload) => {
-  console.log(payload.answers);
+  // console.log(payload.answers);
   let answers = Object.values(payload.answers).flat();
   let ans = {};
   answers.forEach((a) => {

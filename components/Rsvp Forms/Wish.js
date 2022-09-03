@@ -24,6 +24,7 @@ export default function Confirmation({ event, formStep, step }) {
 
       const payload = {
         ...data,
+        wish: fmdata.wish,
         eventId: event.id,
       };
 

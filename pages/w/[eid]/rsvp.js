@@ -42,6 +42,7 @@ const RsvpPageBody = ({ event }) => {
   const router = useRouter();
   const { asPath } = useRouter();
   const [attending, setAttending] = useState(true);
+  const [rsvpData, setRsvpData] = useState();
   const { data, isLoading, isError } = useGetRsvpGeneralQuestions(event.slug);
 
   if (isLoading)
@@ -70,9 +71,13 @@ const RsvpPageBody = ({ event }) => {
     router.push(path + `/?step=${step}`);
   };
 
-  const noRsvp = (rsvp) => {
-    // setAttending(rsvp);
-    goToStep(4);
+  const noRsvp = (data) => {
+    // console.log("data", data);
+    setRsvpData(data);
+    // setAttending(false);
+    goToStep(3);
+    // goToStep(4);
+    // router.push('/');
   };
 
   const isToday = (someDate) => {
@@ -95,7 +100,7 @@ const RsvpPageBody = ({ event }) => {
           {title}
         </p>
       </div>
-      {!attending && <NoRsvp event={event} />}
+      {!attending && <NoRsvp event={event} rsvp={rsvpData} />}
       {attending && (
         <FormProvider className="">
           <FormCard currentStep={formStep}>

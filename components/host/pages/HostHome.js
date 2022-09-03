@@ -70,6 +70,7 @@ export default function WZHome({ event, pageTitle }) {
             onUploaded={onUploaded}
             setShowSpinner={setShowSpinner}
             saveAs={event.slug}
+            typeVideo={true}
           />
           {showSpinner && (
             <div className="flex mx-auto justify-center items-center py-16 left-0 right-0 top-0 bottom-0 border border-transparent font-medium rounded-md transition ease-in-out duration-150 cursor-not-allowed flex-col h-full bg-white bg-opacity-80">

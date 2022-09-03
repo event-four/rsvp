@@ -45,7 +45,7 @@ export default function MainToolbar({ event, baseUrl }) {
   const [shareMessage, setShareMessage] = useState();
 
   return (
-    <div className="w-full shadow-sm border-b bg-white sticky top-0 z-50 h-auto md:h-16">
+    <div className="w-full shadow-sm border-b bg-white sticky top-0 z-10 h-auto md:h-16">
       <div classes="sm:px-0">
         <div className="flex flex-col md:flex-row justify-between divide-x h-auto md:h-16 ">
           <div className="flex flex-col md:flex-row flex-grow sm:flex-row text-center sm:text-left items-center sm:space-x-4 px-4 md:px-6 space-y-3 md:space-y-0 py-4 md:py-0">

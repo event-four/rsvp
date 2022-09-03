@@ -1,21 +1,22 @@
-import { useRef, useContext } from "react";
+import { useRef, useEffect } from "react";
 import { useAppStates } from "/components/providers/AppContext";
 import Link from "next/link";
 import { GiftIcon } from "@heroicons/react/solid";
 import { useFormData } from "/components/providers/FormProvider";
-
-export default function NoRsvp({ event, formStep }) {
+import { postRsvpResponse } from "@/services/event-service";
+export default function NoRsvp({ event, rsvp, formStep }) {
   const { rsvpUrls } = useAppStates();
   // const { data } = useFormData();
-  const { data } = useFormData();
+  // const { setFormValues, data } = useFormData();
 
   useEffect(() => {
+    let data = rsvp;
     if (Object.keys(data).length === 0) return;
 
     const payload = {
       ...data,
       eventId: event.id,
-      rsvp: true,
+      rsvp: false,
     };
 
     postRsvpResponse(payload)
@@ -26,6 +27,7 @@ export default function NoRsvp({ event, formStep }) {
         console.log(error);
       });
   });
+
   return (
     <>
       <div className={"block h-full"}>
