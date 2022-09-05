@@ -16,7 +16,7 @@ import useSWR from "swr";
 import InnerLayout from "../../../components/guests/InnerLayout";
 import { useGetRsvpGeneralQuestions } from "../../../swr/useRsvpRequests";
 import NoRsvp from "../../../components/Rsvp Forms/NoRsvp";
-const dayjs = require("dayjs");
+import dayjs from "dayjs";
 
 const Rsvp = () => {
   const [ev, setEv] = useState(null);
