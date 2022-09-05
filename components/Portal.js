@@ -3,7 +3,7 @@ import { createRef, useState, useRef, Fragment, useEffect, memo } from "react";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const ZPortal = ({ open, onClose, ...props }) => {
+const ZPortal = ({ open, title = "", onClose, ...props }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -33,11 +33,11 @@ const ZPortal = ({ open, onClose, ...props }) => {
               >
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
-                    <div className="px-4 sm:px-6 flex flex-row justify-between">
+                    <div className="px-4 sm:px-6 flex flex-row justify-between items-center">
                       <Dialog.Title className="text-lg font-medium text-gray-900">
-                        Panel title
+                        {title}
                       </Dialog.Title>
-                      <Transition.Child
+                      {/* <Transition.Child
                         as={Fragment}
                         enter="ease-in-out duration-500"
                         enterFrom="opacity-0"
@@ -53,11 +53,13 @@ const ZPortal = ({ open, onClose, ...props }) => {
                             onClick={onClose}
                           >
                             <span className="sr-only">Close panel</span>
-                            <CheckIcon className="h-6 w-6" aria-hidden="true" />
+                            <ClearIcon className="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
-                      </Transition.Child>
-                      <ClearIcon className="h-6 w-6" aria-hidden="true" />
+                      </Transition.Child> */}
+                      <IconButton onClick={onClose}>
+                        <ClearIcon className="h-6 w-6" aria-hidden="true" />
+                      </IconButton>
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
                       {props.children}

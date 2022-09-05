@@ -49,6 +49,7 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
           }
         })
         .catch((error) => {
+          console.log(error);
           throw error;
         });
 
@@ -57,6 +58,7 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
       setIsLoadingLogin(false);
       const errors = {};
       console.log(err);
+
       // Validation failed - do show error
       if (err instanceof yup.ValidationError) {
         console.log(err.inner);
@@ -65,18 +67,23 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
           console.log(error);
           errors[error.path] = error.message;
         });
+
         formRef.current.setErrors(errors);
         return;
       }
 
-      if (err.includes("auth/wrong-password")) {
-        snackbar.error("Your login information is incorrect.");
-      } else if (err.includes("auth/too-many-requests")) {
-        snackbar.error(
-          "Access to this account has been temporarily disabled due to many failed login attempts. Reset your password or try again later."
-        );
-      } else if (err.includes("auth/network-request-failed")) {
-        snackbar.error("The network request failed.");
+      if (err) {
+        console.log(err);
+        if (err.includes("auth/wrong-password")) {
+          snackbar.error("Your login information is incorrect.");
+        } else if (err.includes("auth/too-many-requests")) {
+          snackbar.error(
+            "Access to this account has been temporarily disabled due to many failed login attempts. Reset your password or try again later."
+          );
+        } else if (err.includes("auth/network-request-failed")) {
+          snackbar.error("The network request failed.");
+        }
+        return;
       } else {
         snackbar.error(err.message || "Oops! An error occurred.");
         console.log(err);

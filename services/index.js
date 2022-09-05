@@ -20,6 +20,7 @@ export const _post = async (endpoint, payload) => {
       return response.data.data;
     })
     .catch(function (error) {
+      console.log(error);
       throw new Error(error.response.data.error.message);
     });
 };

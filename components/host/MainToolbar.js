@@ -11,6 +11,9 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { useSnackbar } from "/components/SnackBar";
 import { Dialog, Transition } from "@headlessui/react";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ZPortal from "@/components/Portal";
+import WZEditEvent from "@/components/host/pages/HostEditEvent";
 
 import {
   FacebookShareButton,
@@ -33,6 +36,7 @@ import { useState, Fragment, useRef } from "react";
 export default function MainToolbar({ event, baseUrl }) {
   const snackbar = useSnackbar();
   const [open, setOpen] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
   const cancelButtonRef = useRef(null);
 
   const url = `${baseUrl}/${event.slug}`;
@@ -58,19 +62,22 @@ export default function MainToolbar({ event, baseUrl }) {
                   <HomeIcon />
                 </IconButton>
               </div>
-              <div className="flex flex-row bg-gray-100 py-2 md:pl-8 pr-4 rounded-md h-12 md:h-10 space-x-4 items-center justify-start md:justify-center w-full">
+              <div className="flex flex-row bg-gray-100 py-2 md:pl-8 pr-2 rounded-md h-12 md:h-10 space-x-4 items-center justify-start md:justify-center w-full">
                 <div className="flex flex-col flex-grow md:mr-6  text-center md:text-left">
                   <span className="font-semibold text-[11px] mb-[1px]">
                     Your {event.type.name} Website
                   </span>
                   <a
                     className="text-[10px] whitespace-nowrap overflow-ellipsis"
-                    href={url}
+                    // href={url}
                   >
                     {url}
                   </a>
                 </div>
                 {/* <KeyboardArrowDownIcon /> */}
+                <IconButton onClick={() => setOpenSettings(true)}>
+                  <SettingsIcon />
+                </IconButton>
               </div>
             </div>
 
@@ -178,6 +185,14 @@ export default function MainToolbar({ event, baseUrl }) {
           </div>
         </div>
       </div>
+      <ZPortal
+        title="Edit Event Details"
+        open={openSettings}
+        url={url}
+        onClose={() => setOpenSettings(false)}
+      >
+        <WZEditEvent event={event} />
+      </ZPortal>
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"

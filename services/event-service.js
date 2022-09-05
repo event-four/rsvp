@@ -19,11 +19,14 @@ export const eventService = {
   getLocalStorageEvent,
   setLocalStorageEvent,
   setLaunchedDashboard,
+  postRegistryData,
+  updateRegistryData,
 };
 
 export {
   useFetchEvents,
   useFetchEventInfo,
+  useFetchEventInfoByOwnerId,
   useFetchRsvpQuestions,
   postRsvpQuestions,
   postRsvpResponse,
@@ -31,6 +34,7 @@ export {
   useFetchEventStory,
   useFetchEventWishes,
   useFetchRsvpResponses,
+  useFetchEventRegistry,
 };
 
 function setLocalStorageEvent(event) {
@@ -84,7 +88,17 @@ async function getEventInfo(eventId) {
   //call api
   return _get(endpoint);
 }
+async function postRegistryData(payload) {
+  const url = urls.eventRegistry;
+  console.log(url);
+  return fetchWrapper.post(url, payload, { swr: false, authorize: true });
+}
 
+async function updateRegistryData(payload, id) {
+  const url = urls.eventRegistry + "/" + id;
+  console.log(url);
+  return fetchWrapper.put(url, payload, { swr: false, authorize: true });
+}
 const useFetchEvents = (user) => {
   // const user = userService.getUser();
   const url =
@@ -95,6 +109,13 @@ const useFetchEvents = (user) => {
 
 const useFetchEventInfo = (id) => {
   const url = urls.event + "/" + id;
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+
+  return swrResponse(useSWR(url, fetcher));
+};
+
+const useFetchEventInfoByOwnerId = (id) => {
+  const url = urls.event + "?owner=" + id + "&publicationState=preview";
   const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
 
   return swrResponse(useSWR(url, fetcher));
@@ -120,6 +141,13 @@ const useFetchEventWishes = (slug, page) => {
     "/" +
     slug +
     `?pagination[page]=${page}&pagination[pageSize]=1`;
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+
+  return swrResponse(useSWR(url, fetcher));
+};
+
+const useFetchEventRegistry = (slug) => {
+  const url = urls.eventRegistryBySlug + "/" + slug;
   const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
 
   return swrResponse(useSWR(url, fetcher));
