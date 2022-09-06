@@ -56,24 +56,46 @@ const WZGuestsPage = ({ event, show = false }) => {
   return (
     <div className={`${show ? "flex" : "hidden"}  flex-col space-y-4`}>
       <h1 className="text-lg font-semibold">Guest List</h1>
-      <Section>
-        {guests && (
-          <div className="flex flex-col md:flex-row md:space-x-4 text-sm text-gray-500 md:pl-4">
-            <p className="">
-              Total: <span className="text-gray-700">{guests.length}</span>
+      {/* <Section> */}
+      {guests && (
+        // <div className="flex flex-col md:flex-row md:space-x-4 text-sm text-gray-500 md:pl-4">
+        //   <p className="">
+        //     Total: <span className="text-gray-700">{guests.length}</span>
+        //   </p>
+        //   <p className="">
+        //     Attending: <span className="text-gray-700">{guestsRsvp}</span>
+        //   </p>
+        //   <p>
+        //     Not Attending:{" "}
+        //     <span className="text-gray-700">
+        //       {guests.length - guestsRsvp}
+        //     </span>
+        //   </p>
+        // </div>
+        <div className="flex flex-row justify-between border rounded-lg divide-x">
+          <div className="flex flex-col p-2 justify-center text-center flex-grow ">
+            <p className="text-gray-600">
+              <span className="font-semibold text-lg">{guests.length}</span>
             </p>
-            <p className="">
-              Attending: <span className="text-gray-700">{guestsRsvp}</span>
+            <p className="text-gray-600 text-sm">Total</p>
+          </div>
+          <div className="flex flex-col p-2 justify-center text-center flex-grow">
+            <p className="text-gray-600">
+              <span className="font-semibold text-lg">{guestsRsvp}</span>
             </p>
-            <p>
-              Not Attending:{" "}
-              <span className="text-gray-700">
+            <p className="text-gray-600 text-sm">Attending</p>
+          </div>
+          <div className="flex flex-col p-2 justify-center text-center flex-grow">
+            <p className="text-gray-600">
+              <span className="font-semibold text-lg">
                 {guests.length - guestsRsvp}
               </span>
             </p>
+            <p className="text-gray-600 text-sm">Not Attending</p>
           </div>
-        )}
-      </Section>
+        </div>
+      )}
+      {/* </Section> */}
       <Section title="" classes="space-y-6x p-0">
         {error && <div>{error.message}</div>}
         {loading && <>Loading...</>}
