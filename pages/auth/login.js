@@ -7,7 +7,7 @@ import { Form } from "@unform/web";
 import { useSnackbar } from "@/components/SnackBar";
 import { TextInput, Button, OutlineButton } from "@/components/form";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useSession, signIn } from "next-auth/react";
+import { useSession, signIn, getSession } from "next-auth/react";
 import Link from "next/link";
 
 const schema = yup.object().shape({
@@ -39,11 +39,14 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
         password: formData.password,
       })
         .then(async (response) => {
+          console.log(response);
           if (response.ok) {
-            console.log(session);
-
-            await userService.setUser(session.user);
-            router.push("/host/dashboard");
+            const session = await getSession();
+            if (session) {
+              console.log(session);
+              await userService.setUser(session.user);
+              router.push("/host/dashboard");
+            }
           } else {
             throw response.error;
           }

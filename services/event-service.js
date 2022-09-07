@@ -146,9 +146,9 @@ const useFetchEventWishes = (slug, page) => {
   return swrResponse(useSWR(url, fetcher));
 };
 
-const useFetchEventRegistry = (slug) => {
+const useFetchEventRegistry = (slug, authorize = true) => {
   const url = urls.eventRegistryBySlug + "/" + slug;
-  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: authorize });
 
   return swrResponse(useSWR(url, fetcher));
 };
