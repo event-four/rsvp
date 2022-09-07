@@ -89,7 +89,7 @@ const OurStoryPageBody = ({ event }) => {
                   className={`${
                     story.photo.public_id.length === 0
                       ? "hidden"
-                      : "block h-full max-h-60 md:max-h-80 w-auto mx-auto rounded-xl"
+                      : "block h-auto w-auto max-h-96 mx-auto rounded-xl"
                   }`}
                   src={`${story.photo.secure_url}`}
                 />

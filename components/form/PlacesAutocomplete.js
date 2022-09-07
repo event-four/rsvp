@@ -4,7 +4,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import TextInput from "../form/TextInput";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 const PlacesAutocomplete = ({ ...props }) => {
   const {
     ready,
@@ -40,7 +40,6 @@ const PlacesAutocomplete = ({ ...props }) => {
     () => {
       // When user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
-      console.log(description);
       setPlace(description);
       setValue(description, false);
       props.onChange(description);
@@ -102,4 +101,4 @@ const PlacesAutocomplete = ({ ...props }) => {
   );
 };
 
-export default PlacesAutocomplete;
+export default memo(PlacesAutocomplete);

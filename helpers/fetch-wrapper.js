@@ -102,7 +102,8 @@ function handleResponse(response) {
       //     userService.logout();
       // }
 
-      const error = (data && data.message) || response.statusText;
+      const error = (data && data.error) || response.statusText;
+      // console.log(error);
       return Promise.reject(error);
     }
 

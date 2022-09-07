@@ -32,6 +32,7 @@
     "next": "12.2.2",
     "next-auth": "^4.10.1",
     "next-share": "^0.18.0",
+    "nextportal": "^1.1.0",
     "paystack-api": "^2.0.6",
     "prop-types": "^15.8.1",
     "react": "18.2.0",

@@ -2,7 +2,7 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Upload } from "../Upload";
-import { createRef, useState, useRef, Fragment, useEffect } from "react";
+import { createRef, useState, useRef, Fragment, useEffect, memo } from "react";
 import { eventService, useFetchGuests } from "/services";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
@@ -19,7 +19,7 @@ import { CheckIcon } from "@heroicons/react/outline";
 import { useSnackbar } from "/components/SnackBar";
 import * as XLSX from "xlsx";
 
-export default function WZGuestsPage({ event }) {
+const WZGuestsPage = ({ event, show = false }) => {
   const [guests, setGuests] = useState([]);
   const [guestsRsvp, setGuestsRsvp] = useState(0);
   const { data, loading, error } = useFetchGuests(event);
@@ -27,21 +27,24 @@ export default function WZGuestsPage({ event }) {
 
   useEffect(() => {
     if (data) {
-      setGuests(data.guests ?? []);
-      const c = data.guests.filter((guest) => guest.rsvp == true).length;
+      setGuests(data ?? []);
+      const c = data.filter((guest) => guest.rsvp == true).length;
       setGuestsRsvp(c);
     }
-  });
+    console.log(data);
+  }, [data]);
+
+  // console.log(data);
 
   const downloadExcel = () => {
     let list = [];
-    data.guests.map((g, index) => {
+    guests.map((g, index) => {
       list.push({
         "#": index + 1,
         name: g.name,
         email: g.email,
         phone: g.phone,
-        attending: g.rsvp,
+        attending: g.rsvp ? "YES" : " NO",
       });
     });
     const worksheet = XLSX.utils.json_to_sheet(list);
@@ -51,8 +54,48 @@ export default function WZGuestsPage({ event }) {
   };
 
   return (
-    <>
+    <div className={`${show ? "flex" : "hidden"}  flex-col space-y-4`}>
       <h1 className="text-lg font-semibold">Guest List</h1>
+      {/* <Section> */}
+      {guests && (
+        // <div className="flex flex-col md:flex-row md:space-x-4 text-sm text-gray-500 md:pl-4">
+        //   <p className="">
+        //     Total: <span className="text-gray-700">{guests.length}</span>
+        //   </p>
+        //   <p className="">
+        //     Attending: <span className="text-gray-700">{guestsRsvp}</span>
+        //   </p>
+        //   <p>
+        //     Not Attending:{" "}
+        //     <span className="text-gray-700">
+        //       {guests.length - guestsRsvp}
+        //     </span>
+        //   </p>
+        // </div>
+        <div className="flex flex-row justify-between border rounded-lg divide-x">
+          <div className="flex flex-col p-2 justify-center text-center flex-grow ">
+            <p className="text-gray-600">
+              <span className="font-semibold text-lg">{guests.length}</span>
+            </p>
+            <p className="text-gray-600 text-sm">Total</p>
+          </div>
+          <div className="flex flex-col p-2 justify-center text-center flex-grow">
+            <p className="text-gray-600">
+              <span className="font-semibold text-lg">{guestsRsvp}</span>
+            </p>
+            <p className="text-gray-600 text-sm">Attending</p>
+          </div>
+          <div className="flex flex-col p-2 justify-center text-center flex-grow">
+            <p className="text-gray-600">
+              <span className="font-semibold text-lg">
+                {guests.length - guestsRsvp}
+              </span>
+            </p>
+            <p className="text-gray-600 text-sm">Not Attending</p>
+          </div>
+        </div>
+      )}
+      {/* </Section> */}
       <Section title="" classes="space-y-6x p-0">
         {error && <div>{error.message}</div>}
         {loading && <>Loading...</>}
@@ -61,21 +104,7 @@ export default function WZGuestsPage({ event }) {
 
         {guests && (
           <>
-            <div className="flex items-center justify-between p-2">
-              <div className="flex flex-col md:flex-row md:space-x-4 text-sm text-gray-500 md:pl-4">
-                <p className="">
-                  Total: <span className="text-gray-700">{guests.length}</span>
-                </p>
-                <p className="">
-                  Attending: <span className="text-gray-700">{guestsRsvp}</span>
-                </p>
-                <p>
-                  Not Attending:{" "}
-                  <span className="text-gray-700">
-                    {guests.length - guestsRsvp}
-                  </span>
-                </p>
-              </div>
+            <div className="flex items-center justify-end p-2">
               <Button
                 variant="outlined"
                 size="small"
@@ -129,6 +158,8 @@ export default function WZGuestsPage({ event }) {
           </>
         )}
       </Section>
-    </>
+    </div>
   );
-}
+};
+
+export default memo(WZGuestsPage);

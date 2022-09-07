@@ -14,12 +14,22 @@ const schema = yup.object().shape(
   },
   []
 );
+const schemaOthers = yup.object().shape(
+  {
+    eventType: yup.object().required("Event type is required"),
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
+    partnerFirstName: yup.string().required("First name is required"),
+    partnerLastName: yup.string().required("Last name is required"),
+  },
+  []
+);
 const eventTypes = [
   { id: 7, name: "Wedding" },
-  // { id: 2, name: "Birthday" },
-  // { id: 3, name: "Corporate" },
-  // { id: 4, name: "Funeral" },
-  // { id: 5, name: "Bridal Shower" },
+  { id: 2, name: "Birthday" },
+  { id: 3, name: "Corporate" },
+  { id: 4, name: "Funeral" },
+  { id: 5, name: "Bridal Shower" },
 ];
 export default function PersonalInfo({ goToStep, isVisible }) {
   const { setFormValues, formValues } = useFormData();
@@ -34,6 +44,7 @@ export default function PersonalInfo({ goToStep, isVisible }) {
   });
 
   const handleEventTypeChange = (e) => {
+    console.log(e);
     setEventType(e);
     setFormValues({ eventType: e });
   };
@@ -103,29 +114,31 @@ export default function PersonalInfo({ goToStep, isVisible }) {
             />
           </div>
         </fieldset>
-        <fieldset>
-          <legend className="font-semibold text-sm mb-1">
-            Your Partner's Name
-          </legend>
-          <div className="isolate  relative -space-x-px grid grid-cols-2">
-            <TextInput
-              label="First Name"
-              type="text"
-              name="partnerFirstName"
-              classes="rounded-r-none "
-              defaultValue={formValues.partnerFirstName}
-              placeholder=" "
-            />
-            <TextInput
-              label="Last Name"
-              type="text"
-              name="partnerLastName"
-              classes="rounded-l-none "
-              defaultValue={formValues.partnerLastName}
-              placeholder=" "
-            />
-          </div>
-        </fieldset>
+        {eventType.id === 7 && (
+          <fieldset>
+            <legend className="font-semibold text-sm mb-1">
+              Your Partner's Name
+            </legend>
+            <div className="isolate  relative -space-x-px grid grid-cols-2">
+              <TextInput
+                label="First Name"
+                type="text"
+                name="partnerFirstName"
+                classes="rounded-r-none "
+                defaultValue={formValues.partnerFirstName}
+                placeholder=" "
+              />
+              <TextInput
+                label="Last Name"
+                type="text"
+                name="partnerLastName"
+                classes="rounded-l-none "
+                defaultValue={formValues.partnerLastName}
+                placeholder=" "
+              />
+            </div>
+          </fieldset>
+        )}
         <Button classes="w-full" type="submit">
           Continue
         </Button>

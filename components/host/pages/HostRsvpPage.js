@@ -10,11 +10,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import {
-  eventService,
-  useFetchRsvpQuestions,
-  postRsvpQuestions,
-} from "/services";
+
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import Section from "../Section";
@@ -25,148 +21,60 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import AddIconFill from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { useSnackbar } from "/components/SnackBar";
 import WZGuestsPage from "./HostGuests";
+import WZResponsesPage from "./HostResponses";
+import WZFollowUpPage from "./HostFollowUp";
 import dayjs from "dayjs";
-
-const randomQuestions = [
-  { question: "Will you attend the Ceremony?", description: "" },
-  { question: "Will you attend the Traditional Wedding?", description: "" },
-  { question: "Do you want the Asoebi?", description: "" },
-];
+import { Divider } from "@mui/material";
 
 export default function WZRsvpPage({ event, pageTitle }) {
-  const [suggestedQuestions, setSuggestedQuestions] = useState(randomQuestions);
-  const [questions, setQuestions] = useState([]);
-  const [inputQ, setInputQ] = useState(null);
-  const [questionIndex, setQuestionIndex] = useState(null);
-  const [open, setOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
-  const inputDialogRef = useRef(null);
-  const { data, loading, error } = useFetchRsvpQuestions(event);
-  const snackbar = useSnackbar();
-  const [showGuests, setShowGuests] = useState(false);
-
-  useEffect(() => {
-    if (data) {
-      setQuestions(data.questions ?? []);
-    }
-  });
-
-  // const buildSuggestedQuestions = useCallback(() => {
-  //   const unAdded = [];
-  //   suggestedQuestions.map((qs) => {
-  //     const exists = questions.find((mq) => mq.question === qs.question);
-  //     if (!exists) {
-  //       unAdded.push(qs);
-  //     }
-  //   });
-
-  //   setSuggestedQuestions([...unAdded]);
-  // });
-
-  // useEffect(() => {
-  //   buildSuggestedQuestions();
-  // }, [suggestedQuestions]);
-
-  const insertNewQuestion = (question) => {
-    //check if we already have this question.
-    const exists = questions.find((q) => q.question === question);
-
-    if (exists) {
-      snackbar.show("You already have this question.");
-      return;
-    }
-    //remove the question from the suggestions list.
-    const remainingQuestions = suggestedQuestions.filter(
-      (q) => q.question !== question
-    );
-    //update the suggestions list.
-    setSuggestedQuestions([...remainingQuestions]);
-    //insert the question into questions list.
-    questions.push({ question: question });
-    modifyQuestion(questions);
-  };
-
-  const showQuestionDialog = (q) => {
-    if (q) {
-      setQuestionIndex(questions.indexOf(q));
-      setInputQ(q.question);
-    } else {
-      setQuestionIndex(-1);
-    }
-
-    setOpen(true);
-  };
-
-  const updateQuestion = () => {
-    const isAdding = questionIndex === -1;
-
-    if (isAdding) {
-      questions.push({ question: inputQ });
-    } else {
-      questions[questionIndex] = {
-        ...questions[questionIndex],
-        question: inputQ,
-      };
-    }
-    modifyQuestion(questions);
-    setOpen(false);
-  };
-
-  const deleteQuestion = (question) => {
-    const updateQuestionList = questions.filter((q) => q.question !== question);
-    modifyQuestion(updateQuestionList);
-  };
-
-  const modifyQuestion = (questions) => {
-    const payload = data;
-    data.questions = questions;
-
-    postRsvpQuestions(payload)
-      .then((response) => {
-        console.log(response);
-        setQuestions([...questions]);
-      })
-      .catch((error) => {
-        snackbar.error(error.message);
-      });
-  };
-
-  const getSuggestedQ = () => {
-    const unAdded = [];
-    suggestedQuestions.map((qs) => {
-      const exists = questions.find((mq) => mq.question === qs.question);
-
-      if (!exists) {
-        unAdded.push(qs);
-      }
-    });
-
-    return unAdded;
-  };
+  const [subPage, setSubPage] = useState(1);
 
   return (
     <>
       <h1 className="text-lg font-semibold">{pageTitle}</h1>
-      <Section title="Your Events" classes="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Section title="" classes="space-y-6">
+        <div className="flex flex-row mt-3 space-x-4">
+          <Button
+            size="small"
+            variant={subPage === 1 ? "contained" : "outlined"}
+            sx={{ px: 1, py: 0.5, fontSize: 11 }}
+            onClick={() => setSubPage(1)}
+          >
+            My Guests List
+          </Button>
+          <Button
+            variant={subPage === 2 ? "contained" : "outlined"}
+            size="small"
+            sx={{ px: 1, py: 0.5, fontSize: 11 }}
+            onClick={() => setSubPage(2)}
+          >
+            Follow-up
+          </Button>
+          <Button
+            variant={subPage === 3 ? "contained" : "outlined"}
+            size="small"
+            sx={{ px: 1, py: 0.5, fontSize: 11 }}
+            onClick={() => setSubPage(3)}
+          >
+            Responses
+          </Button>
+        </div>
+        <Divider />
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="text-center rounded text-gray-600 border items-center px-3 py-5 flex flex-col">
             <EventIcon sx={{ fontSize: 36 }} />
             <p className="mb-1 text-sm">Wedding Day</p>
             <span className=" items-center text-xs text-gray-500 space-x-2 mt-1 ">
               <EventIcon sx={{ fontSize: 16 }} />
               {"  "}
-              {dayjs(event.startDate).format("MMMM DD, YYYY") ??
-                " Date to be decided"}
+              {event.startDate
+                ? dayjs(event.startDate).format("MMMM DD, YYYY")
+                : " Date to be decided"}
             </span>
-            {/* <span className="inline-flex text-xs text-gray-500 mt-1">
-              <ScheduleIcon sx={{ fontSize: 16 }} />
-              {"  "}
-              {event.date ?? " Time to be decided"}
-            </span> */}
+
             <div className="flex flex-row mt-3 space-x-4">
               <Button
                 variant="outlined"
@@ -185,210 +93,19 @@ export default function WZRsvpPage({ event, pageTitle }) {
               </Button>
             </div>
           </div>
-          {/* <div className="border rounded border-dashed border-gray-200 items-center p-3 text-gray-400 flex flex-col item-center justify-center hover:border-gray-400 hover: cursor: pointer">
-            <AddCircleOutlineIcon sx={{ fontSize: 40 }} />
-            <span className="text-sm font-normal">Add Event</span>
-          </div> */}
-        </div>
+        </div> */}
 
-        {error && <div>{error.message}</div>}
-        {loading && <>Loading...</>}
+        {/* {error && <div>{error.message}</div>}
+        {loading && <>Loading...</>} */}
 
-        {/* =================GUESTS======================== */}
-        <div
-          className={`${showGuests ? "flex" : "hidden"}  flex-col space-y-4`}
-        >
-          <WZGuestsPage event={event} />
-        </div>
-        {/* =================GUESTS======================== */}
+        {/* =================SUB PAGES======================== */}
 
-        <div
-          className={`${showGuests ? "hidden" : "flex"}  flex-col space-y-4`}
-        >
-          <div className="text-gray-700">Your follow-up questions.</div>
-          {questions && (
-            <ul className="flex flex-col space-y-2 w-full">
-              {questions.map((q, index) => (
-                <li
-                  key={`${q.question}-${index}`}
-                  className="border rounded px-2 md:px-4 py-2  text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default"
-                >
-                  {/* <IconButton color="primary"> */}
-                  <DragIndicatorIcon />
-                  {/* </IconButton> */}
-                  <div className="flex flex-grow ml-4">{q.question} </div>
-                  <div className="flex space-x-0 md:space-x-1">
-                    <IconButton
-                      sx={{ p: { xs: 0.5, sm: 1 } }}
-                      onClick={() => showQuestionDialog(q)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      variant="outlined"
-                      sx={{ p: { xs: 0.5, sm: 1 } }}
-                      onClick={() => deleteQuestion(q.question)}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                  </div>
-                </li>
-              ))}
-              <li
-                key={`q--1`}
-                onClick={() => showQuestionDialog(-1)}
-                className="border border-dashed rounded px-4 py-2 text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default text-gray-500 hover:text-default"
-              >
-                <div className="flex flex-grow ml-4 items-center justify-center space-x-3 h-10 ">
-                  <AddCircleOutlineIcon /> <span>Add Question</span>{" "}
-                </div>
-              </li>
-            </ul>
-          )}
+        <WZGuestsPage show={subPage === 1} event={event} />
+        <WZFollowUpPage show={subPage === 2} event={event} />
+        <WZResponsesPage show={subPage === 3} event={event} />
 
-          {suggestedQuestions.length > 0 && (
-            <>
-              {getSuggestedQ().length > 0 && (
-                <div className="pt-6 pb-2x text-gray-700">
-                  We've suggested some follow-up questions for you.
-                </div>
-              )}
-              <ul className="flex flex-col space-y-2 w-full">
-                {getSuggestedQ().map((q, index) => (
-                  <li
-                    key={`${q.question}-${index}`}
-                    className="border rounded pl-4 pr-2 md:px-4 py-2 text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default"
-                  >
-                    <div className="flex flex-grow text-gray-500 mr-2">
-                      {q.question}
-                    </div>
-                    {/* <div className="hidden md:flex space-x-1 items-center justify-center">
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        sx={{ fontSize: 12, px: 2, py: 1 }}
-                        onClick={() => insertNewQuestion(index)}
-                        startIcon={<AddCircleOutlineIcon />}
-                      >
-                        Add Question
-                      </Button>
-                    </div> */}
-                    <div className=" flex space-x-1 items-center justify-center">
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        sx={{ fontSize: 12, px: 2, py: 1 }}
-                        onClick={() => insertNewQuestion(q.question)}
-                        startIcon={<AddCircleOutlineIcon />}
-                      >
-                        Add
-                      </Button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
+        {/* =================SUB PAGES======================== */}
       </Section>
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed z-50 inset-0 overflow-y-auto"
-          initialFocus={cancelButtonRef}
-          onClose={setOpen}
-        >
-          <div className="w-full flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            >
-              <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-full sm:max-w-lg sm:w-full sm:p-6">
-                <div>
-                  <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg leading-6 font-medium text-gray-900"
-                    >
-                      Follow-Up Question
-                    </Dialog.Title>
-                    <div className="mt-4">
-                      <input
-                        className="border w-full rounded text-sm h-12 px-6"
-                        ref={inputDialogRef}
-                        defaultValue={inputQ}
-                        onChange={(v) => setInputQ(v.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5 w-full flex flex-row  justify-center space-x-4">
-                  <Button
-                    variant="outlined"
-                    onClick={() => setOpen(false)}
-                    ref={cancelButtonRef}
-                  >
-                    Cancel
-                  </Button>
-                  <Button onClick={updateQuestion}>Save</Button>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
     </>
   );
 }
-
-// export const getServerSideProps = async ({ req, res }) => {
-//   let user = getCookie("E4_UIF", { req, res });
-//   user = JSON.parse(user);
-//   // console.log("user", user.profile);
-//   // return;
-//   const url =
-//     Urls.event + "?owner=" + user.profile.id + "&publicationState=preview";
-
-//   const headers = {
-//     method: "GET",
-//     "Content-type": "application/json",
-//     Authorization: `Bearer ${user.jwt}`,
-//   };
-
-//   const response = await fetch(url, headers);
-//   // console.log(response.ok);
-//   if (!response.ok) {
-//     return { props: {} };
-//   }
-
-//   const data = await response.json();
-//   // console.log(data);
-
-//   return {
-//     props: { events: data.data, baseUrl: process.env.EVENT_WEBSITE_BASE_URL },
-//   };
-// };

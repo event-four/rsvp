@@ -2,18 +2,24 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Upload } from "../Upload";
-import { createRef, useState } from "react";
+import { createRef, useState, useRef, memo } from "react";
 import { eventService } from "/services";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import Section from "../Section";
 import IconButton from "@mui/material/IconButton";
 import Fab from "@mui/material/Fab";
+import { Form } from "@unform/web";
+import { LoadingButton } from "@mui/lab";
+import { TextInput, TextArea } from "@/components/form";
+import { useSnackbar } from "../../SnackBar";
+import WZEditEvent from "@/components/host/pages/HostEditEvent";
 
-export default function WZHome({ event, pageTitle }) {
+const WZHome = ({ event, pageTitle }) => {
   const [showSpinner, setShowSpinner] = useState(false);
   const [coverMedia, setCoverMedia] = useState(event.coverMedia);
   const uploaderRef = createRef();
+  const formRef = useRef();
 
   const startUpload = () => {
     uploaderRef.current.value = null;
@@ -56,6 +62,39 @@ export default function WZHome({ event, pageTitle }) {
     setShowSpinner(false);
   };
 
+  async function handleSubmit(data) {
+    const { accountName, accountNumber, bank, routingCode, otherInfo } = data;
+    console.log(data);
+
+    try {
+      if (accountName === "" || accountNumber === "" || bank === "") {
+        snackbar.error("The fields marked * are required.");
+        return;
+      }
+      setShowSpinner(true);
+      let res;
+
+      if (cashRegistry) {
+        res = await updateData({ data, active: true });
+      } else {
+        res = await createData({ data, type: "cash", eventId: event.id });
+      }
+
+      const record = res;
+      setCashRegistry(record);
+      setShowCashRegistryForm(false);
+      snackbar.show("Registry details updated successfully.");
+      // Validation passed - do something with data
+    } catch (err) {
+      const errors = {};
+      // Validation failed - do show error
+      console.log(err);
+      snackbar.error(err.message, "Oops! an error occurred.");
+    }
+
+    setShowSpinner(false);
+  }
+
   return (
     <>
       <h1 className="text-lg font-semibold">{pageTitle}</h1>
@@ -70,6 +109,7 @@ export default function WZHome({ event, pageTitle }) {
             onUploaded={onUploaded}
             setShowSpinner={setShowSpinner}
             saveAs={event.slug}
+            typeVideo={true}
           />
           {showSpinner && (
             <div className="flex mx-auto justify-center items-center py-16 left-0 right-0 top-0 bottom-0 border border-transparent font-medium rounded-md transition ease-in-out duration-150 cursor-not-allowed flex-col h-full bg-white bg-opacity-80">
@@ -115,7 +155,7 @@ export default function WZHome({ event, pageTitle }) {
           {coverMedia && !showSpinner && (
             <div className="relativex flex flex-col h-full w-full items-center justify-center">
               {coverMedia.resource_type === "image" && (
-                <div className="z-0 rounded-lg">
+                <div className="z-10x rounded-lg">
                   <img
                     className={`${
                       coverMedia.public_id.length === 0
@@ -159,7 +199,7 @@ export default function WZHome({ event, pageTitle }) {
                 </Button>
               </div>
               <div
-                className={`hidden md:opacity-0 md:flex hover:opacity-100 duration-300 md:absolute inset-0 z-10 justify-center items-center text-white font-semibold md:bg-black md:bg-opacity-60 space-x-6 w-full ${
+                className={`hidden md:opacity-0 md:flex hover:opacity-100 duration-300 md:absolute inset-0 z-10x justify-center items-center text-white font-semibold md:bg-black md:bg-opacity-60 space-x-6 w-full ${
                   coverMedia.resource_type === "video" ? "mb-20 p-6 " : ""
                 }`}
               >
@@ -184,6 +224,9 @@ export default function WZHome({ event, pageTitle }) {
           )}
         </div>
       </Section>
+      <WZEditEvent event={event} />
     </>
   );
-}
+};
+
+export default memo(WZHome);

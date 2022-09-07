@@ -32,7 +32,6 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
   const [startDate, setStartDate] = useState(new Date());
   const user = userService.getUser();
   const event = eventService.getLocalStorageEvent();
-
   // useEffect(() => {
   //   if (!formValues) return null;
   //   // console.log(formValues);

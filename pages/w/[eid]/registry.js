@@ -11,6 +11,7 @@ import FormCard from "../../../components/FormCard";
 import FormProvider from "/components/providers/FormProvider";
 import InnerLayout from "../../../components/guests/InnerLayout";
 import { useGetRsvpGeneralQuestions } from "../../../swr/useRsvpRequests";
+import { eventService, useFetchEventRegistry } from "/services";
 
 const Registry = () => {
   const [ev, setEv] = useState(null);
@@ -32,101 +33,61 @@ const Registry = () => {
 };
 
 const RegistryPageBody = ({ event }) => {
+  const [cashRegistry, setCashRegistry] = useState();
+  const [giftRegistry, setGiftRegistry] = useState();
+  const [hasRegistry, setHasRegistry] = useState(false);
+  const { data, loading, error } = useFetchEventRegistry(event.slug, false);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      const csh = data.filter((r) => r.type === "cash");
+      const gft = data.filter((r) => r.type === "gift");
+
+      setCashRegistry(csh[0]);
+      setGiftRegistry(gft);
+      setHasRegistry((csh[0] && csh[0].active) || (gft && gft.length > 0));
+    }
+  }, [data]);
+
   return (
     <>
-      <div className=" text-center flex flex-col items-center w-full h-full my-auto mx-auto content-center justify-center">
+      <div className=" text-center flex flex-col items-center w-full h-full my-auto mx-auto justify-center">
         <div className="text-center text-primary-dark pt-4 mb-10">
           <p className="text-center page-title font-pacifico text-2xl md:text-5xl mb-4 text-shadow-md">
             Gift Registry
           </p>
-          <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
-            {title}
-          </p>
-        </div>
-        <p className="align-middle text-center w-full md:max-w-lg mx-auto">
-          {" "}
-          Your love, laughter and company on our wedding day is the greatest
-          gift of all. However, should you wish to help us celebrate with a
-          gift, a registry is coming soon!
-        </p>
-
-        <div className="flex flex-col mt-7">
-          <span className="">Love,</span>
-          <span className="text-lg md:text-3xl font-rochester mt-2">
+          <p className="text-center font-rochester text-lg md:text-3xl my-6">
             {event.title}
-          </span>
+          </p>
+          {hasRegistry && (
+            <p className="align-middle text-center md:max-w-lg mx-auto text-xs">
+              Your love, laughter and company on our wedding day<br></br> is the
+              greatest gift of all.
+            </p>
+          )}
         </div>
+        <div>
+          <p>What would you like to gift us?</p>{" "}
+        </div>
+        {!hasRegistry && (
+          <>
+            <p className="align-middle text-center w-full md:max-w-lg mx-auto">
+              Your love, laughter and company on our wedding day is the greatest
+              gift of all. However, should you wish to celebrate us with a gift,
+              a registry is coming soon!
+            </p>
+
+            <div className="flex flex-col mt-7">
+              <span className="">Love,</span>
+              <span className="text-lg md:text-3xl font-rochester mt-2">
+                {event.title}
+              </span>
+            </div>
+          </>
+        )}
       </div>
     </>
-  );
-  const router = useRouter();
-  const { asPath } = useRouter();
-  const { data, isLoading, isError } = useGetRsvpGeneralQuestions(event.slug);
-
-  if (isLoading)
-    return (
-      <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <p className="align-middle w-full"> Loading...</p>
-      </div>
-    );
-  if (isError)
-    return (
-      <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <p className="align-middle w-full"> Something went wrong!</p>
-      </div>
-    );
-  if (!data)
-    return (
-      <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
-        <p className="align-middle w-full"> Rsvp Not Found</p>
-      </div>
-    );
-
-  const formStep = router.query.step ?? 1;
-
-  const goToStep = (step) => {
-    const path = `${asPath}`.split("?")[0];
-    router.push(path + `/?step=${step}`);
-  };
-
-  const rsvp = data.data;
-
-  const title = event.title;
-  let attending = true;
-
-  return (
-    <div className="flex flex-col flex-grow">
-      <div className="text-center text-primary-dark pt-4 mb-10">
-        <p className="text-center page-title font-pacifico text-2xl md:text-5xl mb-4 text-shadow-md">
-          RSVP
-        </p>
-        <p className="text-center font-rochester text-2xl md:text-5xl mb-6">
-          {title}
-        </p>
-      </div>
-      <FormProvider className="">
-        <FormCard currentStep={formStep}>
-          {formStep >= 1 && (
-            <PersonalInfo
-              event={event}
-              formStep={formStep}
-              step={() => goToStep(2)}
-            />
-          )}
-          {formStep >= 2 && (
-            <OtherInfo
-              questions={rsvp.questions}
-              formStep={formStep}
-              step={() => goToStep(3)}
-            />
-          )}
-          {formStep >= 3 && (
-            <Wish event={event} formStep={formStep} step={() => goToStep(4)} />
-          )}
-          {formStep > 3 && <Confirmation event={event} />}
-        </FormCard>
-      </FormProvider>
-    </div>
   );
 };
 

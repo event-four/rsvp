@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  useFetchEventInfo,
+  useFetchEventInfoByOwnerId,
   userService,
   useFetchEvents,
   swrResponse,
@@ -24,6 +24,7 @@ import WZHome from "/components/host/pages/HostHome";
 import WZRsvpPage from "/components/host/pages/HostRsvpPage";
 import WZRegistry from "/components/host/pages/HostRegistry";
 import WZOurStory from "/components/host/pages/HostOurStory";
+import WZWishes from "/components/host/pages/HostWishes";
 import MainToolbar from "../../components/host/MainToolbar";
 import PagesMenu from "../../components/host/PagesMenu";
 import Section from "../../components/host/Section";
@@ -35,6 +36,7 @@ const pageList = [
   { name: "RSVP", href: "rsvp", current: false },
   { name: "Our Story", href: "our-story", current: false },
   { name: "Registry", href: "registry", current: false },
+  { name: "Wishes", href: "wishes", current: false },
   // {
   //   name: "Flights & Hotels",
   //   href: "flights-hotels",
@@ -50,26 +52,41 @@ const urls = {
   story: `/host/dashboard/our-story`,
 };
 
-export default function DZDashboard({ events, baseUrl }) {
+export default function DZDashboard({ owner, events, baseUrl }) {
   const { data: session, status } = useSession();
+
   const router = useRouter();
-  console.log(session);
-  if (status === "unauthenticated") {
-    router.push("/auth/login");
-  }
+  // console.log(session);
 
   const [open, setOpen] = useState(false);
 
   const [pages, setTabs] = useState(pageList);
   const [currentPage, setCurrentPage] = useState(pageList[0]);
+  const [event, setEvent] = useState(events ? events[0] : null);
 
-  const event = events[0];
+  // const firstEvent = events ? events[0] : null;
+  const { data: eventInfo, loading, error } = useFetchEventInfoByOwnerId(owner);
 
   useEffect(() => {
+    if (!owner) {
+      if (router.isReady) {
+        router.push("/auth/login");
+      }
+    }
+    if (status === "unauthenticated") {
+      if (router.isReady) {
+        router.push("/auth/login");
+      }
+    }
+
+    // if (!events || events.length === 0) {
+    //   if (router.isReady) {
+    //     console.log(router);
+    //     router.push("/host");
+    //   }
+    // }
     if (router.isReady) {
       let { page } = router.query ?? "home";
-      // if (!query) return;
-      ///
       const cp = pageList.find((p) => p.href === page);
 
       if (cp) {
@@ -80,6 +97,22 @@ export default function DZDashboard({ events, baseUrl }) {
     }
   }, [router.isReady]);
 
+  useEffect(() => {
+    console.log(eventInfo);
+    if (eventInfo) {
+      if (eventInfo.length === 0) {
+        if (router.isReady) {
+          console.log(router);
+          router.push("/host");
+        }
+      }
+      console.log("sett");
+
+      setEvent(eventInfo[0]);
+    }
+  }, [eventInfo]);
+  // return;
+
   const onChangePage = (tab) => {
     router.push("/host/dashboard", "/host/dashboard?page=" + tab.href, {
       shallow: true,
@@ -87,44 +120,56 @@ export default function DZDashboard({ events, baseUrl }) {
     setCurrentPage(tab);
   };
 
+  // if (loading || error) {
+  //   console.log("ev", eventInfo);
+  //   return <div>Loadinga...</div>;
+  // }
+
   return (
     <>
       <Layout>
         {session ? (
-          <>
-            <MainToolbar event={event} baseUrl={baseUrl} />
-            <div className="flex flex-col md:flex-row h-screenx">
-              <div className="hiddenx md:flex py-6 md:w-60 h-full sticky top-16 bg-white">
-                <PagesMenu
-                  baseUrl="/host/dashboard"
-                  currentPage={currentPage}
-                  pages={pages}
-                  onChangePage={onChangePage}
-                />
+          event && (
+            <>
+              <MainToolbar event={event} baseUrl={baseUrl} />
+              <div className="flex flex-col md:flex-row h-screenx">
+                <div className="hiddenx md:flex py-6 md:w-60 h-full sticky top-16 bg-white">
+                  <PagesMenu
+                    baseUrl="/host/dashboard"
+                    currentPage={currentPage}
+                    pages={pages}
+                    onChangePage={onChangePage}
+                  />
+                </div>
+                <div className="flex flex-1 flex-col bg-gray-100 h-fullx h-screen p-4 md:px-6 md:py-6 space-y-6 overflow-auto">
+                  {currentPage.href === "home" && (
+                    <WZHome event={event} pageTitle="Home" />
+                  )}
+                  {currentPage.href === "rsvp" && (
+                    <WZRsvpPage event={event} pageTitle="RSVP" />
+                  )}
+                  {currentPage.href === "registry" && (
+                    // <p className="text-center">Coming soon</p>
+                    <WZRegistry event={event} pageTitle="Your Registry" />
+                  )}
+                  {currentPage.href === "our-story" && (
+                    <WZOurStory event={event} pageTitle="Our Story" />
+                  )}
+                  {currentPage.href === "flights-hotels" && (
+                    <p className="text-center">Coming soon</p>
+                  )}
+                  {currentPage.href === "wishes" && (
+                    <WZWishes event={event} pageTitle="Wishes" />
+                  )}
+                </div>
+                <div className="hidden md:flex w-1/4 p-6 h-full sticky top-16 bg-white"></div>
               </div>
-              <div className="flex flex-1 flex-col bg-gray-100 h-fullx h-screen p-4 md:px-6 md:py-6 space-y-6 overflow-auto">
-                {currentPage.href === "home" && (
-                  <WZHome event={event} pageTitle="Home" />
-                )}
-                {currentPage.href === "rsvp" && (
-                  <WZRsvpPage event={event} pageTitle="RSVP" />
-                )}
-                {currentPage.href === "registry" && (
-                  // <p className="text-center">Coming soon</p>
-                  <WZRegistry event={event} pageTitle="Your Registry" />
-                )}
-                {currentPage.href === "our-story" && (
-                  <WZOurStory event={event} pageTitle="Our Story" />
-                )}
-                {currentPage.href === "flights-hotels" && (
-                  <p className="text-center">Coming soon</p>
-                )}
-              </div>
-              <div className="hidden md:flex w-1/4 p-6 h-full sticky top-16 bg-white"></div>
-            </div>
-          </>
+            </>
+          )
         ) : (
-          <div>Loading...</div>
+          <div className="flex h-full justify-center items-center">
+            Loading data...
+          </div>
         )}
       </Layout>
 
@@ -190,7 +235,19 @@ export default function DZDashboard({ events, baseUrl }) {
 export const getServerSideProps = async ({ req, res }) => {
   let user = getCookie("E4_UIF", { req, res });
 
+  if (!user) {
+    console.log("E4_UIF not found");
+    return { props: {} };
+  }
   user = JSON.parse(user);
+
+  return {
+    props: {
+      owner: user.profile.id,
+      events: null,
+      baseUrl: process.env.EVENT_WEBSITE_BASE_URL,
+    },
+  };
 
   const url =
     Urls.event + "?owner=" + user.profile.id + "&publicationState=preview";
@@ -207,7 +264,7 @@ export const getServerSideProps = async ({ req, res }) => {
   }
 
   let data = await response.json();
-  console.log(data);
+
   return {
     props: {
       events: data.data,

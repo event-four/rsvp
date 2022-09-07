@@ -41,6 +41,8 @@ export function Upload({
   onUploaded,
   setShowSpinner,
   saveAs,
+  typePhoto = true,
+  typeVideo,
   ...props
 }) {
   // const [showSpinner, setShowSpinner] = useState(true);
@@ -118,8 +120,8 @@ export function Upload({
     if (imgRef.current) {
       const { width, height } = imgRef.current;
       setAspect(aspectRatio);
-      console.log("aspect ratio clicked", aspectRatio);
-      console.log("aspect on click", aspectRatio);
+      // console.log("aspect ratio clicked", aspectRatio);
+      // console.log("aspect on click", aspectRatio);
 
       let crop;
 
@@ -131,7 +133,7 @@ export function Upload({
       const newCrop = crop;
       setCrop(newCrop);
       setCompletedCrop(newCrop);
-      console.log(crop);
+      // console.log(crop);
     } else {
       console.log("No image in memory");
     }
@@ -250,7 +252,9 @@ export function Upload({
           type="file"
           onChange={onSelectFile}
           className="hidden"
-          accept="image/*, video/*"
+          accept={`${typePhoto ? "image/*" : ""}, ${
+            typeVideo ? "video/*" : ""
+          }`}
         />
         {children}
       </label>

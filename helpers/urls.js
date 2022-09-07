@@ -17,6 +17,10 @@ const urls = {
   updateEventData: api + "/events/update-event",
   eventStory: api + "/event-stories",
   eventStoryBySlug: api + "/event-stories/by-slug",
+  eventWishesBySlug: api + "/event-wishes/by-slug",
+  eventRegistryBySlug: api + "/event-registries/by-slug",
+  eventRegistry: api + "/event-registries",
+  getRsvpResponses: api + "/event-rsvp-question/responses",
 };
 
 export { urls };

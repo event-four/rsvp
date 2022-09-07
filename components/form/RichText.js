@@ -7,7 +7,7 @@ export const QuillNoSSRWrapper = dynamic(import("react-quill"), {
 });
 
 export default function RichText({ id, defaultValue, toolbar, ...props }) {
-  console.log(props.defaultValue);
+  // console.log(props.defaultValue);
   const modules = {
     toolbar: toolbar ?? [
       [{ header: "1" }, { header: "2" }, { font: [] }],

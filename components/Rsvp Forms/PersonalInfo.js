@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { TextInput } from "../form";
 import { useFormData } from "/components/providers/FormProvider";
@@ -30,10 +30,10 @@ const schema = yup.object().shape(
 export default function PersonalInfo({ event, formStep, noRsvp, step }) {
   const { setFormValues, data } = useFormData();
   const { rsvpUrls } = useAppStates();
+  const [attending, setAttending] = useState(true);
 
   const router = useRouter();
   const formRef = useRef();
-  let attending = true;
 
   async function handleSubmit(data) {
     try {
@@ -42,6 +42,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
       await schema.validate(data, {
         abortEarly: false,
       });
+
       data.rsvp = attending;
       data.answers = [];
       // Validation passed - do something with data
@@ -49,9 +50,10 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
       setFormValues(data);
 
       if (!attending) {
-        return noRsvp();
+        return noRsvp(data);
+      } else {
+        step();
       }
-      step();
     } catch (err) {
       const errors = {};
       // Validation failed - do show error
@@ -81,9 +83,11 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
           autoComplete="off"
         >
           <div className="flex flex-col space-y-8 md:space-y-6 my-auto">
-            <p className="text-center mb-6 text-default">
-              We would love to know whose wish it is!
-            </p>
+            {isToday(event.startDate) && (
+              <p className="text-center mb-6 text-default">
+                We would love to know whose wish it is!
+              </p>
+            )}
             <div className="relative">
               <TextInput
                 label="Full Name"
@@ -130,7 +134,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                   type="submit"
                   className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded text-pink-600 border border-pink-600 px-6 py-3 text-sm w-full"
                   onClick={() => {
-                    attending = false;
+                    setAttending(false);
                   }}
                 >
                   No, and I'll regret it
@@ -138,7 +142,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                 <button
                   className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
                   onClick={() => {
-                    attending = true;
+                    setAttending(true);
                   }}
                   type="submit"
                 >
@@ -153,7 +157,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                 <button
                   className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded bg-pink-600 text-primary-light border border-pink-600 px-6 py-3 text-sm w-full"
                   onClick={() => {
-                    attending = true;
+                    setAttending(true);
                   }}
                   type="submit"
                 >

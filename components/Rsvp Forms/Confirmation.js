@@ -5,9 +5,9 @@ import { Form } from "@unform/web";
 import { useAppStates } from "/components/providers/AppContext";
 import Link from "next/link";
 import { GiftIcon } from "@heroicons/react/solid";
+import dayjs from "dayjs";
 
 const schema = yup.object().shape({}, []);
-const dayjs = require("dayjs");
 
 export default function Confirmation({ event, formStep }) {
   const { rsvpUrls } = useAppStates();
