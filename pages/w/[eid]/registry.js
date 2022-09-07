@@ -60,17 +60,17 @@ const RegistryPageBody = ({ event }) => {
           <p className="text-center font-rochester text-lg md:text-3xl my-6">
             {event.title}
           </p>
-          {hasRegistry && (
+          {/* {hasRegistry && (
             <p className="align-middle text-center md:max-w-lg mx-auto text-xs">
               Your love, laughter and company on our wedding day<br></br> is the
               greatest gift of all.
             </p>
-          )}
+          )} */}
         </div>
-        <div>
+        {/* <div>
           <p>What would you like to gift us?</p>{" "}
-        </div>
-        {!hasRegistry && (
+        </div> */}
+        {hasRegistry && (
           <>
             <p className="align-middle text-center w-full md:max-w-lg mx-auto">
               Your love, laughter and company on our wedding day is the greatest
