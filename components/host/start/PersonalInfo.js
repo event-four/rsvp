@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-import { TextInput, SelectInput, Button } from "../../form";
+import { TextInput, SelectInput, Button, OutlineButton } from "../../form";
 import { useFormData } from "@/components/providers/HostStartFormProvider";
 import * as yup from "yup";
 import { Form } from "@unform/web";
-
+import Link from "next/link";
 const schema = yup.object().shape(
   {
     eventType: yup.object().required("Event type is required"),
@@ -142,6 +142,16 @@ export default function PersonalInfo({ goToStep, isVisible }) {
         <Button classes="w-full" type="submit">
           Continue
         </Button>
+        <div className="flex flex-row items-center">
+          <div className="flex flex-grow h-[1px] bg-gray-200"></div>
+          <div className="mx-6 text-sm text-gray-500">OR</div>
+          <div className="flex flex-grow h-[1px] bg-gray-200"></div>
+        </div>
+        <Link href="/auth/login">
+          <OutlineButton classes="w-full" type="button">
+            Login
+          </OutlineButton>
+        </Link>
       </div>
     </Form>
   );
