@@ -81,11 +81,11 @@ const RegistryPageBody = ({ event }) => {
 
   const DDT = ({ label, value }) => {
     return (
-      <div className="bg-gray-50x px-4 py-1 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 items-center">
-        <dt className="text-sm font-medium text-gray-500 text-right sm:col-span-2">
+      <div className="bg-gray-50x px-4 py-1 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 items-center flex flex-col justify-center">
+        <dt className="text-sm font-medium text-gray-500 md:text-right sm:col-span-2">
           {label}
         </dt>
-        <dd className="mt-1 text-start text-sm text-gray-900 sm:col-span-2 sm:mt-0 flex flex-row items-center">
+        <dd className="mt-1 text-center md:text-start text-sm text-gray-900 sm:col-span-2 sm:mt-0 flex flex-col md:flex-row items-center mb-2">
           {value}
 
           {label === "Account Number" ? (
@@ -263,7 +263,7 @@ const RegistryPageBody = ({ event }) => {
                     <p className="text-xs">
                       Please send your cash gift to our bank account below:
                     </p>
-                    <div className="border border-default rounded-lg flex py-4">
+                    <div className="border border-default rounded-lg flex py-4 w-full items center justify-center">
                       <dl>
                         <DDT
                           label="Account Name"
