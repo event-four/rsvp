@@ -37,6 +37,7 @@ const RegistryPageBody = ({ event }) => {
   const [giftRegistry, setGiftRegistry] = useState();
   const [hasRegistry, setHasRegistry] = useState(false);
   const { data, loading, error } = useFetchEventRegistry(event.slug, false);
+  const [activeRegistry, setActiveRegistry] = useState(0);
 
   useEffect(() => {
     if (data) {
@@ -60,17 +61,42 @@ const RegistryPageBody = ({ event }) => {
           <p className="text-center font-rochester text-lg md:text-3xl my-6">
             {event.title}
           </p>
-          {/* {hasRegistry && (
-            <p className="align-middle text-center md:max-w-lg mx-auto text-xs">
-              Your love, laughter and company on our wedding day<br></br> is the
-              greatest gift of all.
+          {hasRegistry && (
+            <p className="align-middle text-center md:max-w-lg mx-auto text-xs mt-6">
+              Your love, laughter and company on our wedding day is the greatest
+              gift of all. However, should you wish to celebrate us with a gift,
+              we have registered some items and cash fund. Thank you!
             </p>
-          )} */}
+          )}
         </div>
-        {/* <div>
-          <p>What would you like to gift us?</p>{" "}
-        </div> */}
-        {hasRegistry && (
+        <div className="flex flex-col space-y-6">
+          {/* <p className="text-default text-sm">
+            How would you like to celebrate us?
+          </p> */}
+          <ul
+            role="list"
+            class="flex flex-row justify-evenly divide-x divide-default rounded-md border border-default"
+          >
+            <li
+              onClick={() => setActiveRegistry(0)}
+              class={`flex items-center justify-between text-sm cursor-pointer px-4 py-3 font-medium  ${
+                activeRegistry === 0 ? "bg-default text-white" : "text-default"
+              }`}
+            >
+              Cash Gift
+            </li>
+            <li
+              onClick={() => setActiveRegistry(1)}
+              class={`flex items-center justify-between text-sm cursor-pointer px-4 py-3 font-medium ${
+                activeRegistry === 1 ? "bg-default text-white" : "text-default"
+              }`}
+            >
+              Buy a Gift
+            </li>
+          </ul>
+        </div>
+        <div className="flex flex-grow"></div>
+        {!hasRegistry && (
           <>
             <p className="align-middle text-center w-full md:max-w-lg mx-auto">
               Your love, laughter and company on our wedding day is the greatest
