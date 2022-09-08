@@ -274,19 +274,21 @@ const RegistryPageBody = ({ event }) => {
                           value={cashRegistry.data.accountNumber}
                         />
                         <DDT label="Bank Name" value={cashRegistry.data.bank} />
-                        {cashRegistry.data.routingCode && (
-                          <DDT
-                            label="Swift Code"
-                            value={cashRegistry.data.routingCode}
-                          />
-                        )}
+                        {cashRegistry.data.routingCode &&
+                          cashRegistry.data.routingCode.length === 0 && (
+                            <DDT
+                              label="Swift Code"
+                              value={cashRegistry.data.routingCode}
+                            />
+                          )}
 
-                        {cashRegistry.data.otherInfo && (
-                          <DDT
-                            label="Other Information"
-                            value={cashRegistry.data.otherInfo}
-                          />
-                        )}
+                        {cashRegistry.data.otherInfo &&
+                          cashRegistry.data.otherInfo.length === 0 && (
+                            <DDT
+                              label="Other Information"
+                              value={cashRegistry.data.otherInfo}
+                            />
+                          )}
                       </dl>
                     </div>
                     <Button size="small" onClick={() => setShowAccount(false)}>

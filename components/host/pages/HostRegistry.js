@@ -36,12 +36,15 @@ const WZRegistry = ({ event, pageTitle, pss }) => {
   async function handleSubmit(data) {
     const { accountName, accountNumber, bank, routingCode, otherInfo } = data;
     console.log(data);
+    data.routingCode = routingCode === "" ? null : routingCode;
+    data.otherInfo = otherInfo === "" ? null : otherInfo;
 
     try {
       if (accountName === "" || accountNumber === "" || bank === "") {
         snackbar.error("The fields marked * are required.");
         return;
       }
+
       setShowSpinner(true);
       let res;
 
