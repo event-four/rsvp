@@ -135,141 +135,149 @@ const RegistryPageBody = ({ event }) => {
             </p>
           )}
         </div>
-        <div className="flex flex-col space-y-6">
-          {/* <p className="text-default text-sm">
+        {hasRegistry && (
+          <>
+            <div className="flex flex-col space-y-6">
+              {/* <p className="text-default text-sm">
             How would you like to celebrate us?
           </p> */}
-          <ul
-            role="list"
-            className="flex flex-row justify-evenly divide-x divide-default rounded-md border border-default"
-          >
-            <li
-              onClick={() => setActiveRegistry(0)}
-              className={`flex items-center justify-between text-sm cursor-pointer px-4 py-3 font-medium  ${
-                activeRegistry === 0 ? "bg-default text-white" : "text-default"
-              }`}
-            >
-              Cash Gift
-            </li>
-            <li
-              onClick={() => setActiveRegistry(1)}
-              className={`flex items-center justify-between text-sm cursor-pointer px-4 py-3 font-medium ${
-                activeRegistry === 1 ? "bg-default text-white" : "text-default"
-              }`}
-            >
-              Buy a Gift
-            </li>
-          </ul>
-        </div>
-        {activeRegistry === 1 && (
-          <div className="flex flex-grow flex-col space-y-2 my-12 justify-center items-center">
-            <CardGiftcardIcon color="primary" sx={{ fontSize: 50 }} />
-            <span>Gift Registry Coming Soon!</span>
-          </div>
-        )}
-        {activeRegistry === 0 && (
-          <div className="flex flex-grow items-center justify-center flex-col space-y-6 my-10">
-            {!showAccount && (
-              <>
-                <div>
-                  <label
-                    htmlFor="price"
-                    className="block text-sm font-medium text-default"
-                  >
-                    Enter an amount
-                  </label>
-                  <div className="relative mt-2 rounded-md shadow-sm bg-defaul">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <span className="text-default sm:text-lg">
-                        {currency.symbol}
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      name="price"
-                      id="price"
-                      className="block w-full rounded-md border-default p-4 pl-7 pr-12 focus:border-default focus:ring-default sm:text-lg bg-transparent"
-                      placeholder="0.00"
-                      // defaultValue={formatAmount(cashAmount)}
-                      onBlur={(e) => {
-                        const v = formatAmount(e.target.value);
-                        console.log(v);
-                        setCashAmount(e.target.value);
-                        if (v) {
-                          e.target.value = v;
-                        }
-                      }}
-                      autoComplete={"off"}
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center">
-                      <label htmlFor="currency" className="sr-only">
-                        Currency
-                      </label>
-                      <select
-                        id="currency"
-                        name="currency"
-                        className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-transparent focus:ring-transparent sm:text-sm"
-                        onChange={(e) => {
-                          setCurrency(currencies[e.target.value]);
-                        }}
-                      >
-                        {currencies.map((c, index) => (
-                          <option key={index} value={index}>
-                            {c.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <Button
-                  size="small"
-                  onClick={() => {
-                    console.log(cashAmount);
-                    if (cashAmount && cashAmount > 0) setShowAccount(true);
-                  }}
+              <ul
+                role="list"
+                className="flex flex-row justify-evenly divide-x divide-default rounded-md border border-default"
+              >
+                <li
+                  onClick={() => setActiveRegistry(0)}
+                  className={`flex items-center justify-between text-sm cursor-pointer px-4 py-3 font-medium  ${
+                    activeRegistry === 0
+                      ? "bg-default text-white"
+                      : "text-default"
+                  }`}
                 >
-                  Done
-                </Button>
-              </>
+                  Cash Gift
+                </li>
+                <li
+                  onClick={() => setActiveRegistry(1)}
+                  className={`flex items-center justify-between text-sm cursor-pointer px-4 py-3 font-medium ${
+                    activeRegistry === 1
+                      ? "bg-default text-white"
+                      : "text-default"
+                  }`}
+                >
+                  Buy a Gift
+                </li>
+              </ul>
+            </div>
+            {activeRegistry === 1 && (
+              <div className="flex flex-grow flex-col space-y-2 my-12 justify-center items-center">
+                <CardGiftcardIcon color="primary" sx={{ fontSize: 50 }} />
+                <span>Gift Registry Coming Soon!</span>
+              </div>
             )}
-            {showAccount && (
-              <>
-                <p className="text-xs">
-                  Please send your cash gift to our bank account below:
-                </p>
-                <div className="border border-default rounded-lg flex py-4">
-                  <dl>
-                    <DDT
-                      label="Account Name"
-                      value={cashRegistry.data.accountName}
-                    />
-                    <DDT
-                      label="Account Number"
-                      value={cashRegistry.data.accountNumber}
-                    />
-                    <DDT label="Bank Name" value={cashRegistry.data.bank} />
-                    {cashRegistry.data.routingCode && (
-                      <DDT
-                        label="Swift Code"
-                        value={cashRegistry.data.routingCode}
-                      />
-                    )}
+            {activeRegistry === 0 && (
+              <div className="flex flex-grow items-center justify-center flex-col space-y-6 my-10">
+                {!showAccount && (
+                  <>
+                    <div>
+                      <label
+                        htmlFor="price"
+                        className="block text-sm font-medium text-default"
+                      >
+                        Enter an amount
+                      </label>
+                      <div className="relative mt-2 rounded-md shadow-sm bg-defaul">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                          <span className="text-default sm:text-lg">
+                            {currency.symbol}
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          name="price"
+                          id="price"
+                          className="block w-full rounded-md border-default p-4 pl-7 pr-12 focus:border-default focus:ring-default sm:text-lg bg-transparent"
+                          placeholder="0.00"
+                          // defaultValue={formatAmount(cashAmount)}
+                          onBlur={(e) => {
+                            const v = formatAmount(e.target.value);
+                            console.log(v);
+                            setCashAmount(e.target.value);
+                            if (v) {
+                              e.target.value = v;
+                            }
+                          }}
+                          autoComplete={"off"}
+                        />
+                        <div className="absolute inset-y-0 right-0 flex items-center">
+                          <label htmlFor="currency" className="sr-only">
+                            Currency
+                          </label>
+                          <select
+                            id="currency"
+                            name="currency"
+                            className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-transparent focus:ring-transparent sm:text-sm"
+                            onChange={(e) => {
+                              setCurrency(currencies[e.target.value]);
+                            }}
+                          >
+                            {currencies.map((c, index) => (
+                              <option key={index} value={index}>
+                                {c.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      size="small"
+                      onClick={() => {
+                        console.log(cashAmount);
+                        if (cashAmount && cashAmount > 0) setShowAccount(true);
+                      }}
+                    >
+                      Next
+                    </Button>
+                  </>
+                )}
+                {showAccount && (
+                  <>
+                    <p className="text-xs">
+                      Please send your cash gift to our bank account below:
+                    </p>
+                    <div className="border border-default rounded-lg flex py-4">
+                      <dl>
+                        <DDT
+                          label="Account Name"
+                          value={cashRegistry.data.accountName}
+                        />
+                        <DDT
+                          label="Account Number"
+                          value={cashRegistry.data.accountNumber}
+                        />
+                        <DDT label="Bank Name" value={cashRegistry.data.bank} />
+                        {cashRegistry.data.routingCode && (
+                          <DDT
+                            label="Swift Code"
+                            value={cashRegistry.data.routingCode}
+                          />
+                        )}
 
-                    {cashRegistry.data.otherInfo && (
-                      <DDT
-                        label="Other Information"
-                        value={cashRegistry.data.otherInfo}
-                      />
-                    )}
-                  </dl>
-                </div>
-                <Button size="small" onClick={() => setShowAccount(false)}>
-                  Back
-                </Button>
-              </>
+                        {cashRegistry.data.otherInfo && (
+                          <DDT
+                            label="Other Information"
+                            value={cashRegistry.data.otherInfo}
+                          />
+                        )}
+                      </dl>
+                    </div>
+                    <Button size="small" onClick={() => setShowAccount(false)}>
+                      Back
+                    </Button>
+                  </>
+                )}
+              </div>
             )}
-          </div>
+          </>
         )}
 
         {!hasRegistry && (
