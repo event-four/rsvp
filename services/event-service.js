@@ -99,6 +99,13 @@ async function updateRegistryData(payload, id) {
   console.log(url);
   return fetchWrapper.put(url, payload, { swr: false, authorize: true });
 }
+
+async function postCashGift(payload, id) {
+  const url = urls.eventRegistry + "/" + id;
+  console.log(url);
+  return fetchWrapper.put(url, payload, { swr: false, authorize: true });
+}
+
 const useFetchEvents = (user) => {
   // const user = userService.getUser();
   const url =
