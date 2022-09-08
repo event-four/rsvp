@@ -82,10 +82,10 @@ const RegistryPageBody = ({ event }) => {
   const DDT = ({ label, value }) => {
     return (
       <div className="bg-gray-50x px-4 py-1 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 items-center">
-        <dt className="text-xs font-medium text-gray-500 text-right sm:col-span-2">
+        <dt className="text-sm font-medium text-gray-500 text-right sm:col-span-2">
           {label}
         </dt>
-        <dd className="mt-1 text-start text-xs text-gray-900 sm:col-span-2 sm:mt-0 flex flex-row items-center">
+        <dd className="mt-1 text-start text-sm text-gray-900 sm:col-span-2 sm:mt-0 flex flex-row items-center">
           {value}
 
           {label === "Account Number" ? (
@@ -117,6 +117,24 @@ const RegistryPageBody = ({ event }) => {
     snackbar.info(`Copied ${v}`);
     startPay();
   };
+
+  function validate(evt) {
+    var theEvent = evt || window.event;
+
+    // Handle paste
+    if (theEvent.type === "paste") {
+      key = event.clipboardData.getData("text/plain");
+    } else {
+      // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+    }
+    var regex = /[0-9]|\./;
+    if (!regex.test(key)) {
+      theEvent.returnValue = false;
+      if (theEvent.preventDefault) theEvent.preventDefault();
+    }
+  }
   return (
     <>
       <div className=" text-center flex flex-col items-center w-full h-full my-auto mx-auto justify-center">
@@ -197,6 +215,7 @@ const RegistryPageBody = ({ event }) => {
                           className="block w-full rounded-md border-default p-4 pl-7 pr-12 focus:border-default focus:ring-default sm:text-lg bg-transparent"
                           placeholder="0.00"
                           // defaultValue={formatAmount(cashAmount)}
+                          onKeyPress={(e) => validate(e)}
                           onBlur={(e) => {
                             const v = formatAmount(e.target.value);
                             console.log(v);
