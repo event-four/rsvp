@@ -15,7 +15,7 @@ import { eventService, useFetchEventRegistry } from "/services";
 import Button from "@mui/material/Button";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-
+import { TextInput } from "@/components/form";
 import { useSnackbar } from "/components/SnackBar";
 
 const Registry = () => {
@@ -77,7 +77,16 @@ const RegistryPageBody = ({ event }) => {
 
     return v;
   };
-  const startPay = () => {};
+  const startPay = async () => {
+    await eventService.postCashGift({
+      payload: {
+        amount: cashAmount,
+        charge: 0,
+        total: cashAmount,
+        event: event.id,
+      },
+    });
+  };
 
   const DDT = ({ label, value }) => {
     return (
@@ -247,6 +256,14 @@ const RegistryPageBody = ({ event }) => {
                         </div>
                       </div>
                     </div>
+                    <TextInput
+                      label="Full Name"
+                      type="text"
+                      name="name"
+                      placeholder=" "
+                      defaultValue={""}
+                      isInset={true}
+                    />
                     <Button
                       size="small"
                       onClick={() => {

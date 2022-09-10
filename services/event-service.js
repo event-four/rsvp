@@ -21,6 +21,7 @@ export const eventService = {
   setLaunchedDashboard,
   postRegistryData,
   updateRegistryData,
+  postCashGift,
 };
 
 export {
@@ -90,20 +91,17 @@ async function getEventInfo(eventId) {
 }
 async function postRegistryData(payload) {
   const url = urls.eventRegistry;
-  console.log(url);
   return fetchWrapper.post(url, payload, { swr: false, authorize: true });
 }
 
 async function updateRegistryData(payload, id) {
   const url = urls.eventRegistry + "/" + id;
-  console.log(url);
   return fetchWrapper.put(url, payload, { swr: false, authorize: true });
 }
 
-async function postCashGift(payload, id) {
-  const url = urls.eventRegistry + "/" + id;
-  console.log(url);
-  return fetchWrapper.put(url, payload, { swr: false, authorize: true });
+async function postCashGift({ payload, authorize = false }) {
+  const url = urls.cashGifts;
+  return fetchWrapper.post(url, payload, { swr: false, authorize: authorize });
 }
 
 const useFetchEvents = (user) => {

@@ -20,6 +20,7 @@ const urls = {
   eventWishesBySlug: api + "/event-wishes/by-slug",
   eventRegistryBySlug: api + "/event-registries/by-slug",
   eventRegistry: api + "/event-registries",
+  cashGifts: api + "/event-cash-gifts",
   getRsvpResponses: api + "/event-rsvp-question/responses",
 };
 
