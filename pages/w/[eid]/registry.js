@@ -17,6 +17,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { TextInput } from "@/components/form";
 import { useSnackbar } from "/components/SnackBar";
+import { Form } from "@unform/web";
 
 const Registry = () => {
   const [ev, setEv] = useState(null);
@@ -50,12 +51,12 @@ const RegistryPageBody = ({ event }) => {
   const [activeRegistry, setActiveRegistry] = useState(0);
   const [currency, setCurrency] = useState(currencies[0]);
   const [cashAmount, setCashAmount] = useState();
+  const [donor, setDonor] = useState();
   const [showAccount, setShowAccount] = useState(false);
   const snackbar = useSnackbar();
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       const csh = data.filter((r) => r.type === "cash");
       const gft = data.filter((r) => r.type === "gift");
 
@@ -66,7 +67,6 @@ const RegistryPageBody = ({ event }) => {
   }, [data]);
 
   const formatAmount = (v) => {
-    console.log(v);
     if (!v) return;
     const value = v.replace(/,/g, "");
     v = parseFloat(value).toLocaleString("en-US", {
@@ -78,23 +78,26 @@ const RegistryPageBody = ({ event }) => {
     return v;
   };
   const startPay = async () => {
+    const payload = {
+      amount: cashAmount,
+      charge: 0,
+      total: cashAmount,
+      event: event.id,
+      name: donor,
+    };
+    console.log(payload);
     await eventService.postCashGift({
-      payload: {
-        amount: cashAmount,
-        charge: 0,
-        total: cashAmount,
-        event: event.id,
-      },
+      payload,
     });
   };
 
   const DDT = ({ label, value }) => {
     return (
       <div className="bg-gray-50x px-4 py-1 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 items-center flex flex-col justify-center">
-        <dt className="text-sm font-medium text-gray-500 md:text-right sm:col-span-2">
+        <dt className="text-sm font-medium text-gray-500 md:text-right sm:col-span-2 items-center">
           {label}
         </dt>
-        <dd className="mt-1 text-center md:text-start text-sm text-gray-900 sm:col-span-2 sm:mt-0 flex flex-col md:flex-row items-center mb-2">
+        <dd className="mt-1 text-center md:text-start text-sm text-gray-900 sm:col-span-2 sm:mt-0 flex flex-col md:flex-row items-center mb-2 md:mb-0">
           {value}
 
           {label === "Account Number" ? (
@@ -221,13 +224,13 @@ const RegistryPageBody = ({ event }) => {
                           type="text"
                           name="price"
                           id="price"
-                          className="block w-full rounded-md border-default p-4 pl-7 pr-12 focus:border-default focus:ring-default sm:text-lg bg-transparent"
+                          className="block w-full rounded-md  border-1 shadow-transparent  border-gray-300 p-4 pl-7 pr-12 focus:border-default focus:ring-default sm:text-lg bg-transparent"
                           placeholder="0.00"
-                          // defaultValue={formatAmount(cashAmount)}
+                          defaultValue={formatAmount(cashAmount ?? 0)}
                           onKeyPress={(e) => validate(e)}
                           onBlur={(e) => {
                             const v = formatAmount(e.target.value);
-                            console.log(v);
+
                             setCashAmount(e.target.value);
                             if (v) {
                               e.target.value = v;
@@ -256,18 +259,28 @@ const RegistryPageBody = ({ event }) => {
                         </div>
                       </div>
                     </div>
-                    <TextInput
-                      label="Full Name"
-                      type="text"
-                      name="name"
-                      placeholder=" "
-                      defaultValue={""}
-                      isInset={true}
-                    />
+                    <Form className="w-full">
+                      <TextInput
+                        label="Your Name"
+                        type="text"
+                        name="name"
+                        placeholder=" "
+                        onChange={(v) => setDonor(v.target.value)}
+                        defaultValue={donor ?? ""}
+                      />
+                    </Form>
                     <Button
                       size="small"
                       onClick={() => {
                         console.log(cashAmount);
+                        if (!donor) {
+                          snackbar.error("Please enter your name.");
+                          return;
+                        }
+                        if (!cashAmount) {
+                          snackbar.error("Please enter an amount.");
+                          return;
+                        }
                         if (cashAmount && cashAmount > 0) setShowAccount(true);
                       }}
                     >

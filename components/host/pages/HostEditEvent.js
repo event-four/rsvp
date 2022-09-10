@@ -13,6 +13,12 @@ import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { PlacesAutocomplete } from "@/components/form";
 import { TextField } from "@mui/material";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const WZEditEvent = ({ event, pageTitle }) => {
   const [showSpinner, setShowSpinner] = useState(false);
@@ -24,6 +30,7 @@ const WZEditEvent = ({ event, pageTitle }) => {
     slug: event.slug,
     metadata: {},
   });
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {}, [formData]);
 
@@ -105,7 +112,7 @@ const WZEditEvent = ({ event, pageTitle }) => {
           autoComplete="off"
         >
           <div>
-            <p className="text-sm">Your Event Url</p>
+            <p className="text-xs text-gray-500">Your Event Url</p>
             <UrlChooserTextField
               event={event}
               url={formData.slug}
@@ -140,26 +147,43 @@ const WZEditEvent = ({ event, pageTitle }) => {
             label="Event Location"
             defaultValue={event.metadata ? event.metadata.location : null}
           />
-          <TextInput
-            name="theme"
-            label="Theme"
-            defaultValue={event.metadata ? event.metadata.theme : null}
-          />
-          <TextInput
-            name="color"
-            label="Colour(s) of the Day"
-            defaultValue={event.metadata ? event.metadata.color : null}
-          />
-          <TextInput
-            name="dressCode"
-            label="Dress Code"
-            defaultValue={event.metadata ? event.metadata.dressCode : null}
-          />
-          <TextInput
-            name="otherInfo"
-            label="Other Information"
-            defaultValue={event.metadata ? event.metadata.otherInfo : null}
-          />
+
+          <div className="">
+            <div className="mb-4" onClick={() => setShowMore(!showMore)}>
+              <span className="text-sm">Additional Information</span>
+              <IconButton onClick={() => setShowMore(!showMore)}>
+                {showMore ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </IconButton>
+            </div>
+            {showMore && (
+              <div className={`flex flex-col justify-between w-full space-y-6`}>
+                <TextInput
+                  name="theme"
+                  label="Theme"
+                  defaultValue={event.metadata ? event.metadata.theme : null}
+                />
+                <TextInput
+                  name="color"
+                  label="Colour(s) of the Day"
+                  defaultValue={event.metadata ? event.metadata.color : null}
+                />
+                <TextInput
+                  name="dressCode"
+                  label="Dress Code"
+                  defaultValue={
+                    event.metadata ? event.metadata.dressCode : null
+                  }
+                />
+                <TextInput
+                  name="otherInfo"
+                  label="Other Information"
+                  defaultValue={
+                    event.metadata ? event.metadata.otherInfo : null
+                  }
+                />
+              </div>
+            )}
+          </div>
 
           <div className="mt-4 flex justify-center">
             <LoadingButton loading={showSpinner} type="submit">

@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    API: process.env.API || "http://localhost:1337/api",
+    API: process.env.API || "http://localhost:2500/api",
   },
   async redirects() {
     return [

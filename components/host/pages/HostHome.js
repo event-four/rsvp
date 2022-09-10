@@ -224,6 +224,7 @@ const WZHome = ({ event, pageTitle }) => {
           )}
         </div>
       </Section>
+
       <WZEditEvent event={event} />
     </>
   );
