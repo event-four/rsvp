@@ -95,6 +95,12 @@ const WZWishes = ({ event, pageTitle, pss }) => {
       </h1>
       <Section title="">
         <div className="flex flex-col space-y-2 my-12 justify-center items-center">
+          {wishes && wishes.length === 0 && (
+            <div className="text-sm text-center">
+              No wishes yet! <br />
+              Remember to share your website with your guests.
+            </div>
+          )}
           {wishes &&
             wishes.length > 0 &&
             wishes.map((wish, index) => (
