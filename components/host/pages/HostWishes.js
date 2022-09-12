@@ -96,9 +96,11 @@ const WZWishes = ({ event, pageTitle, pss }) => {
       <Section title="">
         <div className="flex flex-col space-y-2 my-12 justify-center items-center">
           {wishes && wishes.length === 0 && (
-            <div className="text-sm text-center">
-              No wishes yet! <br />
-              Remember to share your website with your guests.
+            <div className="text-sm text-center flex flex-col">
+              <div className="text-md font-semibold">No wishes yet!</div>
+              <div className="text-gray-500 text-sm mt-2">
+                Remember to share your website with your guests.
+              </div>
             </div>
           )}
           {wishes &&
