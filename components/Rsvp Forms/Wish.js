@@ -64,7 +64,8 @@ export default function Confirmation({ event, formStep, step }) {
             Just one more thing...
           </h1>
           <p className="text-sm text-primary-dark">
-            Please drop a wish or a prayer for us. We'd really appreciate it!
+            Please drop a wish, message, or a prayer for us. We'd really
+            appreciate it!
           </p>
 
           <div className="relative">

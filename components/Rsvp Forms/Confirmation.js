@@ -12,22 +12,8 @@ const schema = yup.object().shape({}, []);
 export default function Confirmation({ event, formStep }) {
   const { rsvpUrls } = useAppStates();
   const { data } = useFormData();
-  // console.log(rsvpUrls);
 
-  useEffect(() => {
-    // if (Object.keys(data).length === 0) return;
-    // const payload = {
-    //   ...data,
-    //   eventId: event.id,
-    // };
-    // postRsvpResponse(payload)
-    //   .then((response) => {
-    //     // console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  });
+  useEffect(() => {});
 
   const isToday = (someDate) => {
     if (!someDate) return false;
@@ -59,7 +45,7 @@ export default function Confirmation({ event, formStep }) {
             {isToday(event.startDate) && (
               <div className="space-y-6">
                 <p className="text-sm">
-                  Thanks for the wishes! You will always be celebrated 💗💗
+                  Thanks for the wish! You will always be celebrated 💗💗
                 </p>
               </div>
             )}

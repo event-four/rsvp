@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { TextInput } from "../form";
 import { useFormData } from "/components/providers/FormProvider";
@@ -31,9 +31,27 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
   const { setFormValues, data } = useFormData();
   const { rsvpUrls } = useAppStates();
   const [attending, setAttending] = useState(true);
+  const [mainQuestion, setMainQuestion] = useState("");
 
   const router = useRouter();
   const formRef = useRef();
+  // const mainQuestion = useRef("");
+  const yesBtnLabel = useRef("");
+
+  useEffect(() => {
+    // console.log("event", event);
+    // if (event) {
+    if (event.type.name === "Wedding") {
+      setMainQuestion("Ready to party with us?");
+      // mainQuestion.current = "Ready to party with us?";
+      yesBtnLabel.current = "Yes, let's get you married";
+    } else {
+      setMainQuestion("Ready to join us?");
+      // mainQuestion.current = "Ready to join us?";
+      yesBtnLabel.current = "Yes, I can't wait";
+    }
+    // }
+  }, []);
 
   async function handleSubmit(data) {
     try {
@@ -126,7 +144,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
           {!isToday(event.startDate) && (
             <div className=" justify-between items-centerx mt-4">
               <p className="text-sm text-center text-pink-600 font-bold pb-4">
-                Ready to party with us?
+                {mainQuestion}
               </p>
 
               <div className="flex flex-col-reverse md:flex-row md:space-x-4 justify-between ">
@@ -146,7 +164,7 @@ export default function PersonalInfo({ event, formStep, noRsvp, step }) {
                   }}
                   type="submit"
                 >
-                  Yes, let's get you married
+                  {yesBtnLabel.current}
                 </button>
               </div>
             </div>

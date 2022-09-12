@@ -58,14 +58,14 @@ const Button = ({ isLoading, children, ...props }) => {
     <button
       ref={ref}
       className={`${props.classes} bg-${primaryColor} ${hoverBgColor} text-primary-light  hover:text-primary-light ${style} `}
-      style={
-        width && height
-          ? {
-              width: `${width}px`,
-              height: `${height}px`,
-            }
-          : {}
-      }
+      // style={
+      //   width && height
+      //     ? {
+      //         width: `${width}px`,
+      //         height: `${height}px`,
+      //       }
+      //     : {}
+      // }
       {...props}
     >
       {isLoading ? (

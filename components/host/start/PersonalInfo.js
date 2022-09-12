@@ -17,13 +17,11 @@ const schema = yup.object().shape(
 const schemaOthers = yup.object().shape(
   {
     eventType: yup.object().required("Event type is required"),
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
-    partnerFirstName: yup.string().required("First name is required"),
-    partnerLastName: yup.string().required("Last name is required"),
+    eventName: yup.string().required("Event name is required"),
   },
   []
 );
+
 const eventTypes = [
   { id: 7, name: "Wedding" },
   { id: 2, name: "Birthday" },
@@ -31,6 +29,7 @@ const eventTypes = [
   { id: 4, name: "Funeral" },
   { id: 5, name: "Bridal Shower" },
 ];
+
 export default function PersonalInfo({ goToStep, isVisible }) {
   const { setFormValues, formValues } = useFormData();
   const [eventType, setEventType] = useState(eventTypes[0]);
@@ -53,9 +52,18 @@ export default function PersonalInfo({ goToStep, isVisible }) {
     try {
       formRef.current.setErrors({});
       data.eventType = eventType;
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+
+      //validate form
+      if (eventType.name === "wedding") {
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+      } else {
+        await schemaOthers.validate(data, {
+          abortEarly: false,
+        });
+      }
+
       // Validation passed - do something with data
       setFormValues(data);
       goToStep();
@@ -93,51 +101,86 @@ export default function PersonalInfo({ goToStep, isVisible }) {
           label="Event Type"
           onChange={handleEventTypeChange}
         />
-        <fieldset>
-          <legend className="font-semibold text-sm mb-1">Your Name</legend>
-          <div className="isolate  relative -space-x-px grid grid-cols-2">
+
+        {eventType.name === "Wedding" ? (
+          <>
+            <fieldset>
+              <legend className="font-semibold text-sm mb-1">
+                Your Partner's Name
+              </legend>
+              <div className="isolate  relative -space-x-px gridx grid-cols-2x flex flex-row">
+                <TextInput
+                  label="First Name"
+                  type="text"
+                  name="partnerFirstName"
+                  classes="rounded-r-none "
+                  defaultValue={formValues.partnerFirstName}
+                  placeholder=" "
+                />
+                <TextInput
+                  label="Last Name"
+                  type="text"
+                  name="partnerLastName"
+                  classes="rounded-l-none "
+                  defaultValue={formValues.partnerLastName}
+                  placeholder=" "
+                />
+              </div>
+            </fieldset>
+            <fieldset className="flex">
+              <legend className="font-semibold text-sm mb-1">Your Name</legend>
+              <div className="isolate relative -space-x-px gridx grid-cols-2x flex flex-row">
+                <TextInput
+                  label="First Name"
+                  type="text"
+                  name="firstName"
+                  classes="rounded-r-none "
+                  defaultValue={formValues.firstName}
+                  placeholder=" "
+                />
+                <TextInput
+                  label="Last Name"
+                  type="text"
+                  name="lastName"
+                  classes="rounded-l-none "
+                  defaultValue={formValues.lastName}
+                  placeholder=" "
+                />
+              </div>
+            </fieldset>
+          </>
+        ) : (
+          <>
             <TextInput
-              label="First Name"
+              label="Event Name"
               type="text"
-              name="firstName"
-              classes="rounded-r-none "
-              defaultValue={formValues.firstName}
+              name="eventName"
+              classes=""
+              defaultValue={formValues.eventName}
               placeholder=" "
             />
-            <TextInput
-              label="Last Name"
-              type="text"
-              name="lastName"
-              classes="rounded-l-none "
-              defaultValue={formValues.lastName}
-              placeholder=" "
-            />
-          </div>
-        </fieldset>
-        {eventType.id === 7 && (
-          <fieldset>
-            <legend className="font-semibold text-sm mb-1">
-              Your Partner's Name
-            </legend>
-            <div className="isolate  relative -space-x-px grid grid-cols-2">
-              <TextInput
-                label="First Name"
-                type="text"
-                name="partnerFirstName"
-                classes="rounded-r-none "
-                defaultValue={formValues.partnerFirstName}
-                placeholder=" "
-              />
-              <TextInput
-                label="Last Name"
-                type="text"
-                name="partnerLastName"
-                classes="rounded-l-none "
-                defaultValue={formValues.partnerLastName}
-                placeholder=" "
-              />
-            </div>
-          </fieldset>
+            {/* <fieldset className="flex">
+              <legend className="font-semibold text-sm mb-1">Your Name</legend>
+              <div className="isolatex relativex -space-x-px gridx grid-cols-2x flex flex-row ">
+                <TextInput
+                  label="First Name"
+                  type="text"
+                  name="firstName"
+                  classes="rounded-r-none "
+                  defaultValue={formValues.firstName}
+                  placeholder=" "
+                />
+                <TextInput
+                  label="Last Name"
+                  type="text"
+                  name="lastName"
+                  classes="rounded-l-none "
+                  defaultValue={formValues.lastName}
+                  placeholder=" "
+                />
+              </div>
+            </fieldset> */}
+          </>
         )}
         <Button classes="w-full" type="submit">
           Continue

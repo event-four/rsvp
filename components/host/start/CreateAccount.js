@@ -86,6 +86,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
         eventMeta: {
           owner: user.profile.id,
           typeId: formValues.eventType.id,
+          eventName: formValues.eventName,
           firstName: formValues.firstName,
           lastName: formValues.lastName,
           partnerFirstName: formValues.partnerFirstName,
@@ -179,6 +180,7 @@ export default function CreateAccount({ goToStep, isVisible, submitForm }) {
             eventMeta: {
               owner: user.profile.id,
               typeId: formValues.eventType.id,
+              eventName: formValues.eventName,
               firstName: formValues.firstName,
               lastName: formValues.lastName,
               partnerFirstName: formValues.partnerFirstName,

@@ -95,6 +95,7 @@ export default function ChooseUrl({ goToStep, isVisible }) {
     // Update the keyword of the input element
     let slug = e.target.value;
     slug = slug.replace(/\s/g, "");
+    slug = slug.replace("#", "");
     e.target.value = slug;
 
     // console.log(user);
@@ -150,13 +151,16 @@ export default function ChooseUrl({ goToStep, isVisible }) {
               placeholder=""
               state={urlConfirmationState}
             />
+            <p className="text-xs mt-2 text-gray-500">
+              Tip: You can use your event hashtag (without #)
+            </p>
           </div>
         </fieldset>
         {/* <p className="text-xs text-gray-500">
           Don't forget to share it with friends and family.
         </p> */}
-        <div className="relative flex items-start hiddenx">
-          <div className="flex items-center h-5">
+        <div className="relative flex  items-start hiddenx">
+          <div className="flex items-center h-5 ">
             <input
               aria-describedby="searchable-description"
               name="searchable"
@@ -169,14 +173,14 @@ export default function ChooseUrl({ goToStep, isVisible }) {
           </div>
           <div className="ml-3 text-sm ">
             <label htmlFor="searchable" className="font-medium">
-              I want my guests to find my website in search engines.
+              I want my website to be public.
             </label>
             <p
               id="searchable-description"
               className="text-gray-500 text-xs mt-1"
             >
-              It makes it easier for guests to RSVP, find day of event details
-              and browse your registry.
+              It makes it easier for guests to find your website, RSVP, find day
+              of event details and browse your registry.
             </p>
           </div>
         </div>

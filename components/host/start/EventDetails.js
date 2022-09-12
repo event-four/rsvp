@@ -124,9 +124,7 @@ export default function EventDetails({ goToStep, isVisible, submitForm }) {
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileDatePicker
-            label={`${
-              formValues && formValues.eventType && formValues.eventType.name
-            } Date`}
+            label={`Event Date`}
             inputFormat="DD, MMM, YYYY"
             value={startDate}
             onChange={handleChange}
