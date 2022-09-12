@@ -51,7 +51,7 @@ const WZWishes = ({ event, pageTitle, pss }) => {
     if (fetcher) {
       const { data, meta } = fetcher;
       // setPage(meta.page + 1);
-      // console.log("meta.page", data);
+      console.log("meta.page", data);
 
       if (data && data.length > 0) {
         // let w = [...wishes, ...data];
