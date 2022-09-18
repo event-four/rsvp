@@ -5,7 +5,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <link rel="icon" href="https://eventfour.com/favicon.png" />
+        <link rel="icon" href="/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -17,10 +17,13 @@ export default function Document() {
           rel="stylesheet"
         />
         <meta property="og:title" content="EventFour - Stress-free Events" />
+        <meta property="og:image" content="https://eventfour.com/favicon.png" />
+        <meta property="og:url" content="https://eventfour.com" />
         <meta
-          property="og:image"
-          content="https://eventfour.com/favicon.png"
-        ></meta>
+          property="og:description"
+          content="Embrace a simpler way to plan and attend events with EventFour (4-in-1) connective platform."
+        />
+        <meta property="og:type" content="website" />
       </Head>
       <body>
         <Main />
