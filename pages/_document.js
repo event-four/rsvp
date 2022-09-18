@@ -16,6 +16,8 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Poppins:wght@200;400;600&family=Rochester&display=swap"
           rel="stylesheet"
         />
+        <meta property="og:title" content="EventFour - Stress-free Events" />
+        <meta property="og:image" content="/favicon.png"></meta>
       </Head>
       <body>
         <Main />
