@@ -24,7 +24,7 @@ export default function Confirmation({ event, formStep, step }) {
 
       const payload = {
         ...data,
-        wish: fmdata.wish,
+        wish: fmdata.wish === "" ? null : fmdata.wish,
         eventId: event.id,
       };
 
@@ -51,6 +51,8 @@ export default function Confirmation({ event, formStep, step }) {
     }
   }
 
+  const isWedding = event.type.name === "Wedding";
+
   return (
     <>
       <div className={formStep == 3 ? "block" : "hidden"}>
@@ -64,8 +66,9 @@ export default function Confirmation({ event, formStep, step }) {
             Just one more thing...
           </h1>
           <p className="text-sm text-primary-dark">
-            Please drop a wish, message, or a prayer for us. We'd really
-            appreciate it!
+            {isWedding
+              ? "Please drop a wish, message, or a prayer for us. We'd really appreciate it!"
+              : "Got any questions? We'd love to hear from you."}
           </p>
 
           <div className="relative">
@@ -83,6 +86,12 @@ export default function Confirmation({ event, formStep, step }) {
               type="submit"
             >
               Done
+            </button>
+            <button
+              className=" my-2 transition duration-150 ease-in-out focus:outline-none rounded  text-pink-600 px-6 py-3 text-sm w-full"
+              type="submit"
+            >
+              Skip
             </button>
           </div>
         </Form>
