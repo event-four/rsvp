@@ -9,6 +9,7 @@ import Link from "next/link";
 import InnerLayout from "../../../components/guests/InnerLayout";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 // const dayjs = require("dayjs");
+import { useFetchEventStory } from "/services";
 
 const EventPage = () => {
   const { setRsvpUrls, setRsvpEid } = useAppStates();
@@ -38,13 +39,14 @@ const EventPage = () => {
     }
   }, [router.isReady]);
 
-  return <InnerLayout>{<EventPageBody />}</InnerLayout>;
+  return <InnerLayout>{<EventPageLoader />}</InnerLayout>;
 };
 
-const EventPageBody = () => {
+const EventPageLoader = () => {
   const { rsvpEid, rsvpUrls } = useAppStates();
 
   const { event, isLoading, isError } = useGetEventBySlug(rsvpEid);
+
   ///
   if (isError) {
     console.log(isError);
@@ -70,6 +72,41 @@ const EventPageBody = () => {
 
   //  All is loaded!
   const ev = event.data;
+
+  return <EventPageBody event={ev} />;
+};
+
+const EventPageBody = ({ event }) => {
+  const { rsvpEid, rsvpUrls } = useAppStates();
+
+  // const { event, isLoading, isError } = useGetEventBySlug(rsvpEid);
+  const { data: story, loading, error } = useFetchEventStory(event.slug);
+
+  ///
+  // if (isError) {
+  //   console.log(isError);
+  // }
+  // if (isLoading)
+  //   return (
+  //     <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
+  //       <p className="align-middle w-full"> Loading...</p>
+  //     </div>
+  //   );
+  // if (isError)
+  //   return (
+  //     <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
+  //       <p className="align-middle w-full"> Something went wrong!</p>
+  //     </div>
+  //   );
+  // if (!event.data)
+  //   return (
+  //     <div className="absolute text-center flex items-center w-full h-full my-auto mx-auto content-center">
+  //       <p className="align-middle w-full"> Event Not Found</p>
+  //     </div>
+  //   );
+
+  //  All is loaded!
+  const ev = event;
   let date, countdown;
   //
   utils.setToStorage("event", JSON.stringify(ev));
@@ -101,9 +138,11 @@ const EventPageBody = () => {
         <p>{countdown}</p>
       </div>
       <div className="container hidden md:flex flex-col md:flex-row md:w-7/12 items-center  my-5 mx-auto justify-center">
-        <Link href={`${rsvpUrls.story}`}>
-          <a className="homeBtn">Our Story</a>
-        </Link>
+        {story && (
+          <Link href={`${rsvpUrls.story}`}>
+            <a className="homeBtn">Our Story</a>
+          </Link>
+        )}
         {!isToday(ev.startDate) && (
           <Link href={`${rsvpUrls.rsvp}`}>
             <a className="homeBtn">RSVP</a>
@@ -153,9 +192,11 @@ const EventPageBody = () => {
       </div>
 
       <div className="container md:hidden flex flex-col md:flex-row md:w-7/12 items-center mb-5 mx-auto justify-center">
-        <Link href={`${rsvpUrls.story}`}>
-          <a className="homeBtn">Our Story</a>
-        </Link>
+        {story && (
+          <Link href={`${rsvpUrls.story}`}>
+            <a className="homeBtn">Our Story</a>
+          </Link>
+        )}
 
         {!isToday(ev.startDate) && (
           <Link href={`${rsvpUrls.rsvp}`}>

@@ -33,9 +33,14 @@ const randomQuestions = [
   },
   { question: "Do you want the Asoebi?", description: "", type: "yesno" },
 ];
+const randomQuestionsOthers = [
+  { question: "Will you attend the Ceremony?", description: "", type: "yesno" },
+];
 
 const WZFollowUpPage = ({ event, show = false }) => {
-  const [suggestedQuestions, setSuggestedQuestions] = useState(randomQuestions);
+  const [suggestedQuestions, setSuggestedQuestions] = useState(
+    event.type.name === "Wedding" ? randomQuestions : randomQuestionsOthers
+  );
   const [questions, setQuestions] = useState([]);
   const [inputQ, setInputQ] = useState(null);
   const [questionIndex, setQuestionIndex] = useState(null);
