@@ -148,7 +148,7 @@ const EventPageBody = ({ event }) => {
             <a className="homeBtn">RSVP</a>
           </Link>
         )}
-        {isToday(ev.startDate) && (
+        {isToday(ev.startDate) && ev.type.name === "Wedding" && (
           <Link href={`${rsvpUrls.rsvp}`}>
             <a className="homeBtn">Drop a Wish</a>
           </Link>
@@ -203,7 +203,7 @@ const EventPageBody = ({ event }) => {
             <a className="homeBtn">RSVP</a>
           </Link>
         )}
-        {isToday(ev.startDate) && (
+        {isToday(ev.startDate) && ev.type.name === "Wedding" && (
           <Link href={`${rsvpUrls.rsvp}`}>
             <a className="homeBtn">Drop a Wish</a>
           </Link>
