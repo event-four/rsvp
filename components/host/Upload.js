@@ -261,7 +261,7 @@ export function Upload({
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed z-50 inset-0 overflow-y-auto"
+          className="fixed z-50 inset-0 overflow-y-auto "
           // initialFocus={cancelButtonRef}
           onClose={setOpen}
         >
@@ -302,7 +302,15 @@ export function Upload({
                       className="text-lg leading-6 font-medium text-gray-900"
                     ></Dialog.Title>
                     <div className="mt-4x flex flex-col space-y-6">
-                      <div className="flex flex-row space-x-4 items-end justify-end">
+                      <div className="flex flex-row space-x-4 justify-center items-center ">
+                        <Button
+                          disabled={
+                            !completedCrop?.width || !completedCrop?.height
+                          }
+                          onClick={uploadImage}
+                        >
+                          Upload
+                        </Button>
                         <div>
                           <div className="uppercase text-xs">Rotate</div>
                           <IconButton
@@ -380,6 +388,8 @@ export function Upload({
                           src={imgSrc}
                           style={{
                             transform: `scale(${scale}) rotate(${rotate}deg)`,
+                            // maxHeight: "250px",
+                            // margin: "auto",
                           }}
                           onLoad={onImageLoad}
                         />

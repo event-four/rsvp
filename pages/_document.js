@@ -16,6 +16,15 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Poppins:wght@200;400;600&family=Rochester&display=swap"
           rel="stylesheet"
         />
+        <meta property="og:title" content="EventFour" />
+        <meta property="og:image" content="https://eventfour.com/favicon.png" />
+        <meta property="og:url" content="https://eventfour.com" />
+        <meta
+          property="og:description"
+          content="Embrace a simpler way to plan and attend events with EventFour (4-in-1) connective platform."
+        />
+        <meta property="og:type" content="website" />
+        {/* <meta property="og:fb_" content="358810365736248" /> */}
       </Head>
       <body>
         <Main />

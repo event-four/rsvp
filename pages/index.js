@@ -40,6 +40,8 @@ export default function Home() {
       <Head>
         <title>EventFour</title>
         <meta name="description" content="Stress-free events" />
+        <meta property="og:title" content="EventFour - Stress-free Events" />
+        <meta property="og:image" content="/favicon.png"></meta>
       </Head>
       <div className="container flex flex-col bg-primary">
         <div className=" min-h-full w-full ">
