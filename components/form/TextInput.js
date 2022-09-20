@@ -1,18 +1,26 @@
 import { useField } from "@unform/core";
 import { useEffect, useRef, useState } from "react";
 import Loader, { LOADER_STATE } from "./Loader";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
 export default function TextInput({
   state = LOADER_STATE.DEFAULT,
   name,
   label,
   isInset = false,
+  isPassword = false,
   ...props
 }) {
   const inputRef = useRef();
 
   const { fieldName, defaultValue, registerField, error } = useField(name);
   const [showLoader, setShowLoader] = useState(false);
+  const [type, setType] = useState(false);
+
+  useEffect(() => {
+    setType("password");
+  }, []);
 
   useEffect(() => {
     if (state === LOADER_STATE.LOADING) {
@@ -33,6 +41,7 @@ export default function TextInput({
         <input
           id={fieldName}
           ref={inputRef}
+          type={type}
           defaultValue={defaultValue}
           {...props}
         />
@@ -43,6 +52,10 @@ export default function TextInput({
       </>
     );
   }
+  const togglePasswordVisibility = () => {
+    setType(type === "password" ? "text" : "password");
+  };
+
   return (
     <div
       className={`relative rounded focus-within:z-10 focus-within:ring-0x border-gray-300`}
@@ -53,6 +66,7 @@ export default function TextInput({
           ref={inputRef}
           defaultValue={defaultValue}
           {...props}
+          type={isPassword ? type : props.type}
           className={`block rounded border border-gray-300 px-3 pb-2 pt-6 w-full text-sm text-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-default peer bg-transparent ${props.classes} `}
         />
         <label
@@ -61,6 +75,13 @@ export default function TextInput({
         >
           {label}
         </label>
+        {props.type === "password" && (
+          <div className="absolute border-t-1 left-auto right-3 bottom-0 top-2">
+            <IconButton onClick={togglePasswordVisibility}>
+              {type === "password" ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </IconButton>
+          </div>
+        )}
         <Loader state={state} />
       </div>
 

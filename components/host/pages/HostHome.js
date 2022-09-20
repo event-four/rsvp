@@ -146,7 +146,8 @@ const WZHome = ({ event, pageTitle }) => {
                   className="text-gray-400"
                 />
                 <span className="mt-2 mx-6 block text-xs font-medium text-gray-500">
-                  Add your cover video <small>(50mb max)</small> or photo.
+                  Add your couple photo or cover video <small>(50mb max)</small>
+                  .
                 </span>
               </div>
             </button>

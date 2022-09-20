@@ -123,6 +123,7 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
                   name="password"
                   classes=""
                   placeholder=" "
+                  isPassword={true}
                 />
               </div>
 
