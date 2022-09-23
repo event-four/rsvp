@@ -16,14 +16,14 @@ const hoverOutlineColor =
 
 const style = `font-semibold border border-${primaryColor} transition duration-150 ease-in-out rounded focus:outline-none px-6 py-3 text-sm w-full text-center relative disabled:bg-gray-500 disabled:border-transparent`;
 
-const Button = ({ isLoading, children, ...props }) => {
+const Button = React.forwardRef(({ isLoading, children, ...props }, ref) => {
   /* Capture the dimensions of the button before the loading happens
   so it doesn’t change size when showing the loader */
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [showLoader, setShowLoader] = useState(false);
 
-  const ref = useRef(null);
+  const tref = useRef(null);
 
   useEffect(
     () => {
@@ -43,11 +43,11 @@ const Button = ({ isLoading, children, ...props }) => {
         };
       }
 
-      if (ref.current && ref.current.getBoundingClientRect().width) {
-        setWidth(ref.current.getBoundingClientRect().width);
+      if (tref.current && tref.current.getBoundingClientRect().width) {
+        setWidth(tref.current.getBoundingClientRect().width);
       }
-      if (ref.current && ref.current.getBoundingClientRect().height) {
-        setHeight(ref.current.getBoundingClientRect().height);
+      if (tref.current && tref.current.getBoundingClientRect().height) {
+        setHeight(tref.current.getBoundingClientRect().height);
       }
     },
     // children are a dep so dimensions are updated if initial contents change
@@ -75,9 +75,10 @@ const Button = ({ isLoading, children, ...props }) => {
       )}
     </button>
   );
-};
+});
 
 const OutlineButton = ({ children, ...props }) => {
+  const ref = React.createRef();
   return (
     <Button
       className={`${style} focus:outline-none  bg-transparent text-${primaryColor} ${hoverOutlineColor} border ${

@@ -23,6 +23,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/outline";
 import { useSnackbar } from "/components/SnackBar";
 import * as XLSX from "xlsx";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import ZPortal from "@/components/Portal";
 
 const randomQuestions = [
   { question: "Will you attend the Ceremony?", description: "", type: "yesno" },
@@ -50,6 +54,12 @@ const WZFollowUpPage = ({ event, show = false }) => {
   const { data, loading, error } = useFetchRsvpQuestions(event);
   const snackbar = useSnackbar();
 
+  const [selectedQuestionType, setSelectedQuestionType] = useState("yesno");
+  const [questionOptions, setQuestionOptions] = useState([]);
+
+  const handleChange = (event) => {
+    setSelectedQuestionType(event.target.value);
+  };
   useEffect(() => {
     if (data) {
       setQuestions(data.questions ?? []);
@@ -79,6 +89,22 @@ const WZFollowUpPage = ({ event, show = false }) => {
     if (q) {
       setQuestionIndex(questions.indexOf(q));
       setInputQ(q.question);
+      setSelectedQuestionType(q.type);
+
+      if (q.type === "multiple") {
+        let qs = [];
+        qs = q.choice;
+        if (q.choice.length === 1) {
+          qs.push({});
+        } else if (q.choice.length === 0) {
+          qs.push({});
+          qs.push({});
+        }
+        setQuestionOptions(qs);
+        console.log(questionOptions);
+      } else {
+        setQuestionOptions([]);
+      }
     } else {
       setQuestionIndex(-1);
     }
@@ -88,17 +114,47 @@ const WZFollowUpPage = ({ event, show = false }) => {
 
   const updateQuestion = () => {
     const isAdding = questionIndex === -1;
+    let open = false;
 
     if (isAdding) {
-      questions.push({ question: inputQ, description: "", type: "yesno" });
+      questions.push({
+        question: inputQ,
+        description: "",
+        type: "yesno",
+        choice: questionOptions,
+      });
     } else {
       questions[questionIndex] = {
         ...questions[questionIndex],
         question: inputQ,
+        type: selectedQuestionType,
+        choice: questionOptions,
       };
     }
+
+    //validate multi choice
+    if (questions[questionIndex].type === "multiple") {
+      const c = questions[questionIndex].choice;
+      if (c.length < 2) {
+        snackbar.error(
+          "Multiple choice questions requires at least two (2) options."
+        );
+        return;
+      }
+
+      for (let cc of c) {
+        if (cc.option === "" || cc.option === null) {
+          snackbar.error("Option field can not be blank.");
+          open = true;
+          break;
+        }
+      }
+    } else {
+      questions[questionIndex].choice = [];
+    }
+
     modifyQuestion(questions);
-    setOpen(false);
+    setOpen(open);
   };
 
   const deleteQuestion = (question) => {
@@ -131,6 +187,33 @@ const WZFollowUpPage = ({ event, show = false }) => {
     });
 
     return unAdded;
+  };
+
+  const updateQuestionOption = (value, optionIndex, field) => {
+    questionOptions[optionIndex][field] = value;
+  };
+
+  const addQuestionOption = () => {
+    questionOptions.push({});
+    setQuestionOptions([...questionOptions]);
+  };
+
+  const onDeleteOption = (optionIndex) => {
+    if (questionOptions.length < 3) {
+      return;
+    }
+    const qo = questionOptions.splice(optionIndex, 1);
+    setQuestionOptions([...qo]);
+  };
+
+  const onSelectedQuestionType = (type) => {
+    if (type === "multiple") {
+      setQuestionOptions([{}, {}]);
+    } else {
+      setQuestionOptions([]);
+    }
+
+    setSelectedQuestionType(type);
   };
 
   const downloadExcel = () => {
@@ -237,78 +320,132 @@ const WZFollowUpPage = ({ event, show = false }) => {
           </ul>
         </>
       )}
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed z-50 inset-0 overflow-y-auto"
-          initialFocus={cancelButtonRef}
-          onClose={setOpen}
-        >
-          <div className="w-full flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
 
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            >
-              <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-full sm:max-w-lg sm:w-full sm:p-6">
-                <div>
-                  <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg leading-6 font-medium text-gray-900"
+      {/* ================= ADD Question DIALOG =================== */}
+      <ZPortal
+        title="Follow-Up Question"
+        open={open}
+        onClose={() => setOpen(false)}
+        positiveLabel="Save"
+        positiveOnClick={updateQuestion}
+      >
+        <>
+          <div className="mt-3 text-center sm:mt-5">
+            <div className="mt-4 flex flex-col items-start text-sm">
+              <input
+                className="border w-full rounded text-sm h-12 px-6"
+                ref={inputDialogRef}
+                placeholder="Enter question"
+                defaultValue={inputQ}
+                onChange={(v) => setInputQ(v.target.value)}
+              />
+              <p className="mt-4 mb-2 text-gray-500">Type of response</p>
+              <div className="text-sm flex flex-row w-full justify-between ">
+                <input
+                  type="radio"
+                  id="yesno"
+                  // checked={() => onSelectedQuestionType("yesno")}
+                  onChange={() => onSelectedQuestionType("yesno")}
+                  value="yesno"
+                  name="radio-buttons"
+                />
+                <label className="mr-4 ml-1" htmlFor="yesno">
+                  Yes/No
+                </label>
+                <input
+                  type="radio"
+                  id="short"
+                  // checked={() => onSelectedQuestionType("short")}
+                  onChange={() => onSelectedQuestionType("short")}
+                  value="short"
+                  name="radio-buttons"
+                />
+                <label className="mr-4 ml-1" htmlFor="short">
+                  Short Answer
+                </label>
+                <input
+                  type="radio"
+                  id="multiple"
+                  // checked={() => onSelectedQuestionType("multiple")}
+                  onChange={() => onSelectedQuestionType("multiple")}
+                  value="multiple"
+                  name="radio-buttons"
+                />
+                <label className="mr-4 ml-1" htmlFor="multiple">
+                  Multiple Choice
+                </label>
+              </div>
+              {selectedQuestionType === "multiple" && (
+                <div className="flex flex-col space-y-2 w-full mt-6">
+                  {questionOptions.map((option, i) => (
+                    <OptionItem
+                      key={i}
+                      option={option.option}
+                      description={option.description}
+                      onChangeOption={(v) =>
+                        updateQuestionOption(v.target.value, i, "option")
+                      }
+                      onChangeDescription={(v) =>
+                        updateQuestionOption(v.target.value, i, "description")
+                      }
+                      onDeleteOption={() => onDeleteOption(i)}
+                    />
+                  ))}
+
+                  <div className=" flex space-x-1 items-center justify-center">
+                    <li
+                      key={`qx--1`}
+                      onClick={() => addQuestionOption()}
+                      className="border border-dashed rounded px-4 py-2 text-sm inline-flex justify-between items-center hover:cursor-pointer hover:border-default text-gray-500 hover:text-default w-full"
                     >
-                      Follow-Up Question
-                    </Dialog.Title>
-                    <div className="mt-4">
-                      <input
-                        className="border w-full rounded text-sm h-12 px-6"
-                        ref={inputDialogRef}
-                        defaultValue={inputQ}
-                        onChange={(v) => setInputQ(v.target.value)}
-                      />
-                    </div>
+                      <div className="flex flex-grow ml-4 items-center justify-center space-x-3 h-10 ">
+                        <AddCircleOutlineIcon /> <span>Add Option</span>{" "}
+                      </div>
+                    </li>
                   </div>
                 </div>
-                <div className="mt-5 w-full flex flex-row  justify-center space-x-4">
-                  <Button
-                    variant="outlined"
-                    onClick={() => setOpen(false)}
-                    ref={cancelButtonRef}
-                  >
-                    Cancel
-                  </Button>
-                  <Button onClick={updateQuestion}>Save</Button>
-                </div>
-              </div>
-            </Transition.Child>
+              )}
+            </div>
           </div>
-        </Dialog>
-      </Transition.Root>
+        </>
+      </ZPortal>
     </div>
   );
 };
 
+const OptionItem = ({
+  option,
+  description,
+  onChangeOption,
+  onChangeDescription,
+  onDeleteOption,
+}) => {
+  return (
+    <div className="flex flex-row space-x-6 items-start">
+      <div className="flex flex-col w-full space-y-2 mb-4">
+        <input
+          className="border w-full rounded text-sm h-10 px-6"
+          placeholder="Option*"
+          defaultValue={option}
+          onChange={onChangeOption}
+        />
+        <textarea
+          className="border w-full rounded text-sm h-10x px-6 bg-transparent"
+          placeholder="Description"
+          defaultValue={description}
+          onChange={onChangeDescription}
+          rows={3}
+        />
+      </div>
+
+      <IconButton
+        variant="outlined"
+        sx={{ p: { xs: 0.5, sm: 1 } }}
+        onClick={onDeleteOption}
+      >
+        <ClearIcon />
+      </IconButton>
+    </div>
+  );
+};
 export default memo(WZFollowUpPage);

@@ -16,7 +16,7 @@ export default function TextInput({
 
   const { fieldName, defaultValue, registerField, error } = useField(name);
   const [showLoader, setShowLoader] = useState(false);
-  const [type, setType] = useState(false);
+  const [type, setType] = useState();
 
   useEffect(() => {
     setType("password");
@@ -26,6 +26,7 @@ export default function TextInput({
     if (state === LOADER_STATE.LOADING) {
       setShowLoader(true);
     }
+
     registerField({
       name: fieldName,
       ref: inputRef.current,
