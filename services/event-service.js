@@ -145,10 +145,8 @@ const useFetchEventWishes = (slug, page) => {
     urls.eventWishesBySlug +
     "/" +
     slug +
-    `?pagination[page]=${page}&pagination[pageSize]=1`;
-  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
-
-  return swrResponse(useSWR(url, fetcher));
+    `?pagination[page]=${page}&pagination[pageSize]=${1}`;
+  return fetchWrapper.get(url, { swr: false, authorize: true });
 };
 
 const useFetchEventRegistry = (slug, authorize = true) => {

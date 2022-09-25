@@ -43,7 +43,7 @@ export default function PersonalInfo({ goToStep, isVisible }) {
   });
 
   const handleEventTypeChange = (e) => {
-    console.log(e);
+    // console.log(e);
     setEventType(e);
     setFormValues({ eventType: e });
   };
@@ -54,7 +54,7 @@ export default function PersonalInfo({ goToStep, isVisible }) {
       data.eventType = eventType;
 
       //validate form
-      if (eventType.name === "wedding") {
+      if (eventType.name === "Wedding") {
         await schema.validate(data, {
           abortEarly: false,
         });

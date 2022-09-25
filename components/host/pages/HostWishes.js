@@ -20,7 +20,7 @@ import IconButton from "@mui/material/IconButton";
 
 const dayjs = require("dayjs");
 
-const WZWishes = ({ event, pageTitle, pss }) => {
+const WZWishes = ({ event, slug, pageTitle, pss }) => {
   const [showSpinner, setShowSpinner] = useState(false);
   // const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -29,64 +29,93 @@ const WZWishes = ({ event, pageTitle, pss }) => {
   const pageCount = useRef(0);
   const total = useRef(0);
   const page = useRef(1);
+  const isFirstPage = useRef(true);
   // const finished = useRef(false);
 
   const loadMore = useCallback(async () => {
-    setLoadingMore(true);
-    // console.log(page.current);
-    const url =
-      urls.eventWishesBySlug +
-      "/" +
-      event.slug +
-      `?pagination[page]=${page.current}`;
+    if (loadingMore) {
+      return;
+    }
 
     // console.log(url);
-    const fetcher = await fetchWrapper.get(url, {
-      swr: false,
-      authorize: true,
-    });
+    try {
+      setLoadingMore(true);
+      console.log("loading start");
 
+      const fetcher = await useFetchEventWishes(slug, page.current);
+      console.log(fetcher);
+      setLoadingMore(false);
+
+      if (fetcher) {
+        const { data, meta } = fetcher;
+
+        console.log("meta.page", data);
+
+        if (data && data.length > 0) {
+          setWishes((old) => [...old, ...data]);
+        } else {
+          // console.log("empty...");
+        }
+
+        page.current = meta.page + 1;
+        pageCount.current = meta.pageCount;
+        total.current = meta.total;
+
+        if (meta.page >= meta.pageCount) {
+          setFinished(true);
+        }
+      }
+    } catch (error) {
+      setLoadingMore(false);
+    }
+    console.log("loading stop");
     setLoadingMore(false);
+  });
 
-    if (fetcher) {
-      const { data, meta } = fetcher;
-      // setPage(meta.page + 1);
-      console.log("meta.page", data);
+  const loadInit = useCallback(async () => {
+    if (loadingMore) {
+      return;
+    }
 
-      if (data && data.length > 0) {
-        // let w = [...wishes, ...data];
+    try {
+      setLoadingMore(true);
 
-        setWishes((old) => [...old, ...data]);
-        // finished.current = false;
-        // console.log("added...");
-      } else {
-        // finished.current = true;
-        // setFinished(true);
-        // console.log("empty...");
+      const fetcher = await useFetchEventWishes(slug, page.current);
+
+      setLoadingMore(false);
+
+      if (fetcher) {
+        const { data, meta } = fetcher;
+
+        console.log("meta.page", data);
+
+        if (data && data.length > 0) {
+          setWishes((old) => [...data]);
+        } else {
+          // console.log("empty...");
+        }
+
+        page.current = meta.page + 1;
+        pageCount.current = meta.pageCount;
+        total.current = meta.total;
+
+        if (meta.page >= meta.pageCount) {
+          setFinished(true);
+        }
       }
-
-      page.current = meta.page + 1;
-      pageCount.current = meta.pageCount;
-      total.current = meta.total;
-
-      if (meta.page >= meta.pageCount) {
-        setFinished(true);
-      }
+    } catch (error) {
+      setLoadingMore(false);
     }
 
     setLoadingMore(false);
   });
 
   useEffect(() => {
-    loadMore();
-  }, []);
-
-  // if (loading) {
-  //   return <>Loading...</>;
-  // }
-  // if (error) {
-  //   return <>Error occurred...</>;
-  // }
+    async function fetchData() {
+      await loadInit();
+    }
+    fetchData();
+  }, [slug]);
 
   return (
     <>
@@ -132,7 +161,7 @@ const WZWishes = ({ event, pageTitle, pss }) => {
               </div>
             ))}
         </div>
-        {!finished && (
+        {!finished && wishes.length > 0 && (
           <div className="flex justify-center mt-6 ">
             <LoadingButton
               loading={loadingMore}

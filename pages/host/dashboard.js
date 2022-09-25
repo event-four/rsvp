@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 // import ShareIcon from "@mui/icons-material/ShareIcon";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useSession } from "next-auth/react";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, memo } from "react";
 import { useRouter } from "next/router";
 import { Urls, fetchWrapper, authHeader } from "/helpers";
 import useSWR from "swr";
@@ -52,7 +52,7 @@ const urls = {
   story: `/host/dashboard/our-story`,
 };
 
-export default function DZDashboard({ owner, events, baseUrl }) {
+const DZDashboard = ({ owner, events, baseUrl }) => {
   const { data: session, status } = useSession();
 
   const router = useRouter();
@@ -99,6 +99,7 @@ export default function DZDashboard({ owner, events, baseUrl }) {
 
   useEffect(() => {
     console.log(eventInfo);
+
     if (eventInfo) {
       if (eventInfo.length === 0) {
         if (router.isReady) {
@@ -159,7 +160,7 @@ export default function DZDashboard({ owner, events, baseUrl }) {
                     <p className="text-center">Coming soon</p>
                   )}
                   {currentPage.href === "wishes" && (
-                    <WZWishes event={event} pageTitle="Wishes" />
+                    <WZWishes slug={event.slug} pageTitle="Wishes" />
                   )}
                 </div>
                 <div className="hidden md:flex w-1/4 p-6 h-full sticky top-16 bg-white"></div>
@@ -230,7 +231,9 @@ export default function DZDashboard({ owner, events, baseUrl }) {
       </Transition.Root>
     </>
   );
-}
+};
+
+export default memo(DZDashboard);
 
 export const getServerSideProps = async ({ req, res }) => {
   let user = getCookie("E4_UIF", { req, res });
