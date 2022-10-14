@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import ReactPDF from "@react-pdf/renderer";
+import Head from "next/head";
 
 // // Create styles
 // const styles = StyleSheet.create({
@@ -27,17 +28,14 @@ import ReactPDF from "@react-pdf/renderer";
 
 const Teaser = () => {
   return (
-    // <Document>
-    //   <Page size="A4" style={styles.page}>
-    //     <View style={styles.section}>
-    //       <Text>Section #1</Text>
-    //     </View>
-    //     <View style={styles.section}>
-    //       <Text>Section #2</Text>
-    //     </View>
-    //   </Page>
-    // </Document>
     <div className="flex flex-col container p-10">
+      <Head>
+        <title>E4 Teaser</title>
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width user-scalable=yes"
+        />
+      </Head>
       {/* <h2 className="text-center">
         <span className="text-xs">Updated on 14th October, 2022</span>
       </h2> */}
