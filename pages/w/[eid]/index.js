@@ -219,37 +219,6 @@ const EventPageBody = ({ event }) => {
           <a className="homeBtn">Flights & Hotels</a>
         </Link> */}
       </div>
-
-      <div className="container flex flex-col justify-center  mb-5 text-primary-dark items-center mx-auto rounded-lg text-center">
-        <dl>
-          {ev.metadata && ev.metadata.theme && (
-            <div className=" px-4 py-3 flex flex-col">
-              <dt className="text-sm  font-pacifico">Theme</dt>
-              <dd className="mt-1">{ev.metadata.theme}</dd>
-            </div>
-          )}
-          {ev.metadata && ev.metadata.color && (
-            <div className=" px-4 py-3 flex flex-col">
-              <dt className="text-sm font-pacifico">Colour of the Day</dt>
-              <dd className="mt-1">{ev.metadata.color}</dd>
-            </div>
-          )}
-          {ev.metadata && ev.metadata.dressCode && (
-            <div className=" px-4 py-3 flex flex-col">
-              <dt className="text-sm font-medium font-pacifico">Dress Code</dt>
-              <dd className="mt-1 ">{ev.metadata.dressCode}</dd>
-            </div>
-          )}
-          {ev.metadata && ev.metadata.otherInfo && (
-            <div className=" px-4 py-3 flex flex-col">
-              <dt className="text-sm font-medium font-pacifico">
-                Other Information
-              </dt>
-              <dd className="mt-1 ">{ev.metadata.otherInfo}</dd>
-            </div>
-          )}
-        </dl>
-      </div>
     </div>
   );
 };
