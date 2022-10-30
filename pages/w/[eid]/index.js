@@ -132,7 +132,13 @@ const EventPageBody = ({ event }) => {
         </p>
         <p className="mb-1">{date}</p>
         <p className="mb-1">
-          <LocationOnIcon /> {ev.city}
+          <LocationOnIcon />{" "}
+          {ev.metadata && ev.metadata.location && (
+            <span>
+              {ev.metadata.location}, {""}
+            </span>
+          )}
+          {ev.city}
         </p>
 
         <p>{countdown}</p>
