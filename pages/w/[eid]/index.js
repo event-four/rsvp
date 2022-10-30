@@ -130,16 +130,16 @@ const EventPageBody = ({ event }) => {
         <p className="text-center font-rochester text-4xl md:text-5xl mb-4">
           {ev.title}
         </p>
-        <p className="mb-1">{date}</p>
-        <p className="mb-1">
+        <p className="mb-3">{date}</p>
+        <div className="mb-3 max-w-md text-center items-center justify-center mx-auto">
           <LocationOnIcon />{" "}
           {ev.metadata && ev.metadata.location && (
             <span>
-              {ev.metadata.location}, {""}
+              {ev.metadata.location} {""}
             </span>
           )}
           {ev.city}
-        </p>
+        </div>
 
         <p>{countdown}</p>
       </div>
