@@ -11,7 +11,7 @@ export default function FormCard({
   goToStep,
 }) {
   return (
-    <div className="flex flex-col items-center h-full">
+    <div className="flex flex-col items-center h-fullx">
       <nav aria-label="Progress" className="block w-full">
         <ol
           role="list"

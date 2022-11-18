@@ -1,5 +1,7 @@
 export * from "./event-service";
 export * from "./user-service";
+export * from "./data-service";
+export * from "./vendor-service";
 import axios from "axios";
 
 export const swrResponse = (response) => {

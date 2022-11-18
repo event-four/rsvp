@@ -1,4 +1,4 @@
-export { getFromStorage, setToStorage };
+export { getFromStorage, setToStorage, toMoneyFormat };
 
 function getFromStorage(key) {
   if (typeof window !== "undefined") {
@@ -12,4 +12,11 @@ function setToStorage(key, value) {
     return localStorage.setItem(key, value);
   }
   return null;
+}
+
+function toMoneyFormat(number) {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+  }).format(number);
 }

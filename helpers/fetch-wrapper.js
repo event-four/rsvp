@@ -64,10 +64,13 @@ async function put(url, body, { authorize = true, swr = false }) {
 }
 
 // prefixed with underscored because delete is a reserved word in javascript
-async function _delete(url) {
+async function _delete(url, { authorize = true, swr = false }) {
   const requestOptions = {
     method: "DELETE",
-    headers: authHeader(url),
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader(url, { authorize }),
+    },
   };
   const response = await fetch(url, requestOptions);
   return handleResponse(response);

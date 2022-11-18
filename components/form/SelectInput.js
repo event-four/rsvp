@@ -13,12 +13,14 @@ export default function SelectInput({
   label,
   selected,
   onChange,
+  onClick,
   classes = "",
+  index,
   ...props
 }) {
   const inputRef = useRef();
 
-  //   const [selected, setSelected] = useState();
+  const [activeIndex, setActiveIndex] = useState();
 
   const { fieldName, defaultValue, registerField, error } = useField(name);
 
@@ -35,12 +37,17 @@ export default function SelectInput({
   }, [fieldName, registerField]);
 
   const onChanged = (value) => {
-    onChange(value);
+    onChange(value, activeIndex);
+  };
+
+  const onClicked = (i) => {
+    setActiveIndex(i);
   };
 
   return (
     <div
-      className={`relative rounded focus-within:z-10 focus-within:ring-0x border-gray-300`}
+      className={`relative rounded focus-within:z-10x focus-within:ring-0x border-gray-300 ${classes}`}
+      onClick={() => onClicked(index)}
     >
       <Listbox
         id={fieldName}
@@ -76,19 +83,7 @@ export default function SelectInput({
                 >
                   {selected ? selected.name : label}
                 </span>
-                {selected && (
-                  <span
-                    className="absolute inset-y-0 right-6 flex items-center pr-2 pointer-events-none"
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <XIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </span>
-                )}
+
                 <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                   <SelectorIcon
                     className="h-5 w-5 text-gray-400"
@@ -96,7 +91,18 @@ export default function SelectInput({
                   />
                 </span>
               </Listbox.Button>
-
+              {selected && (
+                <span
+                  className="absolute inset-y-0 right-6 flex items-center pr-2 pointer-events-nonex z-[10]"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (props.disabled) return;
+                    onChanged(null);
+                  }}
+                >
+                  <XIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </span>
+              )}
               <Transition
                 show={open}
                 as={Fragment}
@@ -104,10 +110,10 @@ export default function SelectInput({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                  {options.map((data) => (
+                <Listbox.Options className="absolute z-[200] mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                  {options.map((data, index) => (
                     <Listbox.Option
-                      key={data.id}
+                      key={index}
                       className={({ active }) =>
                         classNames(
                           active ? "text-white bg-indigo-600" : "text-gray-900",

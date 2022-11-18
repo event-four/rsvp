@@ -39,13 +39,15 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
         password: formData.password,
       })
         .then(async (response) => {
-          console.log(response);
           if (response.ok) {
             const session = await getSession();
             if (session) {
-              console.log(session);
               await userService.setUser(session.user);
-              router.push("/host/dashboard");
+              if (session.user.vendor_profile) {
+                router.push("/vendor/dashboard");
+              } else {
+                router.push("/host/dashboard");
+              }
             }
           } else {
             throw response.error;
@@ -79,6 +81,8 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
         console.log(err);
         if (err.includes("auth/wrong-password")) {
           snackbar.error("Your login information is incorrect.");
+        } else if (err.includes("auth/user-not-found")) {
+          snackbar.error("There is no account matching your credentials.");
         } else if (err.includes("auth/too-many-requests")) {
           snackbar.error(
             "Access to this account has been temporarily disabled due to many failed login attempts. Reset your password or try again later."
