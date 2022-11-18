@@ -112,7 +112,7 @@ const StartPageForm = () => {
             if (session) {
               console.log(session);
               await userService.setUser(session.user);
-              router.push("/vendor/profile");
+              router.push("/vendor/dashboard?page=profile");
             }
           } else {
             throw response.error;

@@ -194,7 +194,7 @@ const DshVendorGallery = ({ pageTitle }) => {
           <Form
             ref={formRef}
             onSubmit={handleSubmit}
-            className={`flex flex-col justify-between  md:mx-auto`}
+            className={`flex flex-col justify-between md:mx-auto`}
             autoComplete="off"
           >
             <section className="overflow-hidden text-gray-700 ">
