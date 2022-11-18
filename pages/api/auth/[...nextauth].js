@@ -91,6 +91,7 @@ const providers = [
           const user = {
             ...result.data.user,
             profile: result.data.user_profile,
+            vendor_profile: result.data.vendor_profile,
             jwt: result.data.jwt,
             event: result.data.event,
           };

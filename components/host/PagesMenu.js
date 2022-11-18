@@ -12,6 +12,7 @@ export default function PagesMenu({
   currentPage,
   pages,
   onChangePage,
+  title = "Your Pages",
 }) {
   const router = useRouter();
   const [openPageMenu, setOpenPageMenu] = useState();
@@ -19,15 +20,11 @@ export default function PagesMenu({
   return (
     <>
       <div className="flex flex-col space-y-6 w-full">
-        <div>
-          <h1 className=" px-6 text-default font-500">Your Pages</h1>
-          {/* <div>
-            <IconButton>
-              <MenuIcon />
-            </IconButton>
-          </div> */}
-        </div>
-
+        {title && (
+          <div>
+            <h1 className=" px-6 text-default font-500">{title}</h1>
+          </div>
+        )}
         <nav
           className={`flex flex-row md:flex-col w-full overflow-scroll z-[1600]`}
         >

@@ -1,6 +1,7 @@
 const api = process.env.API;
 
 const urls = {
+  api: api,
   login: api + "/auth/login",
   event: api + "/events",
   guests: api + "/event-guests",
@@ -22,6 +23,10 @@ const urls = {
   eventRegistry: api + "/event-registries",
   cashGifts: api + "/event-cash-gifts",
   getRsvpResponses: api + "/event-rsvp-question/responses",
+
+  //vendors.
+  vendorProfile: api + "/vendor-profiles",
+  vendorService: api + "/vendor-services",
 };
 
 export { urls };
