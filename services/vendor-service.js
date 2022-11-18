@@ -24,6 +24,7 @@ export {
   useDeleteVendorService,
   usePostGalleryPhoto,
   useFetchVendorGallery,
+  useDeleteGalleryPhoto,
 };
 
 // function setLocalStorageEvent(event) {
@@ -114,6 +115,15 @@ const useFetchVendorGallery = (vendorId) => {
   const url = urls.vendorGallery + `?vendorId=${vendorId}`;
   const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
   return swrResponse(useSWR(url, fetcher));
+};
+
+const useDeleteGalleryPhoto = (payload) => {
+  const url =
+    urls.vendorGallery +
+    "/" +
+    payload.mediaId +
+    `?vendorId=${payload.vendorId}&type=${payload.type}`;
+  return fetchWrapper.delete(url, { swr: false, authorize: true });
 };
 
 const useFetchEventInfoByOwnerId = (id) => {
