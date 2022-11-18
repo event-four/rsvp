@@ -148,10 +148,7 @@ const DZDashboardPage = ({ pages, currentPage, onChangePage }) => {
             />
           )}
           {currentPage.href === "gallery" && (
-            <DshVendorGallery
-              pageTitle="Your Photos & Videos"
-              vendor={vendorProfile}
-            />
+            <DshVendorGallery pageTitle="Showcase" vendor={vendorProfile} />
           )}
         </div>
       </div>

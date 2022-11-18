@@ -22,6 +22,8 @@ export {
   usePostVendorService,
   useUpdateVendorServicePrice,
   useDeleteVendorService,
+  usePostGalleryPhoto,
+  useFetchVendorGallery,
 };
 
 // function setLocalStorageEvent(event) {
@@ -87,6 +89,31 @@ const useUpdateVendorServicePrice = (payload, serviceId) => {
 const useDeleteVendorService = (serviceId) => {
   const url = urls.vendorService + "/" + serviceId;
   return fetchWrapper.delete(url, { swr: false, authorize: true });
+};
+
+const usePostGalleryPhoto = async (payload) => {
+  const url = urls.vendorGallery;
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      ...authHeader(url, { authorize: true }),
+    },
+    body: payload,
+    // body: { payload, data: {} },
+  };
+  // console.log(requestOptions);
+  const response = await fetch(url, requestOptions);
+  if (response.ok) {
+    const jsonValue = await response.json(); // Get JSON value from the response body
+    return Promise.resolve(jsonValue);
+  } else {
+    return Promise.reject("File upload not not successful");
+  }
+};
+const useFetchVendorGallery = (vendorId) => {
+  const url = urls.vendorGallery + `?vendorId=${vendorId}`;
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+  return swrResponse(useSWR(url, fetcher));
 };
 
 const useFetchEventInfoByOwnerId = (id) => {

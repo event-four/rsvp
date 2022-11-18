@@ -27,6 +27,7 @@ const urls = {
   //vendors.
   vendorProfile: api + "/vendor-profiles",
   vendorService: api + "/vendor-services",
+  vendorGallery: api + "/vendor-galleries",
 };
 
 export { urls };
