@@ -198,7 +198,7 @@ const DshVendorGallery = ({ pageTitle }) => {
             autoComplete="off"
           >
             <section className="overflow-hidden text-gray-700 ">
-              <div className="container px-5 py-2 mx-auto">
+              <div className="container py-2 mx-auto">
                 <div className="flex flex-wrap -m-1 md:-m-2">
                   <div className="flex flex-wrap w-1/3">
                     <div className="w-full p-1 md:p-2">
@@ -271,7 +271,7 @@ const DshVendorGallery = ({ pageTitle }) => {
                 />
                 {showSpinner && { spinner }}
 
-                <div className="flex flex-col justify-center items-center">
+                {/* <div className="flex flex-col justify-center items-center">
                   <button onClick={startUpload} type="button" className="">
                     {!showSpinner &&
                       (!logo ? (
@@ -312,7 +312,7 @@ const DshVendorGallery = ({ pageTitle }) => {
                       )}
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </Form>
