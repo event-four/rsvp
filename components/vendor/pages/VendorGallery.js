@@ -13,12 +13,14 @@ import { LoadingButton } from "@mui/lab";
 import { useSnackbar } from "../../SnackBar";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import * as yup from "yup";
 import { userService, dataService } from "/services";
 import {
   usePostGalleryPhoto,
   useFetchVendorGallery,
+  useDeleteGalleryPhoto,
 } from "@/services/vendor-service";
 import FormCard from "@/components/FormCard";
 import FormProvider from "@/components/providers/HostStartFormProvider";
@@ -51,7 +53,7 @@ const DshVendorGallery = ({ pageTitle }) => {
   const formRef = useRef();
   const [vendorProfile, setVendorProfile] = useState();
   const [gallery, setGallery] = useState([]);
-
+  const [toDelete, setToDelete] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { data, loading, error } = useFetchVendorGallery(vendor.id);
 
@@ -86,48 +88,19 @@ const DshVendorGallery = ({ pageTitle }) => {
     setShowSpinner(false);
   };
 
-  const onDeleteLogo = async () => {
-    const cm = logo;
-    setShowSpinner(true);
-
-    const response = await fetch("/api/upload?id=" + cm.public_id, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      await useUpdateVendorProfile({
-        id: event.id,
-        coverMedia: null,
+  const deletePhoto = async (galleryItem) => {
+    setToDelete(galleryItem);
+    try {
+      await useDeleteGalleryPhoto({
+        mediaId: galleryItem.id,
+        vendorId: vendor.id,
+        type: galleryItem.type,
       });
-      setLogo(null);
+      const gs = gallery.filter((g) => g.id !== galleryItem.id);
+      setGallery([...gs]);
+    } catch (error) {
+      console.log(error);
     }
-    setShowSpinner(false);
-  };
-
-  const Spinner = () => {
-    return (
-      <div className="flex mx-auto justify-center items-center py-16 left-0 right-0 top-0 bottom-0 transition ease-in-out duration-150 cursor-not-allowed flex-col h-full bg-white bg-opacity-80">
-        <svg
-          className="animate-spin h-8 w-8  text-gray-700"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-10"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-100"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        <p className="text-xs text-gray-500 mt-4">Please wait...</p>
-      </div>
-    );
   };
 
   if (!gallery) {
@@ -164,14 +137,21 @@ const DshVendorGallery = ({ pageTitle }) => {
                         className="block object-cover object-center w-full h-full rounded-md"
                         src={g.photo.thumbnail}
                       />
-                      <div className="absolute top-2 right-2 p-1 bg-white bg-opacity-60 rounded-full">
-                        <IconButton
-                          onClick={() => deletePhoto()}
-                          aria-label="delete"
-                          size="small"
-                        >
-                          <DeleteIcon fontSize="inherit" />
-                        </IconButton>
+
+                      <div className="absolute top-4 right-4 p-1  flex items-center justify-center h-8 w-8">
+                        {g == toDelete ? (
+                          <div className="loader"></div>
+                        ) : (
+                          <div className="bg-white bg-opacity-60 rounded-full ">
+                            <IconButton
+                              onClick={() => deletePhoto(g)}
+                              aria-label="delete"
+                              size="small"
+                            >
+                              <DeleteIcon fontSize="inherit" />
+                            </IconButton>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -185,7 +165,9 @@ const DshVendorGallery = ({ pageTitle }) => {
               >
                 <div className="w-full h-40 ">
                   {showSpinner ? (
-                    <Spinner />
+                    <div>
+                      <div className="loader"></div>
+                    </div>
                   ) : (
                     <div className="flex flex-col  items-center justify-center h-full w-full text-gray-400 hover:text-default ">
                       <AddCircleOutlineIcon sx={{ fontSize: 40 }} />
