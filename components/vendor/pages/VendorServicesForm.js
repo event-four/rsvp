@@ -168,34 +168,6 @@ const DshVendorServicesForm = ({ pageTitle, vendor }) => {
     }
   };
 
-  // const saveServiceInfo = async () => {
-  //   //when updating.
-  //   if (activeService.id) {
-  //     const s = services.find((service) => service.id === activeServiceType.id);
-  //     //update the service type
-  //     // s.service = activeServiceType;
-  //     //update price
-  //   } else {
-  //     //when adding new.
-  //     const duplicate = services.find(
-  //       (s) => s.service.id == activeServiceType.id
-  //     );
-
-  //     if (duplicate) {
-  //       snackbar.error(`You have already added ${duplicate.service.name}.`);
-  //       return;
-  //     }
-
-  //     activeService = { ...activeService, service: activeServiceType };
-  //   }
-
-  //   //run update service.
-  //   await usePostVendorService(payload);
-
-  //   setServices([...services, activeService]);
-  //   setActiveServiceType();
-  //   setOpenDialog(false);
-  // };
   const savePriceInfo = async () => {
     const service = services.find((s) => s.id == activeService.id);
     const serviceIndex = services.indexOf(service);
@@ -284,7 +256,7 @@ const DshVendorServicesForm = ({ pageTitle, vendor }) => {
             <Form
               ref={formRef}
               onSubmit={handleSubmit}
-              className={`flex flex-col justify-between md:mx-auto md:max-w-lg`}
+              className={`flex flex-col justify-between md:mx-auto md:max-w-2xl`}
               autoComplete="off"
             >
               <div className="flex flex-col space-y-4 md:space-y-4">

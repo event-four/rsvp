@@ -173,7 +173,7 @@ const DshVendorGallery = ({ pageTitle }) => {
             Show off your business! Add photos of your past work.
           </small>
           <div className="container pt-6 mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 gap-y-2">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 gap-y-2">
               {gallery &&
                 gallery.map((g, index) => (
                   <div key={index} className="flex flex-wrap  ">
@@ -263,7 +263,7 @@ const DshVendorGallery = ({ pageTitle }) => {
             </Form>
           </div>
           <div className="container py-6 mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 gap-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-2 gap-y-2">
               {videos &&
                 videos.map((g, index) => (
                   <div key={index} className="flex flex-wrap  ">

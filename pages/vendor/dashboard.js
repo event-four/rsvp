@@ -40,7 +40,7 @@ import {
   useUpdateVendorProfilePhoto,
 } from "@/services/vendor-service";
 const pageList = [
-  { name: "Dashboard", href: "home", current: true },
+  // { name: "Dashboard", href: "home", current: true },
   { name: "Business Profile", href: "business", current: false },
   { name: "Services", href: "services", current: false },
   { name: "Photos & Videos", href: "gallery", current: false },
