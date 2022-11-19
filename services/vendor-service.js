@@ -25,6 +25,7 @@ export {
   usePostGalleryPhoto,
   useFetchVendorGallery,
   useDeleteGalleryPhoto,
+  usePostGalleryVideo,
 };
 
 // function setLocalStorageEvent(event) {
@@ -111,6 +112,11 @@ const usePostGalleryPhoto = async (payload) => {
     return Promise.reject("File upload not not successful");
   }
 };
+const usePostGalleryVideo = (payload) => {
+  const url = urls.vendorGallery;
+  return fetchWrapper.post(url, payload, { swr: false, authorize: true });
+};
+
 const useFetchVendorGallery = (vendorId) => {
   const url = urls.vendorGallery + `?vendorId=${vendorId}`;
   const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });

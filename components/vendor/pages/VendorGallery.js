@@ -14,6 +14,7 @@ import { useSnackbar } from "../../SnackBar";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CircularProgress from "@mui/material/CircularProgress";
+import ReactPlayer from "react-player/youtube";
 
 import * as yup from "yup";
 import { userService, dataService } from "/services";
@@ -21,6 +22,7 @@ import {
   usePostGalleryPhoto,
   useFetchVendorGallery,
   useDeleteGalleryPhoto,
+  usePostGalleryVideo,
 } from "@/services/vendor-service";
 import FormCard from "@/components/FormCard";
 import FormProvider from "@/components/providers/HostStartFormProvider";
@@ -51,17 +53,30 @@ const DshVendorGallery = ({ pageTitle }) => {
   const fileChooserRef = useRef();
 
   const formRef = useRef();
+  const videoRef = useRef();
   const [vendorProfile, setVendorProfile] = useState();
   const [gallery, setGallery] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [videoUrl, setVideoUrl] = useState();
   const [toDelete, setToDelete] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { data, loading, error } = useFetchVendorGallery(vendor.id);
 
   useEffect(() => {
     if (data) {
-      setGallery(data);
+      console.log(data);
+      const { photos, videos } = filterGallery(data);
+      setGallery(photos);
+      setVideos(videos);
     }
   }, [data]);
+
+  const filterGallery = (data) => {
+    const photos = data.filter((g) => g.type === "photo");
+    const videos = data.filter((g) => g.type === "video");
+
+    return { photos, videos };
+  };
 
   const onReady = async (e) => {
     const { files } = e.target;
@@ -80,7 +95,8 @@ const DshVendorGallery = ({ pageTitle }) => {
     setShowSpinner(true);
     try {
       const res = await usePostGalleryPhoto(formData, vendor.id);
-      setGallery(res.data);
+      const { photos } = filterGallery(res.data);
+      setGallery([...photos]);
     } catch (error) {
       snackbar.error(error.message);
       setShowSpinner(false);
@@ -96,11 +112,41 @@ const DshVendorGallery = ({ pageTitle }) => {
         vendorId: vendor.id,
         type: galleryItem.type,
       });
-      const gs = gallery.filter((g) => g.id !== galleryItem.id);
-      setGallery([...gs]);
+
+      if (galleryItem.type === "photo") {
+        const gs = gallery.filter((g) => g.id !== galleryItem.id);
+        setGallery([...gs]);
+      } else {
+        const gs = videos.filter((g) => g.id !== galleryItem.id);
+        setVideos([...gs]);
+      }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const addVideo = async () => {
+    if (!videoUrl) return;
+    setIsLoading(true);
+    try {
+      const res = await usePostGalleryVideo(
+        {
+          vendor: vendor.id,
+          type: "video",
+          video: videoUrl,
+        },
+        vendor.id
+      );
+
+      setVideos([...videos, res.data]);
+      setVideoUrl();
+      videoRef.current.value = "";
+    } catch (error) {
+      snackbar.error(error.message);
+      setIsLoading(false);
+    }
+
+    setIsLoading(false);
   };
 
   if (!gallery) {
@@ -126,8 +172,8 @@ const DshVendorGallery = ({ pageTitle }) => {
           <small className="text-xs text-gray-400">
             Show off your business! Add photos of your past work.
           </small>
-          <div className="container py-2 mx-auto">
-            <div className="grid grid-cols-3 gap-2 gap-y-2">
+          <div className="container pt-6 mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 gap-y-2">
               {gallery &&
                 gallery.map((g, index) => (
                   <div key={index} className="flex flex-wrap  ">
@@ -135,18 +181,19 @@ const DshVendorGallery = ({ pageTitle }) => {
                       <img
                         alt="gallery"
                         className="block object-cover object-center w-full h-full rounded-md"
-                        src={g.photo.thumbnail}
+                        src={g.photo.small}
                       />
 
                       <div className="absolute top-4 right-4 p-1  flex items-center justify-center h-8 w-8">
                         {g == toDelete ? (
                           <div className="loader"></div>
                         ) : (
-                          <div className="bg-white bg-opacity-60 rounded-full ">
+                          <div className="bg-white bg-opacity-80 rounded-full ">
                             <IconButton
                               onClick={() => deletePhoto(g)}
                               aria-label="delete"
                               size="small"
+                              color="primary"
                             >
                               <DeleteIcon fontSize="inherit" />
                             </IconButton>
@@ -180,11 +227,76 @@ const DshVendorGallery = ({ pageTitle }) => {
             </div>
           </div>
         </section>
-        <section className="overflow-hidden text-gray-700 mt-6">
-          <p>Videos</p>
-          <small className="text-xs text-gray-400">
-            Add YouTube videos of your past work.
-          </small>
+        <div className="border-t my-12 border-gray-100"></div>
+        <section className="overflow-hidden text-gray-700 ">
+          <div className="flex flex-col md:flex-row md:justify-between md:space-x-8 ">
+            <div>
+              <p>Videos</p>
+              <small className="text-xs text-gray-400">
+                Add YouTube videos of your past work.
+              </small>
+            </div>
+
+            <Form
+              ref={formRef}
+              onSubmit={addVideo}
+              className={`flex flex-row flex-grow space-x-2 items-center justify-start md:justify-end mt-3 md:nt-0`}
+              autoComplete="off"
+            >
+              <input
+                ref={videoRef}
+                className="w-full md:max-w-xs border rounded px-3 py-3 text-sm focus:outline-none focus:ring-0 focus:border-default"
+                placeholder="Enter YouTube Video Url *"
+                // value={videoUrl}
+                onBlur={(e) => {
+                  setVideoUrl(e.target.value);
+                }}
+              />
+
+              <LoadingButton
+                variant="contained"
+                loading={isLoading}
+                type="submit"
+              >
+                Add
+              </LoadingButton>
+            </Form>
+          </div>
+          <div className="container py-6 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 gap-y-2">
+              {videos &&
+                videos.map((g, index) => (
+                  <div key={index} className="flex flex-wrap  ">
+                    <div className="w-full h-40 relative">
+                      <div className="block object-cover object-center w-full h-full ">
+                        <ReactPlayer
+                          url={g.video}
+                          height={"160px"}
+                          width={"auto"}
+                        />
+                      </div>
+
+                      <div className="absolute top-4 right-4 p-1  flex items-center justify-center h-8 w-8">
+                        {g == toDelete ? (
+                          <div className="loader"></div>
+                        ) : (
+                          <div className="bg-white bg-opacity-90 rounded-full ">
+                            <IconButton
+                              onClick={() => deletePhoto(g)}
+                              aria-label="delete"
+                              size="small"
+                              color="primary"
+                            >
+                              <DeleteIcon fontSize="inherit" />
+                            </IconButton>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
         </section>
       </div>
     </Section>

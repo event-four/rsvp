@@ -10,6 +10,13 @@ import { fetchWrapper, urls } from "/helpers";
 import { useSession } from "next-auth/react";
 
 export const userService = { login, logout, getUser, setUser, getJWT };
+export { useUpdateUser };
+
+const useUpdateUser = (payload) => {
+  const url = urls.userProfile + "/" + payload.profileId;
+
+  return fetchWrapper.put(url, payload, { swr: false, authorize: true });
+};
 
 async function login(token) {
   const requestOptions = {

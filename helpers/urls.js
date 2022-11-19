@@ -28,6 +28,8 @@ const urls = {
   vendorProfile: api + "/vendor-profiles",
   vendorService: api + "/vendor-services",
   vendorGallery: api + "/vendor-galleries",
+
+  userProfile: api + "/user-profiles",
 };
 
 export { urls };

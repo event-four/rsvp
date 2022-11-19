@@ -22,6 +22,7 @@ import Layout from "/components/host/Layout";
 import BoxWrap from "/components/host/BoxWrap";
 import DshVendorHome from "/components/vendor/pages/VendorHome";
 import DshVendorProfile from "/components/vendor/pages/VendorProfile";
+import DshVendorAccountForm from "/components/vendor/pages/VendorAccountForm";
 import DshVendorGallery from "/components/vendor/pages/VendorGallery";
 import DshVendorServicesForm from "/components/vendor/pages/VendorServicesForm";
 import WZRsvpPage from "/components/host/pages/HostRsvpPage";
@@ -149,6 +150,13 @@ const DZDashboardPage = ({ pages, currentPage, onChangePage }) => {
           )}
           {currentPage.href === "gallery" && (
             <DshVendorGallery pageTitle="Showcase" vendor={vendorProfile} />
+          )}
+          {currentPage.href === "account" && (
+            <DshVendorAccountForm
+              pageTitle="Account Settings"
+              vendorProfile={vendorProfile}
+              user={user}
+            />
           )}
         </div>
       </div>
