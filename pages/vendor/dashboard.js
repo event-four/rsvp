@@ -18,27 +18,16 @@ import useSWR from "swr";
 import { useTheme } from "@mui/material/styles";
 import { getCookie } from "cookies-next";
 
-import Layout from "/components/host/Layout";
-import BoxWrap from "/components/host/BoxWrap";
+import Layout from "/components/layout/Layout";
 import DshVendorHome from "/components/vendor/pages/VendorHome";
 import DshVendorProfile from "/components/vendor/pages/VendorProfile";
 import DshVendorAccountForm from "/components/vendor/pages/VendorAccountForm";
 import DshVendorGallery from "/components/vendor/pages/VendorGallery";
 import DshVendorServicesForm from "/components/vendor/pages/VendorServicesForm";
-import WZRsvpPage from "/components/host/pages/HostRsvpPage";
-import WZRegistry from "/components/host/pages/HostRegistry";
-import WZOurStory from "/components/host/pages/HostOurStory";
-import WZWishes from "/components/host/pages/HostWishes";
-import MainToolbar from "../../components/host/MainToolbar";
+
 import PagesMenu from "../../components/host/PagesMenu";
-import Section from "../../components/host/Section";
-import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
-import {
-  useUpdateVendorProfile,
-  useFetchVendorProfile,
-  useUpdateVendorProfilePhoto,
-} from "@/services/vendor-service";
+
+import { useFetchVendorProfile } from "@/services/vendor-service";
 const pageList = [
   // { name: "Dashboard", href: "home", current: true },
   { name: "Business Profile", href: "business", current: false },

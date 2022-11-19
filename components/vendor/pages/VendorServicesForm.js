@@ -248,9 +248,7 @@ const DshVendorServicesForm = ({ pageTitle, vendor }) => {
 
   return (
     <>
-      <h1 className="text-lg font-semibold">{pageTitle}</h1>
-
-      <Section>
+      <Section title={pageTitle}>
         <FormProvider>
           <FormCard>
             <Form

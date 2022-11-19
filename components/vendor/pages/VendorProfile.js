@@ -5,9 +5,7 @@ import DshVendorProfileForm from "@/components/vendor/pages/VendorProfileForm";
 const DshVendorProfile = ({ pageTitle }) => {
   return (
     <>
-      <h1 className="text-lg font-semibold">{pageTitle}</h1>
-
-      <Section title="">
+      <Section title={pageTitle}>
         <DshVendorProfileForm />
       </Section>
       {/* <Section title="Cover Media">
