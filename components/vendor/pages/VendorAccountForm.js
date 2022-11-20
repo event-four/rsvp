@@ -24,6 +24,7 @@ import {
   TextArea,
   ToggleSwitch,
 } from "@/components/form";
+import { useFetchUserProfile } from "@/services/user-service";
 
 const schema = yup.object().shape(
   {
@@ -41,12 +42,18 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
   const snackbar = useSnackbar();
   const [showSpinner, setShowSpinner] = useState(false);
   const formRef = useRef();
-
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    data: userProfile,
+    loading,
+    error,
+  } = useFetchUserProfile(user.profile.id);
 
-  // useEffect(() => {
-
-  // }, [data]);
+  useEffect(() => {
+    if (userProfile) {
+      console.log(userProfile);
+    }
+  }, [userProfile]);
 
   async function handleSubmit(data) {
     console.log(data);
@@ -98,7 +105,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="First Name *"
                     type="text"
                     name="firstName"
-                    defaultValue={user.profile.firstName}
+                    defaultValue={userProfile.firstName}
                     placeholder=" "
                   />
                 </div>
@@ -107,7 +114,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="Last Name *"
                     type="text"
                     name="lastName"
-                    defaultValue={user.profile.lastName}
+                    defaultValue={userProfile.lastName}
                     placeholder=" "
                   />
                 </div>
@@ -128,7 +135,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="Phone Number *"
                     type="text"
                     name="phone"
-                    defaultValue={user.profile.phone}
+                    defaultValue={userProfile.phone}
                     placeholder=" "
                   />
                 </div>
@@ -139,7 +146,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="WhatsApp Number"
                     type="text"
                     name="whatsapp"
-                    defaultValue={user.profile.whatsapp}
+                    defaultValue={userProfile.whatsapp}
                     placeholder=" "
                   />
                 </div>

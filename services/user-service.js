@@ -7,15 +7,24 @@ import {
   deleteCookie,
 } from "cookies-next";
 import { fetchWrapper, urls } from "/helpers";
+import useSWR from "swr";
+
 import { useSession } from "next-auth/react";
+import { swrResponse } from "/services";
 
 export const userService = { login, logout, getUser, setUser, getJWT };
-export { useUpdateUser };
+export { useUpdateUser, useFetchUserProfile };
 
 const useUpdateUser = (payload) => {
   const url = urls.userProfile + "/" + payload.profileId;
 
   return fetchWrapper.put(url, payload, { swr: false, authorize: true });
+};
+
+const useFetchUserProfile = (userId) => {
+  const url = urls.userProfile + "/" + userId;
+  const fetcher = fetchWrapper.get(url, { swr: true, authorize: true });
+  return swrResponse(useSWR(url, fetcher));
 };
 
 async function login(token) {
