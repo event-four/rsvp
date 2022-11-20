@@ -127,6 +127,7 @@ const DshVendorProfileForm = ({}) => {
   const onReady = async ({ blobImg, base64 }) => {
     // console.log(res);
     if (!blobImg) return;
+    setShowSpinner(true);
     const formData = new FormData();
 
     formData.append("files", blobImg, "bz_logo_" + vendorProfile.id);
@@ -137,6 +138,7 @@ const DshVendorProfileForm = ({}) => {
 
     await useUpdateVendorProfilePhoto(formData, vendorProfile.id);
     setLogoBlob(base64);
+    setShowSpinner(false);
   };
 
   const onDeleteLogo = async () => {
@@ -157,13 +159,12 @@ const DshVendorProfileForm = ({}) => {
     setShowSpinner(false);
   };
 
-  const spinner = () => {
+  const Spinner = ({ ...props }) => {
     return (
-      <div className="flex mx-auto justify-center items-center py-16 left-0 right-0 top-0 bottom-0 transition ease-in-out duration-150 cursor-not-allowed flex-col h-full bg-white bg-opacity-80">
-        <svg
-          className="animate-spin h-8 w-8  text-gray-700"
-          viewBox="0 0 24 24"
-        >
+      <div
+        className={`flex mx-auto justify-center items-center py-16x left-0 right-0 top-0 bottom-0 transition ease-in-out duration-150 cursor-not-allowed flex-col h-full bg-defaultx bg-opacity-80 text-default ${props.classes}`}
+      >
+        <svg className="animate-spin h-8 w-8 " viewBox="0 0 24 24">
           <circle
             className="opacity-10"
             cx="12"
@@ -178,7 +179,7 @@ const DshVendorProfileForm = ({}) => {
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           ></path>
         </svg>
-        <p className="text-xs text-gray-500 mt-4">Please wait...</p>
+        {/* <p className="text-xs text-gray-500 mt-4">Please wait...</p> */}
       </div>
     );
   };
@@ -209,7 +210,7 @@ const DshVendorProfileForm = ({}) => {
                   lockAspectRatio={1 / 1}
                   onReady={onReady}
                 />
-                {showSpinner && { spinner }}
+                {showSpinner && <Spinner />}
 
                 <div className="flex flex-col justify-center items-center">
                   <button onClick={startUpload} type="button" className="">
@@ -221,10 +222,14 @@ const DshVendorProfileForm = ({}) => {
                         </div>
                       ) : (
                         <div className="flex flex-col h-24 w-24 items-center justify-center">
-                          <img
-                            className={` h-24 w-24 rounded-full`}
-                            src={`${logoBlob ?? logo.thumbnail}`}
-                          ></img>
+                          {showSpinner ? (
+                            <Spinner classes="h-24 w-24" />
+                          ) : (
+                            <img
+                              className={` h-24 w-24 rounded-full`}
+                              src={`${logoBlob ?? logo.thumbnail}`}
+                            ></img>
+                          )}
                         </div>
                       ))}
                   </button>
