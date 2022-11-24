@@ -207,6 +207,7 @@ const StartPageForm = () => {
                 type="password"
                 name="password"
                 placeholder=" "
+                isPassword={true}
               />
             </div>
 
