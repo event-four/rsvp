@@ -75,6 +75,28 @@ async function createUserAccountOnAPI(data) {
   return result;
 }
 
+async function createVendorAccountOnAPI({ email, jwt }) {
+  const payload = { data: { email: email } };
+  console.log(payload);
+  const res = await fetch(urls.createVendor, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + jwt,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw error.error;
+  }
+
+  const result = await res.json();
+
+  return result;
+}
+
 async function setupEventOnServer({ jwt, eventMeta }) {
   const payload = eventMeta;
   // console.log(payload);
@@ -97,4 +119,10 @@ async function setupEventOnServer({ jwt, eventMeta }) {
   return result.data;
 }
 
-export { signUp, setupAccountOnServer, setupEventOnServer, sendPasswordReset };
+export {
+  signUp,
+  setupAccountOnServer,
+  setupEventOnServer,
+  sendPasswordReset,
+  createVendorAccountOnAPI,
+};

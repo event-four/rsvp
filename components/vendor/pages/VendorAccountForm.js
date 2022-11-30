@@ -105,7 +105,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="First Name *"
                     type="text"
                     name="firstName"
-                    defaultValue={userProfile.firstName}
+                    defaultValue={userProfile && userProfile.firstName}
                     placeholder=" "
                   />
                 </div>
@@ -114,7 +114,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="Last Name *"
                     type="text"
                     name="lastName"
-                    defaultValue={userProfile.lastName}
+                    defaultValue={userProfile && userProfile.lastName}
                     placeholder=" "
                   />
                 </div>
@@ -135,7 +135,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="Phone Number *"
                     type="text"
                     name="phone"
-                    defaultValue={userProfile.phone}
+                    defaultValue={userProfile && userProfile.phone}
                     placeholder=" "
                   />
                 </div>
@@ -146,7 +146,7 @@ const DshVendorAccountForm = ({ pageTitle, vendorProfile, user }) => {
                     label="WhatsApp Number"
                     type="text"
                     name="whatsapp"
-                    defaultValue={userProfile.whatsapp}
+                    defaultValue={userProfile && userProfile.whatsapp}
                     placeholder=" "
                   />
                 </div>

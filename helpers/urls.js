@@ -3,6 +3,7 @@ const api = process.env.API;
 const urls = {
   api: api,
   login: api + "/auth/login",
+  createVendor: api + "/auth/create-vendor",
   event: api + "/events",
   guests: api + "/event-guests",
   myEvent: api + "/my-events",

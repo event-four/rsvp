@@ -318,17 +318,11 @@ const DshVendorProfileForm = ({}) => {
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row space-y-6  md:space-y-0 md:space-x-6 justify-between pt-6">
-                <LoadingButton
-                  variant="contained"
-                  loading={isLoading}
-                  type="submit"
-                >
+              <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 justify-between pt-6">
+                <Button variant="contained" loading={isLoading} type="submit">
                   Save Profile
-                </LoadingButton>
-                <Button variant="outlined" type="submit">
-                  Preview Profile
                 </Button>
+                <Button variant="outlined">Preview Profile</Button>
               </div>
             </div>
           </Form>

@@ -209,3 +209,9 @@
         transform: rotate(360deg);
     }
 }
+
+button {
+    -webkit-appearance: button;
+    background-color: #d71f69;
+    background-image: inherit;
+}
