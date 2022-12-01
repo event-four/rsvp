@@ -133,14 +133,14 @@ export default function Home() {
             </div>
           </section>
           <section className="flex flex-col bg-[#fbcec9] bg-pink-50x container-fluid h-[500px] py-24 px-6 md:px-24 md:py-32 mt-8 items-center justify-center relative">
-            <div className=" w-full h-full bg-[url(/wedg.png)] bg-no-repeat bg-left-top absolute -ml-60 hidden md:block"></div>
+            <div className=" w-full h-full bg-[url(/wedg.png)] bg-no-repeat bg-left-top absolute -ml-60 hidden md:block z-[60]"></div>
             <p className="text-center mb-12 text-xl">Are you a vendor?</p>
             <h1 className="text-5xl font-bold text-center text-gray-800 md:w-2/3">
               Let's find the best clients for your business.
             </h1>
             <a
               href="/vendor/start"
-              className="flex w-auto mt-16 align-center min-w-[200px] bg-pink-600 hover:bg-pink-700 px-8 py-4 rounded-lg text-center justify-center text-white hover:text-pink-100 "
+              className="flex w-auto mt-16 align-center min-w-[200px] bg-pink-600 hover:bg-pink-700 px-8 py-4 rounded-lg text-center justify-center text-white hover:text-pink-100 z-[100]"
             >
               Join now
             </a>
