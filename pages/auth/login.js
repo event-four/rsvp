@@ -100,7 +100,7 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
 
   return (
     <Layout>
-      <div className="container mx-autox grid md:grid-cols-3x md:gap-4x h-screen">
+      <div className="container-fluid mx-auto grid md:grid-cols-3x md:gap-4x h-screen">
         <div className="p-6 align-middle h-full md:mx-autox md:col-span-4x">
           <Form
             ref={formRef}

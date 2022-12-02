@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 // import ShareIcon from "@mui/icons-material/ShareIcon";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState, Fragment, memo } from "react";
 import { useRouter } from "next/router";
 import { Urls, fetchWrapper, authHeader } from "/helpers";
@@ -148,6 +148,7 @@ const DZDashboardPage = ({ pages, currentPage, onChangePage }) => {
             />
           )}
         </div>
+        <button onClick={() => signOut({ callbackUrl: "/" })}></button>
       </div>
     </>
   );

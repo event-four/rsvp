@@ -215,3 +215,55 @@ button {
     background-color: #d71f69;
     background-image: inherit;
 }
+
+/* Scroller styling */
+.scroller {
+    height: 1em;
+    line-height: 1.6em;
+    position: relative;
+    overflow: hidden;
+    width: 5em;
+    text-align: start;
+}
+
+.scroller>span {
+    position: absolute;
+    top: -0.2em;
+    animation: slide;
+    animation-duration: 8s;
+    animation-delay: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    font-weight: bold;
+
+}
+
+@keyframes slide {
+    0% {
+        top: -0.2em;
+    }
+
+    16% {
+        top: -1.8em;
+    }
+
+    32% {
+        top: -3.4em;
+    }
+
+    48% {
+        top: -5.01em;
+    }
+
+    64% {
+        top: -3.4em;
+    }
+
+    80% {
+        top: -1.8em;
+    }
+
+    0% {
+        top: -0.2em;
+    }
+}

@@ -1,6 +1,6 @@
 import FormCard from "@/components/FormCard";
 import FormProvider from "@/components/providers/HostStartFormProvider";
-import { useSession, signIn, getSession } from "next-auth/react";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import Layout from "@/components/host/Layout";
@@ -192,7 +192,7 @@ const StartPageForm = () => {
       {redirectToLogin ? (
         <div className="flex flex-col max-h-screen justify-center items-center border rounded-lg px-12 my-auto mx-auto py-24">
           <div className="mb-6 mx-auto">
-            <Image src="/favicon.png" height={120} width={120} />
+            <Image src="/e4.png" height={58} width={200} />
           </div>
           <p className="font-bold text-xl">
             Congratulations {loggedInUser && loggedInUser.profile.firstName}!
@@ -200,11 +200,14 @@ const StartPageForm = () => {
           <div className="justify-center items-center mb-9 mt-4 text-center">
             Your Vendor Account has been created. <br></br>
           </div>
-          <Link href="/auth/login">
-            <Button classes="w-auto" type="button">
-              Login to continue
-            </Button>
-          </Link>
+
+          <Button
+            classes="w-auto"
+            type="button"
+            onClick={() => signOut({ redirect: true })}
+          >
+            Login to continue
+          </Button>
         </div>
       ) : (
         <FormProvider>
@@ -217,7 +220,7 @@ const StartPageForm = () => {
             >
               <div className="flex flex-col space-y-4 md:space-y-6 border rounded-lg p-12">
                 <div className="mb-6 mx-auto">
-                  <Image src="/favicon.png" height={120} width={120} />
+                  <Image src="/e4.png" height={58} width={200} />
                 </div>
                 <h1 className="font-bold text-center">Become a Vendor</h1>
 
