@@ -35,6 +35,7 @@ export default function GlobalNavbar() {
       setPadding(paddingVar);
       setBoxShadow(boxShadowVar);
     }
+    console.log(window.scrollY);
   }, [clientWindowHeight]);
 
   return (
@@ -97,15 +98,8 @@ export default function GlobalNavbar() {
                   Find Events
                 </a>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-4 sm:pr-0">
-                {/* <button
-                  type="button"
-                  className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button> */}
-
+              <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-2 sm:static sm:inset-auto sm:ml-4 sm:pr-0">
+              
                 {/* Profile dropdown */}
                 {session ? (
                   <Menu as="div" className="ml-3 relative hiddenx">
@@ -180,7 +174,7 @@ export default function GlobalNavbar() {
                     </Transition>
                   </Menu>
                 ) : (
-                  <a href="/auth/login">Login</a>
+                  <a className="ml-6 text-sm" href="/auth/login">Login</a>
                 )}
               </div>
             </div>

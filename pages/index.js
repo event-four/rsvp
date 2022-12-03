@@ -10,6 +10,8 @@ import Typical from "react-typical";
 import Typed from "typed.js";
 import { useEffect, useRef } from "react";
 import GlobalNavbar from "@/components/layout/GlobalNavbar";
+import SearchIcon from '@mui/icons-material/Search';
+import { grey,pink } from '@mui/material/colors';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -35,25 +37,17 @@ export default function Home() {
       showCursor: true,
       cursorChar: "|",
     });
-    // const typed1 = new Typed(el1.current, {
-    //   strings: ["Hosts.", "Planners.", "Vendors.", "Guests."], // Strings to display
-
-    //   startDelay: 300,
-    //   typeSpeed: 100,
-    //   backSpeed: 50,
-    //   backDelay: 500,
-    //   smartBackspace: true,
-    //   loop: true,
-    //   showCursor: true,
-    //   cursorChar: "|",
-    // });
-
     // Destroying
     return () => {
       typed.destroy();
       // typed1.destroy();
     };
   }, []);
+
+  const focusSearch = ()=>{
+    window.scrollTo({top:400, behavior: "smooth"});
+  }
+
   const EVI = ({ icon, text, caption }) => {
     return (
       <div className="flex flex-col justify-center items-center text-center space-y-3  py-12">
@@ -105,6 +99,8 @@ export default function Home() {
             </span>
           </div>
           <GlobalNavbar />
+          
+          
           {/* <p className="text-center text-xl font-light mt-4 md:mx-72 ">
             Embrace a simpler way to plan and attend events with EventFour
             (4-in-1) connective platform.
@@ -140,6 +136,13 @@ export default function Home() {
               Four Stakeholders . One Platform . Zero Stress
             </p>
           </section>
+          <div className="flex flex-col  space-x-4 justify-center items-center mb-20">
+           <div className="flex mx-auto flex-row rounded-full bg-white px-6 py-4 sm:w-1/2 shadow-md">
+            <SearchIcon sx={{ fontSize: 40, color: grey[300] }} />
+            <input className="inp w-full placeholder:text-gray-300 ml-4 text-lg without-ring focus:ring-0 focus:ring-offset-0 outline-none s" placeholder="What are you looking for?" onFocus={()=>focusSearch()}/>
+            </div> 
+            <p className="text-xs mt-2 text-gray-500">Hint: Type an event code, celebrant's name, or a type of service.</p>
+          </div>
           <section className="container-fluid mx-auto sm:px-24 grid gap-6 grid-cols-1 sm:grid-cols-4 justify-center space-y-12x items-start">
             <EVI
               caption="Hosts"
