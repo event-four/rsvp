@@ -61,14 +61,14 @@ export default function TextInput({
     <div
       className={`relative rounded focus-within:z-10 focus-within:ring-0x border-gray-300 ${props.wrapperclasses}`}
     >
-      <div>
+      <div className="group">
         <input
           id={fieldName}
           ref={inputRef}
           defaultValue={defaultValue}
           {...props}
           type={isPassword ? type : props.type}
-          className={`block rounded border border-gray-300 px-3 pb-2 pt-6 w-full text-sm text-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-default peer bg-transparent ${props.classes}`}
+          className={`block rounded border border-gray-300 px-3 pb-2 pt-6 w-full text-sm text-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-default peer bg-transparent ${props.classes} placeholder:text-transparent group-focus-within:placeholder:text-gray-400`}
         />
 
         <label

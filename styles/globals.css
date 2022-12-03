@@ -4,7 +4,7 @@
 
 @layer components {
     html {
-        @apply bg-gray-50
+        @apply bg-gray-50 scroll-smooth
     }
 
     html,
@@ -189,21 +189,21 @@
 }
 
 .without-ring:focus:not(:focus-visible) {
-    @apply focus:ring-0 focus:ring-offset-0;
-  }
-  
-  .without-ring:focus-visible {
+    @apply ring-0 ring-offset-0;
+}
+
+.without-ring:focus-visible {
     @apply ring-2 ring-offset-2;
-  }
-  
-  
-  [type="checkbox"]:focus:not(:focus-visible) {
-    @apply focus:ring-0 focus:ring-offset-0;
-  }
-  
-  [type="checkbox"]:focus-visible {
+}
+
+
+[type="checkbox"]:focus:not(:focus-visible) {
+    @apply ring-0 ring-offset-0;
+}
+
+[type="checkbox"]:focus-visible {
     @apply ring-2 ring-offset-2;
-  }
+}
 
 
 .loader {

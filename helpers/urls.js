@@ -31,6 +31,8 @@ const urls = {
   vendorGallery: api + "/vendor-galleries",
 
   userProfile: api + "/user-profiles",
+
+  helpDesk: api + "/help-desks",
 };
 
 export { urls };

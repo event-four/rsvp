@@ -18,7 +18,7 @@ export default function TextArea({ name, label, ...props }) {
 
   return (
     <div
-      className={`relative rounded focus-within:z-10 focus-within:ring-0x border-gray-300 ${(props.wrapperclasses =
+      className={`group relative rounded focus-within:z-10 focus-within:ring-0x border-gray-300 ${(props.wrapperclasses =
         "w-full")}`}
     >
       <textarea
@@ -26,7 +26,7 @@ export default function TextArea({ name, label, ...props }) {
         ref={inputRef}
         defaultValue={defaultValue}
         {...props}
-        className={`block rounded border border-gray-300 px-3 pb-2 pt-6 w-full text-sm text-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-default peer bg-transparent ${props.classes} `}
+        className={`block rounded border border-gray-300 px-3 pb-2 pt-6 w-full text-sm text-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-default peer bg-transparent ${props.classes} placeholder:text-transparent group-focus-within:placeholder:text-gray-400`}
       />
       {/* <div
         className={`block rounded border border-gray-300 px-3 pb-2 pt-6 w-full text-sm text-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-default peer bg-transparent ${props.classes} `}
@@ -42,7 +42,7 @@ export default function TextArea({ name, label, ...props }) {
         </label>
       )}
       {error && (
-        <p className="text-red-600 text-xs text-center mt-2">{error}</p>
+        <p className="text-red-600 text-2xs text-centerx mt-2">{error}</p>
       )}
     </div>
   );

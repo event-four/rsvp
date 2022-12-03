@@ -15,7 +15,6 @@ export const swrResponse = (response) => {
 };
 
 export const _post = async (endpoint, payload) => {
-  console.log(payload);
   return axios
     .post(endpoint, { data: payload })
     .then(function (response) {
