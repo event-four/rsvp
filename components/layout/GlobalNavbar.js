@@ -190,7 +190,10 @@ export default function GlobalNavbar({ staticNavbar = false }) {
                     </Transition>
                   </Menu>
                 ) : (
-                  <a className="ml-6 text-sm min-w-[60px]" href="/auth/login">
+                  <a
+                    className="ml-6 text-sm min-w-[60px] text-gray-900"
+                    href="/auth/login"
+                  >
                     Login
                   </a>
                 )}
