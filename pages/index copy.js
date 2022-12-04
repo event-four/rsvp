@@ -9,7 +9,6 @@ import { CTA } from "@/components/guests/cta";
 import Typical from "react-typical";
 import Typed from "typed.js";
 import { useEffect, useRef, useState } from "react";
-import GlobalLayout from "@/components/layout/GlobalLayout";
 import GlobalNavbar from "@/components/layout/GlobalNavbar";
 import SearchIcon from "@mui/icons-material/Search";
 import { grey } from "@mui/material/colors";
@@ -17,10 +16,10 @@ import { Modal } from "@/components/common/Modal";
 
 export default function Home() {
   const { data: session } = useSession();
-  const [openSearchDialog, setOpenSearchDialog] = useState(false);
-  // const [dialogCallback, setDialogCallback] = useState();
-  // const toggleDialog = () => setDialogOpen((bool) => !bool);
-  // const closeDialog = () => setDialogOpen(false);
+  const [showSearchDialog, setShowSearchDialog] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const toggleDialog = () => setDialogOpen((bool) => !bool);
+  const closeDialog = () => setDialogOpen(false);
   // console.log(session);
   const el = useRef(null);
   const el1 = useRef(null);
@@ -83,11 +82,33 @@ export default function Home() {
     );
   };
   return (
-    <GlobalLayout
-      showLogo={true}
-      openSearchDialog={openSearchDialog}
-      closeSearchDialog={() => setOpenSearchDialog(false)}
-    >
+    <>
+      <Modal
+        open={dialogOpen}
+        onRequestClose={closeDialog}
+        closeOnOutsideClick={true}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridGap: "1em",
+            justifyItems: "center",
+            padding: "1em",
+          }}
+        >
+          <h1>Hello Modal</h1>
+          <input />
+          <button
+            style={{
+              border: "1px solid hsl(205, 80%, 50%)",
+              color: "hsl(205, 80%, 50%)",
+            }}
+            onClick={closeDialog}
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
       <Head>
         <title>EventFour</title>
         <meta name="description" content="Stress-free events" />
@@ -95,26 +116,28 @@ export default function Home() {
         <meta property="og:image" content="/favicon.png"></meta>
       </Head>
       <div className="container-fluid flex flex-col bg-primary">
-        {/* <div className=" min-h-full w-full ">
+        <div className=" min-h-full w-full ">
           <div className="f1"></div>
+          {/* <div className="bg"></div> */}
+          {/* <div className="bg-filter"></div> */}
 
           <div className="f2"></div>
           <div className="f3"></div>
-        </div> */}
+        </div>
         <div className="container-fluid relative flex flex-col h-full justify-between">
-          {/* <div className="hidden sm:flex w-full justify-center items-center mt-4 mb-4 flex-col">
+          <div className="hidden sm:flex w-full justify-center items-center mt-4 mb-4 flex-col">
             <img src="/e4.png" height="auto" width="250px" />
             <span className="text-2xs text-gray-500 leading-3 -mt-2">
               Hosts . Planners . Vendors . Guests
             </span>
-          </div> */}
-          {/* <GlobalNavbar
+          </div>
+          <GlobalNavbar
             staticNavbar={false}
             openSearchDialog={showSearchDialog}
             onDialogClose={() => {
               setShowSearchDialog(false);
             }}
-          /> */}
+          />
 
           <section className="container mx-auto p-6 md:px-24 flex items-center justify-center flex-col py-20 sm:py-32">
             <h1 className="text-3xl px-6 text-center flex flex-col md:flex-row font-bold leading-[36px] space-y-2 sm:space-y-0">
@@ -142,11 +165,10 @@ export default function Home() {
           </section>
           <section className="flex flex-col justify-center items-center mb-20 w-full px-8 sm:mx-auto sm:w-3/5 md:w-1/2 ">
             <div
-              className="flex flex-row rounded-full bg-white w-full px-6 py-2 items-center shadow-sm"
-              onClick={() => setOpenSearchDialog(true)}
+              className="flex flex-row rounded-full bg-white w-full px-6 py-2 shadow-sm"
+              onClick={toggleDialog}
             >
               <SearchIcon sx={{ fontSize: 36, color: grey[300] }} />
-              <div className="text-gray-300">What are you looking for?</div>
               {/* <input
                 className="inp w-full placeholder:text-gray-300 ml-2 sm:text-lg without-ring focus:ring-0 focus:ring-offset-0 outline-none"
                 placeholder="What are you looking for?"
@@ -219,8 +241,22 @@ export default function Home() {
               </a>
             </div>
           </section>
+          <div className="h-1"></div>
+          <div>
+            <div className="text-center text-sm mt-16 mb-5 font-poppins px-8 text-gray-800 ">
+              <>
+                <p>Planning an event?</p>
+                <Link href="/host/start" className="underline text-pink-600">
+                  Create your own event website for free!
+                </Link>
+              </>
+            </div>
+            <p className="text-sm text-center mb-5 text-gray-800">
+              &copy; 2022. EventFour Ltd.
+            </p>
+          </div>
         </div>
       </div>
-    </GlobalLayout>
+    </>
   );
 }
