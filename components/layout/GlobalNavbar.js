@@ -10,6 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { grey, pink } from "@mui/material/colors";
 import { ref } from "yup";
 import { Modal } from "@/components/common/Modal";
+import {getMetaKey} from '@/helpers/utils'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -21,6 +22,7 @@ const GlobalNavbar = ({
   openSearchDialog,
   onDialogClose,
 }) => {
+
 
   const { data: session, status } = useSession();
   const [clientWindowHeight, setClientWindowHeight] = useState("");
@@ -62,7 +64,6 @@ const GlobalNavbar = ({
     }
   }, [clientWindowHeight]);
 
-  
 
   return (
     <>
@@ -145,7 +146,8 @@ const GlobalNavbar = ({
                 >
                   <SearchIcon sx={{ fontSize: 24 }} /> 
                   <p className="pr-4">Quick search</p>
-                  <kbd class="font-sans font-semibold text-slate-300"><abbr title="Command" class="no-underline text-slate-300">⌘</abbr> K</kbd>
+                  <kbd class="font-sans font-semibold text-slate-400 flex flex-row items-center space-x-1">
+                    {getMetaKey()}<span>K</span></kbd>
                 </div> 
                 <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-2 sm:static sm:inset-auto sm:ml-4 sm:pr-0">
                   {/* Profile dropdown */}

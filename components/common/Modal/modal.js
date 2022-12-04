@@ -4,7 +4,7 @@ import { useDialogPolyfill } from "./useDialogPolyfill";
 import SearchIcon from "@mui/icons-material/Search";
 import { grey, pink } from "@mui/material/colors";
 
-export function Modal({ closeOnOutsideClick, onRequestClose, open, ...props }) {
+export function Modal({ closeOnOutsideClick, onRequestClose, open, searchText, ...props }) {
   const dialogRef = React.useRef(null);
   const lastActiveElement = React.useRef(null);
   const firstRender = React.useRef(true);
@@ -66,11 +66,12 @@ export function Modal({ closeOnOutsideClick, onRequestClose, open, ...props }) {
             <SearchIcon sx={{ fontSize: 36, color: grey[300] }} />
             <input
               // ref={searchRef}
+              defaultValue={searchText}
               autoFocus
               className="inp w-full placeholder:text-gray-300 ml-2 sm:text-lg without-ring focus:ring-0 focus:ring-offset-0 outline-none "
               placeholder="Type here..."
             />
-            <div className="text-sm p-2 bg-gray-200 text-gray-600 rounded-lg text-center">
+            <div className="text-sm p-2 bg-slate-100 text-slate-400 rounded-lg text-center">
               ESC
             </div>
           </header>

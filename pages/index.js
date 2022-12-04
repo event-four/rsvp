@@ -14,6 +14,7 @@ import GlobalNavbar from "@/components/layout/GlobalNavbar";
 import SearchIcon from "@mui/icons-material/Search";
 import { grey } from "@mui/material/colors";
 import { Modal } from "@/components/common/Modal";
+import {getMetaKey} from '@/helpers/utils'
 
 export default function Home() {
   const { data: session } = useSession();
@@ -146,12 +147,10 @@ export default function Home() {
               onClick={() => setOpenSearchDialog(true)}
             >
               <SearchIcon sx={{ fontSize: 36, color: grey[300] }} />
-              <div className="text-gray-300">What are you looking for?</div>
-              {/* <input
-                className="inp w-full placeholder:text-gray-300 ml-2 sm:text-lg without-ring focus:ring-0 focus:ring-offset-0 outline-none"
-                placeholder="What are you looking for?"
-                onClick={focusSearch}
-              /> */}
+              <div className="text-gray-300 flex flex-grow">What are you looking for?</div>
+              <kbd class="font-sans font-semibold text-slate-400 bg-slate-100 p-1 rounded-lg px-2 flex flex-row items-center space-x-1">
+                    {getMetaKey()}<span>K</span></kbd>
+            
             </div>
             <p className="text-2xs sm:text-xs mt-2 text-default">
               Type an event code, celebrant's name, vendor, or service.

@@ -12,7 +12,9 @@ const GlobalLayout = ({
   closeSearchDialog,
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [searchText, setSearchText] = useState('')
   const toggleDialog = () => setDialogOpen((bool) => !bool);
+
   const closeDialog = () => {
     setDialogOpen(false);
     closeSearchDialog();
@@ -24,10 +26,11 @@ const GlobalLayout = ({
 
   useEffect(() => {
     function handleEscapeKey(event) {
+      
       if (event.code === "Escape") {
         closeSearchDialog();
       }
-      if (event.metaKey && event.code === "K") {
+      if (event.metaKey && event.code === 'KeyK') {
         setDialogOpen(true);
       }
     }
@@ -38,10 +41,12 @@ const GlobalLayout = ({
 
   return (
     <div className="container-fluid flex flex-col bg-primary relative">
+      
       <Modal
         open={dialogOpen}
         onRequestClose={closeDialog}
         closeOnOutsideClick={true}
+        searchText={searchText}
       >
         <div
           style={{
