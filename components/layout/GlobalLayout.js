@@ -22,6 +22,20 @@ const GlobalLayout = ({
     setDialogOpen(openSearchDialog);
   }, [openSearchDialog]);
 
+  useEffect(() => {
+    function handleEscapeKey(event) {
+      if (event.code === "Escape") {
+        closeSearchDialog();
+      }
+      if (event.metaKey && event.code === "K") {
+        setDialogOpen(true);
+      }
+    }
+
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => document.removeEventListener("keydown", handleEscapeKey);
+  }, []);
+
   return (
     <div className="container-fluid flex flex-col bg-primary relative">
       <Modal

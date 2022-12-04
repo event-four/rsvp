@@ -15,22 +15,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const useFocus = () => {
-  const htmlElRef = useRef(null);
-  const setFocus = () => {
-    htmlElRef.current && htmlElRef.current.focus();
-  };
-
-  return [htmlElRef, setFocus];
-};
 
 const GlobalNavbar = ({
   staticNavbar = false,
   openSearchDialog,
   onDialogClose,
 }) => {
-  // const searchRef = useRef();
-  const [searchRef, setInputFocus] = useFocus();
 
   const { data: session, status } = useSession();
   const [clientWindowHeight, setClientWindowHeight] = useState("");
@@ -38,48 +28,13 @@ const GlobalNavbar = ({
   const [padding, setPadding] = useState(30);
   const [boxShadow, setBoxShadow] = useState(0);
   const [activeRoute, setActiveRoute] = useState("/");
-  // const [showSearchDialog, setShowSearchDialog] = useState(
-  //   openSearchDialog ?? false
-  // );
-  // const [dialogOpen, setDialogOpen] = useState(openSearchDialog);
-  // const toggleDialog = () => setDialogOpen((bool) => !bool);
-  // const closeDialog = () => setDialogOpen(false);
-
   const router = useRouter();
 
   const handleScroll = () => {
     setClientWindowHeight(window.scrollY);
   };
 
-  // console.log("openSearchDialog", openSearchDialog);
-  // console.log("showSearchDialog", showSearchDialog);
-  // console.log("dialogOpen", dialogOpen);
-
-  // useEffect(() => {
-  //   // searchRef.current.focus();
-  //   // searchRef.current.focus();
-  //   setDialogOpen(openSearchDialog);
-  //   toggleDialog();
-  //   // setInputFocus();
-  //   // setShowSearchDialog(openSearchDialog);
-  //   // if (openSearchDialog) {
-  //   // }
-  //   // console.log(searchRef);
-  // }, [openSearchDialog]);
-
-  // useEffect(() => {
-  //   function handleEscapeKey(event) {
-  //     if (event.code === "Escape") {
-  //       setShowSearchDialog(false);
-  //       setDialogOpen(false);
-
-  //       onDialogClose();
-  //     }
-  //   }
-
-  //   document.addEventListener("keydown", handleEscapeKey);
-  //   return () => document.removeEventListener("keydown", handleEscapeKey);
-  // }, []);
+  const isHome = activeRoute == "/" 
 
   useEffect(() => {
     if (router.isReady) {
@@ -107,6 +62,8 @@ const GlobalNavbar = ({
     }
   }, [clientWindowHeight]);
 
+  
+
   return (
     <>
       <Disclosure
@@ -118,14 +75,14 @@ const GlobalNavbar = ({
             : `rgba(255, 255, 255, ${backgroundTransparency})`,
           boxShadow: staticNavbar
             ? ""
-            : `rgb(0 0 0 / ${boxShadow}) 0px 0px 20px 6px`,
+            : `rgb(0 0 0 / ${isHome ? boxShadow: '0.1'}) 0px 0px 20px 6px`,
         }}
       >
         {({ open }) => (
           <>
             <BoxWrap>
               <div className="relative flex justify-center items-center h-16">
-                <div className="absolute inset-y-0 left-0 flex items-center sm:hidden ">
+                <div className="absolutex inset-y-0 left-0 flex items-center sm:hidden flex-grow flex-1 ">
                   {/* Mobile menu button */}
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500">
                     <span className="sr-only">Open main menu</span>
@@ -135,21 +92,31 @@ const GlobalNavbar = ({
                       <MenuIcon className="block h-6 w-6" aria-hidden="true" />
                     )}
                   </Disclosure.Button>
-                  <div className="ml-2">
+                  <div className="ml-2 flex flex-grow">
                     <p className="font-extrabold text-2xl text-default">
                       eventfour
                     </p>
                   </div>
+                 <div className="text-default font-bold" onClick={openSearchDialog}>
+                  <SearchIcon sx={{ fontSize: 24 }} />
+                  </div> 
+                  <a
+                      className="mx-4 text-sm min-w-[60px] text-gray-900 bg-white sm:bg-transparent rounded-full bg-opacity-90 px-3 py-2 shadow-lg"
+                      href="/auth/login"
+                    >
+                      Login
+                    </a>
                 </div>
                 <div
-                  className={`hidden ml-2x min-w-[60px]x sm:flex flex-row space-x-4`}
+                  className={`hidden ml-2x min-w-[300px] sm:flex flex-row items-center`}
                   style={{
-                    color: `rgba(193, 135, 135, ${backgroundTransparency})`,
+                    color: `rgba(193, 135, 135, ${isHome ?backgroundTransparency:'1'})`,
                   }}
                 >
                   <p className={`font-extrabold text-2xl`}>eventfour</p>
+                 
                 </div>
-                <div className="hidden flex-grow sm:ml-6x sm:flex sm:space-x-8x justify-center w-auto">
+                <div className="hidden flex-grow sm:flex items-center justify-center w-auto min-w-[500px]">
                   {/* Current: "border-pink-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
                   <a
                     href="/"
@@ -173,15 +140,13 @@ const GlobalNavbar = ({
                     Get Help
                   </a>
                 </div>
-                <div
-                  className="flex flex-row space-x-1 bg-white text-sm items-center rounded-full border  px-4 py-1 text-default"
-                  onClick={openSearchDialog}
+                 <div className={`flex flex-row space-x-2 bg-white text-sm justify-center items-center rounded-full border p-2 pr-4 border-default text-default cursor-pointer ${isHome ? backgroundTransparency > 0.9 ? 'opacity-100':'opacity-0':'opacity-100'}`}
+                  onClick={openSearchDialog} 
                 >
-                  <SearchIcon sx={{ fontSize: 24 }} />
-                  <p className="hidden sm:flex text-gray-300">
-                    Find an event, vendor or service...
-                  </p>
-                </div>
+                  <SearchIcon sx={{ fontSize: 24 }} /> 
+                  <p className="pr-4">Quick search</p>
+                  <kbd class="font-sans font-semibold text-slate-300"><abbr title="Command" class="no-underline text-slate-300">⌘</abbr> K</kbd>
+                </div> 
                 <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-2 sm:static sm:inset-auto sm:ml-4 sm:pr-0">
                   {/* Profile dropdown */}
                   {session ? (
@@ -258,7 +223,7 @@ const GlobalNavbar = ({
                     </Menu>
                   ) : (
                     <a
-                      className="ml-6 text-sm min-w-[60px] text-gray-900 bg-white sm:bg-transparent rounded-full bg-opacity-90 px-3 py-2 shadow-lg"
+                      className="hidden md:flex ml-6 text-sm min-w-[60px] text-default bg-white sm:bg-transparent rounded-full bg-opacity-90 px-3 py-2 shadow-lgx border border-default"
                       href="/auth/login"
                     >
                       Login
