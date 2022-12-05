@@ -141,7 +141,7 @@ const GlobalNavbar = ({
                     Get Help
                   </a>
                 </div>
-                 <div className={`flex flex-row space-x-2 bg-white text-sm justify-center items-center rounded-full border p-2 pr-4 border-default text-default cursor-pointer ${isHome ? backgroundTransparency > 0.9 ? 'opacity-100':'opacity-0':'opacity-100'}`}
+                 <div className={`flex flex-row space-x-2 bg-white text-sm justify-center items-center rounded-full border p-2 pr-4 border-default text-default cursor-pointer ${isHome ? backgroundTransparency > 0.9 ? 'opacity-100':'opacity-0':'opacity-100'} transition duration-300 ease-in-out`}
                   onClick={openSearchDialog} 
                 >
                   <SearchIcon sx={{ fontSize: 24 }} /> 
