@@ -4,6 +4,8 @@ import { useState } from "react";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
+import { userService } from "@/services/user-service";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -31,8 +33,6 @@ export default function PagesMenu({
           {pages.map((page) => (
             <a
               key={page.name}
-              // href={`${baseUrl}?page=${page.href}`}
-              // as={`${baseUrl}/${page.href}`}
               onClick={() => onChangePage(page)}
               href="#"
               className={classNames(
@@ -47,6 +47,17 @@ export default function PagesMenu({
               {page.name}
             </a>
           ))}
+          <a
+            onClick={() => userService.logout()}
+            href="#"
+            className={classNames(
+              "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300x",
+              "font-bold whitespace-nowrap px-6 py-3 md:border-r-2  sm:font-medium text-sm w-full hover:bg-default hover:bg-opacity-[0.05] hover:border-t-0"
+            )}
+            // as="a"
+          >
+            Log out
+          </a>
         </nav>
       </div>
     </>

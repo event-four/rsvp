@@ -222,7 +222,6 @@ const GlobalNavbar = ({
                               <a
                                 href="#"
                                 onClick={() => {
-                                  signOut({ redirect: true });
                                   userService.logout();
                                 }}
                                 className={classNames(

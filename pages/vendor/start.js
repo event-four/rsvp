@@ -228,7 +228,6 @@ const StartPageForm = () => {
             classes="w-auto"
             type="button"
             onClick={() => {
-              signOut({ redirect: true });
               userService.logout();
             }}
           >

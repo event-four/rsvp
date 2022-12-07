@@ -148,7 +148,6 @@ const DZDashboardPage = ({ pages, currentPage, onChangePage }) => {
             />
           )}
         </div>
-        <button onClick={() => signOut({ callbackUrl: "/" })}></button>
       </div>
     </>
   );

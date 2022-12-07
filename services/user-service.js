@@ -8,6 +8,7 @@ import {
 } from "cookies-next";
 import { fetchWrapper, urls } from "/helpers";
 import useSWR from "swr";
+import { signOut } from "next-auth/react";
 
 import { useSession } from "next-auth/react";
 import { swrResponse } from "/services";
@@ -46,10 +47,11 @@ async function login(token) {
   return res.json();
 }
 
-function logout() {
+function logout(callbackUrl) {
   // remove user from local storage, publish null to user subscribers and redirect to login page
   localStorage.removeItem("user");
   deleteCookie(constants.UIF);
+  signOut({ callbackUrl: callbackUrl ?? "/" });
   // userSubject.next(null);
   // Router.push('/login');
 }
