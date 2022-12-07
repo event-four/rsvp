@@ -50,10 +50,7 @@ export default function PagesMenu({
           <a
             onClick={() => userService.logout()}
             href="#"
-            className={classNames(
-              "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300x",
-              "font-bold whitespace-nowrap px-6 py-3 md:border-r-2  sm:font-medium text-sm w-full hover:bg-default hover:bg-opacity-[0.05] hover:border-t-0"
-            )}
+            className="bg-pink-600 hover:bg-pink-700 mx-6 px-4 py-2 rounded-md mt-24 text-center hover:text-white text-white"
             // as="a"
           >
             Log out
