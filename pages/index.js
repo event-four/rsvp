@@ -125,7 +125,7 @@ export default function Home() {
               className="flex flex-row rounded-full bg-white w-full px-6 py-2 items-center shadow-sm"
               onClick={() => setOpenSearchDialog(true)}
             >
-              <SearchIcon sx={{ fontSize: 36, color: grey[300] }} />
+              <SearchIcon sx={{ fontSize: 30, color: grey[300] }} />
               <div className="text-gray-300 flex flex-grow">
                 What are you looking for?
               </div>
