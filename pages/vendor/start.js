@@ -228,7 +228,7 @@ const StartPageForm = () => {
             classes="w-auto"
             type="button"
             onClick={() => {
-              userService.logout();
+              userService.logout("/auth/login");
             }}
           >
             Login to continue
