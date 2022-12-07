@@ -95,17 +95,19 @@ const GlobalNavbar = ({
                     </p>
                   </div>
                   <div
-                    className="text-default font-bold"
+                    className="text-default font-bold mr-2"
                     onClick={openSearchDialog}
                   >
                     <SearchIcon sx={{ fontSize: 24 }} />
                   </div>
-                  <a
-                    className="mx-4 text-sm min-w-[60px] text-gray-900 bg-white sm:bg-transparent rounded-full bg-opacity-90 px-3 py-2 shadow-lg"
-                    href="/auth/login"
-                  >
-                    Login
-                  </a>
+                  {!session && (
+                    <a
+                      className="mx-4 ml-2 text-sm min-w-[60px] text-gray-900 bg-white sm:bg-transparent rounded-full bg-opacity-90 px-3 py-2 shadow-lg"
+                      href="/auth/login"
+                    >
+                      Login
+                    </a>
+                  )}
                 </div>
                 <div
                   className={`hidden ml-2x min-w-[300px] sm:flex flex-row items-center`}
