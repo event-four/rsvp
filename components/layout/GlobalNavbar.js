@@ -167,11 +167,13 @@ const GlobalNavbar = ({
                       <div>
                         <Menu.Button className=" rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-default items-center ml-4 shadow-lg sm:shadow-none border-4 border-white sm:border-none bg-white p-1">
                           <span className="sr-only">Open user menu</span>
+
                           <img
-                            className="h-8 w-8 rounded-full "
+                            className="h-8 w-8 rounded-full bg-gray-200 "
                             src={session.user.profile.avatar.thumbnail}
                             alt=""
                           />
+
                           {/* <div className="ml-2 pr-4 hidden sm:block text-sm text-gray-600">
                             {session.user.profile.firstName}{" "}
                             {session.user.profile.lastName}
