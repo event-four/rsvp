@@ -6,7 +6,6 @@ import { createRef, useState, useRef, memo, useEffect } from "react";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import Section from "@/components/common/Section";
-import IconButton from "@mui/material/IconButton";
 import Fab from "@mui/material/Fab";
 import { Form } from "@unform/web";
 import { LoadingButton } from "@mui/lab";
@@ -319,7 +318,11 @@ const DshVendorProfileForm = ({}) => {
               </div>
 
               <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 justify-between pt-6">
-                <Button variant="contained" loading={isLoading} type="submit">
+                <Button
+                  variant="contained"
+                  loading={isLoading.toString()}
+                  type="submit"
+                >
                   Save Profile
                 </Button>
                 <Button variant="outlined">Preview Profile</Button>

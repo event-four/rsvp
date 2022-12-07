@@ -5,43 +5,40 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import BoxWrap from "./BoxWrap";
 import { useSession, signOut, signIn } from "next-auth/react";
-import Link from "next/link";
 import SearchIcon from "@mui/icons-material/Search";
-import { grey, pink } from "@mui/material/colors";
-import { ref } from "yup";
-import { Modal } from "@/components/common/Modal";
-import {getMetaKey} from '@/helpers/utils'
+import { getMetaKey } from "@/helpers/utils";
+import { osName } from "react-device-detect";
+import { userService } from "@/services/user-service";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
 
 const GlobalNavbar = ({
   staticNavbar = false,
   openSearchDialog,
   onDialogClose,
 }) => {
-
-
   const { data: session, status } = useSession();
   const [clientWindowHeight, setClientWindowHeight] = useState("");
   const [backgroundTransparency, setBackgroundTransparency] = useState(0);
   const [padding, setPadding] = useState(30);
   const [boxShadow, setBoxShadow] = useState(0);
   const [activeRoute, setActiveRoute] = useState("/");
+  const [osName, setOsName] = useState();
   const router = useRouter();
 
   const handleScroll = () => {
     setClientWindowHeight(window.scrollY);
   };
 
-  const isHome = activeRoute == "/" 
+  const isHome = activeRoute == "/";
 
   useEffect(() => {
     if (router.isReady) {
       let eid = router.route;
       setActiveRoute(eid);
+      setOsName(osName);
     }
   }, [router.isReady]);
 
@@ -64,7 +61,6 @@ const GlobalNavbar = ({
     }
   }, [clientWindowHeight]);
 
-
   return (
     <>
       <Disclosure
@@ -76,14 +72,14 @@ const GlobalNavbar = ({
             : `rgba(255, 255, 255, ${backgroundTransparency})`,
           boxShadow: staticNavbar
             ? ""
-            : `rgb(0 0 0 / ${isHome ? boxShadow: '0.1'}) 0px 0px 20px 6px`,
+            : `rgb(0 0 0 / ${isHome ? boxShadow : "0.1"}) 0px 0px 20px 6px`,
         }}
       >
         {({ open }) => (
           <>
             <BoxWrap>
               <div className="relative flex justify-center items-center h-16">
-                <div className="absolutex inset-y-0 left-0 flex items-center sm:hidden flex-grow flex-1 ">
+                <div className="absolute w-full sm:relative inset-y-0 left-0 flex items-center sm:hidden flex-grow flex-1 ">
                   {/* Mobile menu button */}
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500">
                     <span className="sr-only">Open main menu</span>
@@ -98,24 +94,28 @@ const GlobalNavbar = ({
                       eventfour
                     </p>
                   </div>
-                 <div className="text-default font-bold" onClick={openSearchDialog}>
-                  <SearchIcon sx={{ fontSize: 24 }} />
-                  </div> 
+                  <div
+                    className="text-default font-bold"
+                    onClick={openSearchDialog}
+                  >
+                    <SearchIcon sx={{ fontSize: 24 }} />
+                  </div>
                   <a
-                      className="mx-4 text-sm min-w-[60px] text-gray-900 bg-white sm:bg-transparent rounded-full bg-opacity-90 px-3 py-2 shadow-lg"
-                      href="/auth/login"
-                    >
-                      Login
-                    </a>
+                    className="mx-4 text-sm min-w-[60px] text-gray-900 bg-white sm:bg-transparent rounded-full bg-opacity-90 px-3 py-2 shadow-lg"
+                    href="/auth/login"
+                  >
+                    Login
+                  </a>
                 </div>
                 <div
                   className={`hidden ml-2x min-w-[300px] sm:flex flex-row items-center`}
                   style={{
-                    color: `rgba(193, 135, 135, ${isHome ?backgroundTransparency:'1'})`,
+                    color: `rgba(193, 135, 135, ${
+                      isHome ? backgroundTransparency : "1"
+                    })`,
                   }}
                 >
                   <p className={`font-extrabold text-2xl`}>eventfour</p>
-                 
                 </div>
                 <div className="hidden flex-grow sm:flex items-center justify-center w-auto min-w-[500px]">
                   {/* Current: "border-pink-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
@@ -141,14 +141,23 @@ const GlobalNavbar = ({
                     Get Help
                   </a>
                 </div>
-                 <div className={`flex flex-row space-x-2 bg-white text-sm justify-center items-center rounded-full border p-2 pr-4 border-default text-default cursor-pointer ${isHome ? backgroundTransparency > 0.9 ? 'opacity-100':'opacity-0':'opacity-100'} transition duration-300 ease-in-out`}
-                  onClick={openSearchDialog} 
+                <div
+                  className={`hidden sm:flex flex-row space-x-2 bg-white text-sm justify-center items-center rounded-full border p-2 pr-4 border-default text-default cursor-pointer ${
+                    isHome
+                      ? backgroundTransparency > 0.9
+                        ? "opacity-100"
+                        : "opacity-0"
+                      : "opacity-100"
+                  } transition duration-300 ease-in-out`}
+                  onClick={openSearchDialog}
                 >
-                  <SearchIcon sx={{ fontSize: 24 }} /> 
+                  <SearchIcon sx={{ fontSize: 24 }} />
                   <p className="pr-4">Quick search</p>
-                  <kbd class="font-sans font-semibold text-slate-400 flex flex-row items-center space-x-1">
-                    {getMetaKey()}<span>K</span></kbd>
-                </div> 
+                  <kbd class="font-sans font-semibold text-slate-300 flex flex-row items-center space-x-1">
+                    {getMetaKey(osName)}
+                    <span>K</span>
+                  </kbd>
+                </div>
                 <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-2 sm:static sm:inset-auto sm:ml-4 sm:pr-0">
                   {/* Profile dropdown */}
                   {session ? (
@@ -161,10 +170,10 @@ const GlobalNavbar = ({
                             src={session.user.profile.avatar.thumbnail}
                             alt=""
                           />
-                          <div className="ml-2 pr-4 hidden sm:block text-sm text-gray-600">
+                          {/* <div className="ml-2 pr-4 hidden sm:block text-sm text-gray-600">
                             {session.user.profile.firstName}{" "}
                             {session.user.profile.lastName}
-                          </div>
+                          </div> */}
                         </Menu.Button>
                       </div>
                       <Transition
@@ -210,7 +219,10 @@ const GlobalNavbar = ({
                             {({ active }) => (
                               <a
                                 href="#"
-                                onClick={() => signOut({ redirect: true })}
+                                onClick={() => {
+                                  signOut({ redirect: true });
+                                  userService.logout();
+                                }}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"

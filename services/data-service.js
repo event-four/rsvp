@@ -8,6 +8,7 @@ import {
 } from "cookies-next";
 import { fetchWrapper, urls } from "/helpers";
 import { useSession } from "next-auth/react";
+import { _post, _get } from "./index";
 
 export const dataService = {
   getServiceCategories,
@@ -15,7 +16,15 @@ export const dataService = {
   getStates,
   getCountries,
   getPriceUnits,
+  search,
 };
+
+async function search(query) {
+  const endpoint = urls.search + `?query=${query}`;
+  const payload = {};
+  //call api
+  return _post(endpoint, payload);
+}
 
 function getPriceUnits() {
   return [

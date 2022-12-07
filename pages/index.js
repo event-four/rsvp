@@ -14,15 +14,13 @@ import GlobalNavbar from "@/components/layout/GlobalNavbar";
 import SearchIcon from "@mui/icons-material/Search";
 import { grey } from "@mui/material/colors";
 import { Modal } from "@/components/common/Modal";
-import {getMetaKey} from '@/helpers/utils'
+import { getMetaKey } from "@/helpers/utils";
 
 export default function Home() {
   const { data: session } = useSession();
   const [openSearchDialog, setOpenSearchDialog] = useState(false);
-  // const [dialogCallback, setDialogCallback] = useState();
-  // const toggleDialog = () => setDialogOpen((bool) => !bool);
-  // const closeDialog = () => setDialogOpen(false);
-  // console.log(session);
+  const [osName, setOsName] = useState();
+
   const el = useRef(null);
   const el1 = useRef(null);
   useEffect(() => {
@@ -49,6 +47,7 @@ export default function Home() {
       typed.destroy();
       // typed1.destroy();
     };
+    setOsName(osName);
   }, []);
 
   const focusSearch = (e) => {
@@ -96,27 +95,7 @@ export default function Home() {
         <meta property="og:image" content="/favicon.png"></meta>
       </Head>
       <div className="container-fluid flex flex-col bg-primary">
-        {/* <div className=" min-h-full w-full ">
-          <div className="f1"></div>
-
-          <div className="f2"></div>
-          <div className="f3"></div>
-        </div> */}
         <div className="container-fluid relative flex flex-col h-full justify-between">
-          {/* <div className="hidden sm:flex w-full justify-center items-center mt-4 mb-4 flex-col">
-            <img src="/e4.png" height="auto" width="250px" />
-            <span className="text-2xs text-gray-500 leading-3 -mt-2">
-              Hosts . Planners . Vendors . Guests
-            </span>
-          </div> */}
-          {/* <GlobalNavbar
-            staticNavbar={false}
-            openSearchDialog={showSearchDialog}
-            onDialogClose={() => {
-              setShowSearchDialog(false);
-            }}
-          /> */}
-
           <section className="container mx-auto p-6 md:px-24 flex items-center justify-center flex-col py-20 sm:py-32">
             <h1 className="text-3xl px-6 text-center flex flex-col md:flex-row font-bold leading-[36px] space-y-2 sm:space-y-0">
               <div>Stressless Events&nbsp;</div>
@@ -147,10 +126,13 @@ export default function Home() {
               onClick={() => setOpenSearchDialog(true)}
             >
               <SearchIcon sx={{ fontSize: 36, color: grey[300] }} />
-              <div className="text-gray-300 flex flex-grow">What are you looking for?</div>
-              <kbd class="font-sans font-semibold text-slate-400 bg-slate-100 p-1 rounded-lg px-2 flex flex-row items-center space-x-1">
-                    {getMetaKey()}<span>K</span></kbd>
-            
+              <div className="text-gray-300 flex flex-grow">
+                What are you looking for?
+              </div>
+              <kbd class="text-sm text-slate-300 bg-slate-100 p-1 rounded-lg px-2 flex flex-row items-center space-x-1">
+                {getMetaKey(osName)}
+                <span>K</span>
+              </kbd>
             </div>
             <p className="text-2xs sm:text-xs mt-2 text-default">
               Type an event code, celebrant's name, vendor, or service.

@@ -290,20 +290,20 @@ button {
     top: 0;
     left: 0;
     z-index: 1200;
-    display: flex;
+    /* display: flex; */
     height: 100vh;
     width: 100vw;
     cursor: auto;
     flex-direction: column;
     background-color: rgba(0, 0, 0, .2);
-    padding: 1rem;
+    padding: 12vh;
     --tw-backdrop-blur: blur(4px);
     -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
     backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
 .DocSearch-Modal {
-    margin: 5rem auto;
+    margin: 0 auto;
     width: 100%;
     max-width: 47.375rem;
     display: flex;
@@ -324,4 +324,19 @@ button {
     border-bottom-width: 1px;
     --tw-border-opacity: 1;
     border-color: rgb(241 245 249/var(--tw-border-opacity));
+}
+
+.DocSearch-Dropdown {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.DocSearch-Footer {
+    display: flex;
+    flex: none;
+    justify-content: flex-end;
+    border-top-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: rgb(241 245 249/var(--tw-border-opacity));
+    padding: 1rem 1.5rem;
 }

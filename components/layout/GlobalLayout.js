@@ -12,7 +12,7 @@ const GlobalLayout = ({
   closeSearchDialog,
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [searchText, setSearchText] = useState('')
+  const [searchText, setSearchText] = useState("");
   const toggleDialog = () => setDialogOpen((bool) => !bool);
 
   const closeDialog = () => {
@@ -26,11 +26,10 @@ const GlobalLayout = ({
 
   useEffect(() => {
     function handleEscapeKey(event) {
-      
       if (event.code === "Escape") {
         closeSearchDialog();
       }
-      if (event.metaKey && event.code === 'KeyK') {
+      if (event.metaKey && event.code === "KeyK") {
         setDialogOpen(true);
       }
     }
@@ -41,34 +40,13 @@ const GlobalLayout = ({
 
   return (
     <div className="container-fluid flex flex-col bg-primary relative">
-      
       <Modal
         open={dialogOpen}
         onRequestClose={closeDialog}
         closeOnOutsideClick={true}
         searchText={searchText}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridGap: "1em",
-            justifyItems: "center",
-            padding: "1em",
-          }}
-        >
-          <h1>Hello Modal</h1>
-          <input />
-          <button
-            style={{
-              border: "1px solid hsl(205, 80%, 50%)",
-              color: "hsl(205, 80%, 50%)",
-            }}
-            onClick={closeDialog}
-          >
-            Close
-          </button>
-        </div>
-      </Modal>
+      ></Modal>
+
       <div className="min-h-full w-full">
         <div className="f1"></div>
         <div className="f2 opacity-25 sm:opacity-100"></div>

@@ -7,7 +7,7 @@ import { Form } from "@unform/web";
 import { useSnackbar } from "@/components/SnackBar";
 import { TextInput, Button, OutlineButton } from "@/components/form";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useSession, signIn, getSession } from "next-auth/react";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import Link from "next/link";
 
 const schema = yup.object().shape({
@@ -43,11 +43,12 @@ const DZLoginPage = ({ hasDashboard, hasUser }) => {
             const session = await getSession();
             if (session) {
               await userService.setUser(session.user);
-              if (session.user.vendor_profile) {
-                router.push("/vendor/dashboard");
-              } else {
-                router.push("/host/dashboard");
-              }
+              router.push("/");
+              // if (session.user.vendor_profile) {
+              //   router.push("/vendor/dashboard");
+              // } else {
+              //   router.push("/host/dashboard");
+              // }
             }
           } else {
             throw response.error;

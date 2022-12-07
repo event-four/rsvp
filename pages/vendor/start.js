@@ -133,11 +133,11 @@ const StartPageForm = () => {
           password: formData.password,
         })
           .then(async (response) => {
-            console.log(response);
+            // console.log(response);
             if (response.ok) {
               const session = await getSession();
               if (session) {
-                console.log(session);
+                // console.log(session);
                 await userService.setUser(session.user);
                 router.push("/vendor/dashboard?page=profile");
               }
@@ -189,7 +189,30 @@ const StartPageForm = () => {
   }
   return (
     <div className="flex h-full">
-      {redirectToLogin ? (
+      {loggedInUser && loggedInUser.vendor_profile ? (
+        <div className="flex flex-col max-h-screen justify-center items-center border rounded-lg px-12 my-auto mx-auto py-24 md:w-1/2">
+          <div className="mb-6 mx-auto">
+            <Image src="/e4.png" height={58} width={200} />
+          </div>
+          <p className="font-bold text-xl">
+            Hey {loggedInUser && loggedInUser.profile.firstName}!
+          </p>
+          <div className="justify-center items-center mb-9 mt-4 text-center text-sm  ">
+            You already have a Vendor Account. Click the button below to go your
+            Vendor Dashboard.
+          </div>
+
+          <Button
+            classes="w-auto"
+            type="button"
+            onClick={() => {
+              router.push("/vendor/dashboard?page=profile");
+            }}
+          >
+            My Vendor Dashboard
+          </Button>
+        </div>
+      ) : redirectToLogin ? (
         <div className="flex flex-col max-h-screen justify-center items-center border rounded-lg px-12 my-auto mx-auto py-24">
           <div className="mb-6 mx-auto">
             <Image src="/e4.png" height={58} width={200} />
@@ -204,7 +227,10 @@ const StartPageForm = () => {
           <Button
             classes="w-auto"
             type="button"
-            onClick={() => signOut({ redirect: true })}
+            onClick={() => {
+              signOut({ redirect: true });
+              userService.logout();
+            }}
           >
             Login to continue
           </Button>

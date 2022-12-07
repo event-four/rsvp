@@ -33,6 +33,7 @@ const urls = {
   userProfile: api + "/user-profiles",
 
   helpDesk: api + "/help-desks",
+  search: api + "/search",
 };
 
 export { urls };
