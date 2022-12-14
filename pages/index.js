@@ -15,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { grey } from "@mui/material/colors";
 import { Modal } from "@/components/common/Modal";
 import { getMetaKey } from "@/helpers/utils";
+import { isDesktop } from "react-device-detect";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -126,13 +127,15 @@ export default function Home() {
               onClick={() => setOpenSearchDialog(true)}
             >
               <SearchIcon sx={{ fontSize: 30, color: grey[300] }} />
-              <div className="text-gray-300 flex flex-grow">
+              <div className="text-gray-300 flex flex-grow text-sm md:text-md">
                 What are you looking for?
               </div>
-              <kbd class="text-sm text-slate-300 bg-slate-100 p-1 rounded-lg px-2 flex flex-row items-center space-x-1">
-                {getMetaKey(osName)}
-                <span>K</span>
-              </kbd>
+              {isDesktop && (
+                <kbd className="text-sm text-slate-300 bg-slate-100 p-1 rounded-lg px-2 flex flex-row items-center space-x-1">
+                  {getMetaKey(osName)}
+                  <span>K</span>
+                </kbd>
+              )}
             </div>
             <p className="text-2xs sm:text-xs mt-2 text-default">
               Type an event code, celebrant's name, vendor, or service.

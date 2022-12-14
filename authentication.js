@@ -56,7 +56,7 @@ async function setupAccountOnServer(data) {
 
 async function createUserAccountOnAPI(data) {
   const payload = data;
-  // console.log(payload);
+  console.log(payload);
   const res = await fetch(urls.login, {
     method: "POST",
     headers: {

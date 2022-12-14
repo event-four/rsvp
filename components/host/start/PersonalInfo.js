@@ -4,6 +4,8 @@ import { useFormData } from "@/components/providers/HostStartFormProvider";
 import * as yup from "yup";
 import { Form } from "@unform/web";
 import Link from "next/link";
+import { dataService } from "@/services/data-service";
+
 const schema = yup.object().shape(
   {
     eventType: yup.object().required("Event type is required"),
@@ -22,13 +24,7 @@ const schemaOthers = yup.object().shape(
   []
 );
 
-const eventTypes = [
-  { id: 7, name: "Wedding" },
-  { id: 2, name: "Birthday" },
-  { id: 3, name: "Corporate" },
-  { id: 4, name: "Funeral" },
-  { id: 5, name: "Bridal Shower" },
-];
+const eventTypes = dataService.getEventTypes();
 
 export default function PersonalInfo({ goToStep, isVisible }) {
   const { setFormValues, formValues } = useFormData();

@@ -15,7 +15,7 @@ export function Modal({
   const lastActiveElement = useRef(null);
   const firstRender = useRef(true);
 
-  useDialogPolyfill(dialogRef);
+  // useDialogPolyfill(dialogRef);
 
   useEffect(() => {
     // prevents calling imperative methods on mount since the polyfill will throw an error since we are not using the `open` attribute

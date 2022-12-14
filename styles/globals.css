@@ -340,3 +340,57 @@ button {
     border-color: rgb(241 245 249/var(--tw-border-opacity));
     padding: 1rem 1.5rem;
 }
+
+.react-tel-input .form-control {
+    font-family: 'Poppins';
+    font-size: 0.875rem !important;
+    background: #FFFFFF;
+    border: 1px solid #CACACA !important;
+    border-radius: 5px;
+    width: 100% !important;
+    outline: none;
+    padding: 0.75rem 1rem !important;
+    padding-left: 60px !important;
+    height: auto !important;
+    transition: box-shadow ease .25s, border-color ease .25s;
+}
+
+.react-tel-input .form-control:focus {
+    border-color: #be8688 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+.react-tel-input .flag-dropdown {
+    margin: 2px !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.PhoneInput-wrapper {
+    @apply border border-gray-300 px-3 py-3 rounded;
+}
+
+.PhoneInput-wrapper:focus-within {
+    @apply border-default pb-1 pt-2;
+}
+
+.PhoneInput-label {
+    @apply text-[10px] text-gray-500 left-0;
+}
+
+.PhoneInputInput {
+    border: none !important;
+    border-color: none !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    font-family: 'Poppins';
+    font-size: 0.875rem !important;
+    padding: 0 !important;
+}
+
+.PhoneInput--focus input {
+    border-color: none !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}

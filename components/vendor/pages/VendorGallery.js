@@ -212,7 +212,7 @@ const DshVendorGallery = ({ pageTitle }) => {
               >
                 <div className="w-full h-40 ">
                   {showSpinner ? (
-                    <div>
+                    <div className="w-full h-full relative items-center justify-center flex">
                       <div className="loader"></div>
                     </div>
                   ) : (
@@ -268,7 +268,10 @@ const DshVendorGallery = ({ pageTitle }) => {
                 videos.map((g, index) => (
                   <div key={index} className="flex flex-wrap  ">
                     <div className="w-full h-40 relative">
-                      <div className="block object-cover object-center w-full h-full ">
+                      <div className="absolute text-center text-2xs text-gray-400 top-[45%] left-0 right-0 items-center justify-center ">
+                        Loading video...
+                      </div>
+                      <div className="block object-cover object-center w-full h-full absolute border ">
                         <ReactPlayer
                           url={g.video}
                           height={"160px"}

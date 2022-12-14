@@ -7,7 +7,7 @@ import BoxWrap from "./BoxWrap";
 import { useSession, signOut, signIn } from "next-auth/react";
 import SearchIcon from "@mui/icons-material/Search";
 import { getMetaKey } from "@/helpers/utils";
-import { osName } from "react-device-detect";
+import { osName, isMobile, isDesktop } from "react-device-detect";
 import { userService } from "@/services/user-service";
 
 function classNames(...classes) {
@@ -155,10 +155,12 @@ const GlobalNavbar = ({
                 >
                   <SearchIcon sx={{ fontSize: 24 }} />
                   <p className="pr-4">Quick search</p>
-                  <kbd class="font-sans font-semibold text-slate-300 flex flex-row items-center space-x-1">
-                    {getMetaKey(osName)}
-                    <span>K</span>
-                  </kbd>
+                  {!isDesktop && (
+                    <kbd className="font-sans font-semibold text-slate-300 flex flex-row items-center space-x-1">
+                      {getMetaKey(osName)}
+                      <span>K</span>
+                    </kbd>
+                  )}
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center justify-center pr-2 sm:static sm:inset-auto sm:ml-4 sm:pr-0">
                   {/* Profile dropdown */}

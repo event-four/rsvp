@@ -32,7 +32,7 @@ export default function Switch({
 
   return (
     <>
-      <div class="flex flex-row w-fit min-w-fit rounded-lg border border-primary-dark bg-primary-light overflow-clip">
+      <div className="flex flex-row w-fit min-w-fit rounded-lg border border-primary-dark bg-primary-light overflow-clip">
         <div className="bool-switch">
           <input
             type="radio"
@@ -47,7 +47,7 @@ export default function Switch({
           />
           <label
             htmlFor={`${fieldName}-on`}
-            class=""
+            className=""
             // onClick={onChange}
             name={name}
           >
@@ -70,7 +70,7 @@ export default function Switch({
 
           <label
             htmlFor={`${fieldName}-off`}
-            class=""
+            className=""
             // onClick={onChange}
             name={name}
           >

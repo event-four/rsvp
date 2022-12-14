@@ -105,10 +105,26 @@ const DZDashboard = ({ owner }) => {
 const DZDashboardPage = ({ pages, currentPage, onChangePage }) => {
   const user = userService.getUser();
   const v = user.vendor_profile;
+
   const { data: vendorProfile, loading, error } = useFetchVendorProfile(v.id);
 
+  if (error) {
+    console.log(error);
+    return (
+      <div className="text-center h-full flex items-center justify-center flex-col">
+        <h2 className="text-lg font-bold">Oops!</h2>
+        <p className="text-sm text-gray-500">
+          Looks like we couldn't reach our servers. Please refresh the page.
+        </p>
+      </div>
+    );
+  }
   if (!vendorProfile) {
-    return <div>Loading...</div>;
+    return (
+      <div className="text-center h-full flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   return (

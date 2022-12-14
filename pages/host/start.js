@@ -16,6 +16,7 @@ import { constants } from "/helpers";
 
 const DZStartPage = ({ hasDashboard, hasUser }) => {
   const router = useRouter();
+
   useEffect(() => {
     if (router.isReady) {
       if (hasDashboard && hasUser) {
@@ -25,7 +26,8 @@ const DZStartPage = ({ hasDashboard, hasUser }) => {
         router.push(`/auth/login`);
       }
     }
-  });
+  }, [router]);
+
   return (
     <Layout>
       <div className="container mx-auto grid md:grid-cols-4 md:gap-4 h-screen">

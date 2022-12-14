@@ -79,12 +79,6 @@ const DZDashboard = ({ owner, events, baseUrl }) => {
       }
     }
 
-    // if (!events || events.length === 0) {
-    //   if (router.isReady) {
-    //     console.log(router);
-    //     router.push("/host");
-    //   }
-    // }
     if (router.isReady) {
       let { page } = router.query ?? "home";
       const cp = pageList.find((p) => p.href === page);

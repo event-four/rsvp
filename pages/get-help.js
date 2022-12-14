@@ -70,7 +70,7 @@ export default function GetHelp() {
               simpler and easier for you.
             </p>
           </section>
-          <section className="container-fluid mx-6 md:mx-24 rounded-3xl bg-white flex flex-col p-6 py-24 md:p-24">
+          <section className="container-fluid w-3/5 mx-auto md:mx-30 rounded-3xl bg-white flex flex-col p-6 py-24 md:p-24">
             {isSent ? (
               <div className="flex flex-col space-y-6 items-center text-green-600">
                 <CheckCircleOutlineIcon sx={{ fontSize: 80 }} />
@@ -140,13 +140,15 @@ export default function GetHelp() {
                         />
                       </div>
 
-                      <Button
-                        classes="w-64"
-                        isLoading={isLoading}
-                        type="submit"
-                      >
-                        Send Message
-                      </Button>
+                      <div className="pt-6">
+                        <Button
+                          classes="w-64"
+                          isLoading={isLoading}
+                          type="submit"
+                        >
+                          Send Message
+                        </Button>
+                      </div>
                     </div>
                   </Form>
                 </FormCard>

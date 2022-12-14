@@ -17,7 +17,7 @@ const GlobalLayout = ({
 
   const closeDialog = () => {
     setDialogOpen(false);
-    closeSearchDialog();
+    if (closeSearchDialog) closeSearchDialog();
   };
 
   useEffect(() => {

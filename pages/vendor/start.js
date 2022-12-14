@@ -122,6 +122,7 @@ const StartPageForm = () => {
           token: fbToken ?? token,
           firstName: formData.firstName,
           lastName: formData.lastName,
+          phone: formData.phone,
           roleType: "vendor",
           source: "WEB",
         });
